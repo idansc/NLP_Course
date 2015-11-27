@@ -8,5 +8,6 @@ class FeaturesManager(object):
         self.extended_mode = extended_mode
     
     def train(self, word_tag_array):
-        pass
+        for i,(word,tag) in enumerate(word_tag_array):
+            print(i,word,tag)
         

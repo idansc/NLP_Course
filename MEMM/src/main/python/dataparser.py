@@ -24,6 +24,9 @@ class Parser(object):
                 
                 self.word_tag_array += parsed_phrased
     
+    def get_word_tag_array(self):
+        return self.word_tag_array
+    
     def get_all_tags(self):
         return {wt[1] for wt in self.word_tag_array}
     

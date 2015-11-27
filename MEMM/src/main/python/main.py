@@ -11,7 +11,8 @@ if __name__ == '__main__':
 #     opt.optimize()
     
     parser = Parser("../resources/sample.wtag")
-    f_manager = FeaturesManager()
+    features_manager = FeaturesManager()
+    features_manager.train(parser.get_word_tag_array())
 #     parser = Parser("../resources/train.wtag")
 #     print(parser.get_all_tags())
 
