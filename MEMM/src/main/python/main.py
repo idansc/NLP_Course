@@ -1,25 +1,17 @@
+import os
+
 from optimizer import Optimizer
+from dataparser import Parser
 
-
-def get_parsed_data(filepath):
-    with open(filepath, 'r') as f:
-        word_tag_map = [("*","*")]
-        for line in f:
-#           we add start symbol
-            for wordTag in line.split(' '):
-                    word, tag = wordTag.split('_')
-                    word_tag_map.append((word,tag))
-            word_tag_map.append(("*","*"))
-    return word_tag_map;
-
+os.chdir(os.path.dirname(__file__))
 
 if __name__ == '__main__':
-    print("Hello World!")
+#     opt = Optimizer()
+#     opt.optimize()
     
-    y = Optimizer()
-    y.optimize()
+    parser = Parser("../resources/sample.wtag")
 
-    print(get_parsed_data("../resources/train.wtag"))
+#     print(get_parsed_data("../resources/train.wtag"))
 
 
 
