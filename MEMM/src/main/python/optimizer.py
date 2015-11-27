@@ -18,10 +18,10 @@ def rosen_der(x):
     
 class Optimizer(object):
     '''
-    A class that optimizes the parameters of the MEMM according to the training data.
+    Optimizes the parameters of MEMM for a given set of features.
     '''
 
-    def __init__(self):
+    def __init__(self, features):
         '''
         Constructor
         '''

@@ -7,7 +7,7 @@ class FeaturesGenerator(object):
     '''
 
     def __init__(self, word_tag_array, extended_mode = False):
-        features = [BaseFeature1(), BaseFeature2(), BaseFeature3()]
+        self.features = [BaseFeature1(), BaseFeature2(), BaseFeature3()]
         history = History()      
         for i,(word,tag) in enumerate(word_tag_array[2:-1]):
             i += 2
@@ -16,8 +16,11 @@ class FeaturesGenerator(object):
             wm1 = word_tag_array[i-1][0]
             wp1 = word_tag_array[i+1][0]
             history.set(tm2, tm1, wm1, word, wp1, i)
-            for feature in features:
+            for feature in self.features:
                 feature.add_sample(history, tag)
         
-#         for f in features:
+#         for f in self.features:
 #             print(f.samples)
+    
+    def get_features(self):
+        return self.features
