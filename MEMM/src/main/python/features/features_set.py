@@ -6,7 +6,7 @@ class Feature(metaclass=ABCMeta):
     '''
     
     def __init__(self):
-        self.samples = {}
+        self.samples = set()
     
     @abstractmethod
     def add_sample(self, history, tag):
@@ -39,4 +39,16 @@ class BaseFeature2(Feature):
         
     def eval(self, history, tag):
         return 1 if (history.tm1, tag) in self.samples else 0
+
+
+class BaseFeature3(Feature):
+    '''
+    f103
+    '''
+    
+    def add_sample(self, history, tag):
+        self.samples.add((history.tm2, history.tm1, tag))
+        
+    def eval(self, history, tag):
+        return 1 if (history.tm2, history.tm1, tag) in self.samples else 0
         
