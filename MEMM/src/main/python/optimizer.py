@@ -1,6 +1,6 @@
-
 import numpy as np
 from scipy.optimize import minimize
+# from scipy.sparse import lil_matrix
 
 def rosen(x):
     """The Rosenbrock function"""
@@ -30,3 +30,12 @@ class Optimizer(object):
         x0 = np.array([1.3, 0.7, 0.8, 1.9, 1.2])
         res = minimize(rosen, x0, method='BFGS', jac=rosen_der, options={'disp': True})
         print(res.x)
+        
+#     def foo(self):
+#         n = len(word_tag_array)
+#         m = n * (3 if self.extended_mode is True else 8)
+#         F = lil_matrix(n, m)
+#         print(n,m)
+#         print(F)
+#         pass
+        
