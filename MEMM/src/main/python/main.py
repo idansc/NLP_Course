@@ -11,4 +11,4 @@ if __name__ == '__main__':
     parser = Parser("../resources/sample.wtag")
 #     parser = Parser("../resources/train.wtag")
     generator = FeaturesGenerator(parser.get_word_tag_array())
-    optimizer = Optimizer(generator.get_features())
+    optimizer = Optimizer(parser, generator)
