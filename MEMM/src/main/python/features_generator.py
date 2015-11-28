@@ -1,3 +1,5 @@
+import utils
+
 from features import *
 from history import History
 
@@ -11,6 +13,9 @@ class FeaturesGenerator(object):
         history = History()
         index = 0    
         for i,(word,tag) in enumerate(word_tag_array[2:-1]):
+#             if word in [utils.START_SYMBOL, utils.END_SYMBOL, utils.DOT]:
+#                 continue
+            
             i += 2
             tm2 = word_tag_array[i-2][1]
             tm1 = word_tag_array[i-1][1]

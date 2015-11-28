@@ -6,11 +6,11 @@ class History(object):
     '''
     
     def __init__(self):
-        self.tm2 = NULL # t minus 2
-        self.tm1 = NULL # t minus 1
-        self.wm1 = NULL # w minus 1
-        self.w = NULL   # w
-        self.wp1 = NULL # w plus 1
+        self.tm2 = None # t minus 2
+        self.tm1 = None # t minus 1
+        self.wm1 = None # w minus 1
+        self.w = None   # w
+        self.wp1 = None # w plus 1
         self.i = -1     # index
     
     def set(self, tm2, tm1, wm1, w, wp1, i):
