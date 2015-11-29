@@ -1,4 +1,5 @@
 import os
+import numpy as np
 
 from optimizer import Optimizer
 from dataparser import Parser
@@ -12,3 +13,6 @@ if __name__ == '__main__':
 #     parser = Parser("../resources/train.wtag")
     generator = FeaturesGenerator(parser.get_word_tag_array())
     optimizer = Optimizer(parser, generator)
+    v = optimizer.optimize(np.zeros(generator.get_num_features()))
+    
+    print(v)

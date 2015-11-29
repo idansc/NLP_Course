@@ -6,6 +6,8 @@ from scipy.optimize import minimize
 from scipy.sparse import csr_matrix, lil_matrix
 from math import log, exp
 from history import History
+
+optimizer = None
     
 class Optimizer(object):
     '''
@@ -20,13 +22,15 @@ class Optimizer(object):
         self.generator = generator
 
         self.feat_metrix = self.clac_features_matrix()
-#         print(self.feat_metrix)
-#         print(self.feat_metrix.get_shape())
         
+        global optimizer
+        optimizer = self
+#         print(self.feat_metrix)
+#         print(self.feat_metrix.get_shape())       
 #         self.foo()
 #         print(self.loss_function(np.zeros(self.m)))
 #         print(self.n)
-        print(self.loss_function_der(np.zeros(self.m)))
+#         print(self.loss_function_der(np.zeros(self.m)))
     
     def clac_features_matrix(self):
         history = History()
@@ -73,10 +77,10 @@ class Optimizer(object):
 #         print(res)        
         return res
     
-    def optimize(self):
-        x0 = np.array([1.3, 0.7, 0.8, 1.9, 1.2])
-        res = minimize(rosen, x0, method='BFGS', jac=rosen_der, options={'disp': True})
-        print(res.x)
+    def optimize(self, v0):
+#         res = minimize(loss_function, v0, method='BFGS', jac=loss_function_der, options={'disp': True})
+        res = minimize(loss_function, v0, method='L-BFGS-B', jac=loss_function_der, options={'disp': True})
+        return res.x
         
     def foo(self):
         row = np.array([0, 0, 1, 2, 2, 2, 3])
@@ -85,15 +89,7 @@ class Optimizer(object):
         m = csr_matrix((data, (row, col)), shape=(4, 3)).toarray()
         print(m)
 #         print(sum(m))
-        print(m[0])
-
-    def loss_function(self, v):
-        term1 = (self.feat_metrix * v).sum()
-        term2 = sum(log(sum(exp(p) for p in self.loss_function_aux_func(i, v))) for i in range(self.n))
-        term3 = (self.lambda_param/2) * (LA.norm(v)**2)
-        
-        return term1 - term2 - term3
-    
+        print    
     def calc_prob_denum_aux(self, history, v):
         res = np.zeros(len(utils.TAGS))
         for i, tag in enumerate(utils.TAGS):    
@@ -144,25 +140,22 @@ class Optimizer(object):
         
         return res
     
-    def loss_function_der(self, v):
-        term1 = sum(self.feat_metrix)
-        term2 = self.calc_expected_counts(v)
-        term3 = self.lambda_param * v
-        
-        der = np.zeros_like(v)
-        der[:] = term1 - term2 - term3
-        return der
 
-def rosen(x):
-    """The Rosenbrock function"""
-    return sum(100.0*(x[1:]-x[:-1]**2.0)**2.0 + (1-x[:-1])**2.0)
+def loss_function(v):
+    global optimizer
+    term1 = (optimizer.feat_metrix * v).sum()
+    term2 = sum(log(sum(exp(p) for p in optimizer.loss_function_aux_func(i, v))) for i in range(optimizer.n))
+    term3 = (optimizer.lambda_param/2) * (LA.norm(v)**2)
+    
+    return -(term1 - term2 - term3)
 
-def rosen_der(x):
-    xm = x[1:-1]
-    xm_m1 = x[:-2]
-    xm_p1 = x[2:]
-    der = np.zeros_like(x)
-    der[1:-1] = 200*(xm-xm_m1**2) - 400*(xm_p1 - xm**2)*xm - 2*(1-xm)
-    der[0] = -400*x[0]*(x[1]-x[0]**2) - 2*(1-x[0])
-    der[-1] = 200*(x[-1]-x[-2]**2)
-    return der   
+def loss_function_der(v):
+    global optimizer
+    term1 = sum(optimizer.feat_metrix)
+    term2 = optimizer.calc_expected_counts(v)
+    term3 = optimizer.lambda_param * v
+    
+    der = np.zeros_like(v)
+    der[:] = -(term1 - term2 - term3)
+    
+    return der 
