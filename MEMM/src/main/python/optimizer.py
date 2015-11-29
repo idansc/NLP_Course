@@ -23,7 +23,10 @@ class Optimizer(object):
 #         print(self.feat_metrix)
 #         print(self.feat_metrix.get_shape())
         
-        print(self.loss_function(np.empty(self.m)))
+#         self.foo()
+#         print(self.loss_function(np.zeros(self.m)))
+#         print(self.n)
+        print(self.loss_function_der(np.zeros(self.m)))
     
     def clac_features_matrix(self):
         history = History()
@@ -45,9 +48,9 @@ class Optimizer(object):
             col = np.concatenate((col, feat_vec))
             row = np.concatenate((row, np.full(feat_vec.size, i-2, dtype=np.int)))
             
-        data = np.full(col.size, 1, dtype=np.int)
+        data = np.ones(col.size, dtype=np.int)
                 
-        return csr_matrix((data, (row, col)), shape=(self.n, self.m))
+        return csr_matrix((data, (row, col)), shape=(self.n, self.m), dtype=np.int)
     
     def loss_function_aux_func(self, i, v):
         history = History()
@@ -60,13 +63,14 @@ class Optimizer(object):
         wp1 = self.word_tag_array[i+1][0]
         history.set(tm2, tm1, wm1, w, wp1, i)
         
-        res = []
-        for tag in utils.TAGS:    
+        res = np.zeros(len(utils.TAGS))
+        for j, tag in enumerate(utils.TAGS):    
             feat_vec = np.array(self.generator.calc_feature_vec(history, tag))
-            m = lil_matrix((1, self.m), dtype=np.int)
+            m = lil_matrix((1, self.m))            
             m[0, feat_vec] = 1
-            res.append(m.tocsr().dot(v)[0])
-                
+            res[j] = m.tocsr().dot(v)[0]
+            
+#         print(res)        
         return res
     
     def optimize(self):
@@ -74,13 +78,14 @@ class Optimizer(object):
         res = minimize(rosen, x0, method='BFGS', jac=rosen_der, options={'disp': True})
         print(res.x)
         
-#     def foo(self):
-#         n = len(word_tag_array)
-#         m = n * (3 if self.extended_mode is True else 8)
-#         F = lil_matrix(n, m)
-#         print(n,m)
-#         print(F)
-#         pass
+    def foo(self):
+        row = np.array([0, 0, 1, 2, 2, 2, 3])
+        col = np.array([0, 2, 2, 0, 1, 2, 2])
+        data = np.array([1, 2, 3, 4, 5, 6, 1])
+        m = csr_matrix((data, (row, col)), shape=(4, 3)).toarray()
+        print(m)
+#         print(sum(m))
+        print(m[0])
 
     def loss_function(self, v):
         term1 = (self.feat_metrix * v).sum()
@@ -89,8 +94,64 @@ class Optimizer(object):
         
         return term1 - term2 - term3
     
+    def calc_prob_denum_aux(self, history, v):
+        res = np.zeros(len(utils.TAGS))
+        for i, tag in enumerate(utils.TAGS):    
+            feat_vec = np.array(self.generator.calc_feature_vec(history, tag))
+            m = lil_matrix((1, self.m))            
+            m[0, feat_vec] = 1
+            res[i] = m.tocsr().dot(v)[0]
+                   
+        return res
+    
+    def calc_prob(self, tag, history, v, denum):
+        feat_vec = np.array(self.generator.calc_feature_vec(history, tag))
+        m = lil_matrix((1, self.m), dtype=float)            
+        m[0, feat_vec] = 1
+        
+        num = exp(m.tocsr().dot(v)[0])
+
+        return num / denum
+        
+    def calc_expected_counts_aux(self, i ,v):
+        history = History()
+        
+        i += 2
+        tm2 = self.word_tag_array[i-2][1]
+        tm1 = self.word_tag_array[i-1][1]
+        w = self.word_tag_array[i]
+        wm1 = self.word_tag_array[i-1][0]
+        wp1 = self.word_tag_array[i+1][0]
+        history.set(tm2, tm1, wm1, w, wp1, i)
+        
+        denum = sum(exp(p) for p in self.calc_prob_denum_aux(history, v))
+        
+        res = np.zeros(len(v))
+        for tag in utils.TAGS:    
+            feat_vec = np.array(self.generator.calc_feature_vec(history, tag))
+            m = lil_matrix((1, self.m))            
+            m[0, feat_vec] = 1
+            prob = self.calc_prob(tag, history, v, denum)
+            res += (m * prob).toarray()[0]
+        
+        return res
+    
+    def calc_expected_counts(self, v):
+        res = np.zeros_like(v)
+        for i in range(self.n):
+            curr = self.calc_expected_counts_aux(i, v)
+            res += curr
+        
+        return res
+    
     def loss_function_der(self, v):
-        pass
+        term1 = sum(self.feat_metrix)
+        term2 = self.calc_expected_counts(v)
+        term3 = self.lambda_param * v
+        
+        der = np.zeros_like(v)
+        der[:] = term1 - term2 - term3
+        return der
 
 def rosen(x):
     """The Rosenbrock function"""
