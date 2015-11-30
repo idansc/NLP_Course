@@ -1,5 +1,6 @@
 import os
 import numpy as np
+import pickle
 
 from optimizer import Optimizer
 from dataparser import Parser
@@ -14,5 +15,14 @@ if __name__ == '__main__':
     generator = FeaturesGenerator(parser.get_word_tag_array())
     optimizer = Optimizer(parser, generator)
     v = optimizer.optimize(np.zeros(generator.get_num_features()))
-    
+#     v = optimizer.optimize(np.ones(generator.get_num_features()))
+     
+    with open('param_vec.dump', 'wb') as f:
+        pickle.dump(v, f)
+     
     print(v)
+    
+#     with open('param_vec.dump','rb') as f:
+#         v = pickle.load(f)
+#     print(v)
+

@@ -15,7 +15,7 @@ class Optimizer(object):
     '''
 
     def __init__(self, parser, generator):
-        self.lambda_param = 0.5
+        self.lambda_param = 1.0
         self.n = len(parser.get_word_tag_array()) - 3
         self.m = generator.get_num_features()
         self.word_tag_array = parser.get_word_tag_array()
