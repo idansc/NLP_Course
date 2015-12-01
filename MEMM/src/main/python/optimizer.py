@@ -15,7 +15,7 @@ class Optimizer(object):
     '''
 
     def __init__(self, parser, generator):
-        self.lambda_param = 1.0
+        self.lambda_param = 50.0
         self.n = len(parser.get_word_tag_array()) - 3
         self.m = generator.get_num_features()
         self.word_tag_array = parser.get_word_tag_array()
@@ -88,8 +88,7 @@ class Optimizer(object):
         data = np.array([1, 2, 3, 4, 5, 6, 1])
         m = csr_matrix((data, (row, col)), shape=(4, 3)).toarray()
         print(m)
-#         print(sum(m))
-        print    
+    
     def calc_prob_denum_aux(self, history, v):
         res = np.zeros(len(utils.TAGS))
         for i, tag in enumerate(utils.TAGS):    
