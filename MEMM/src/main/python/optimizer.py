@@ -38,6 +38,8 @@ class Optimizer(object):
         row = np.array([], dtype=np.int)
 
         for i, (word, tag) in enumerate(self.word_tag_array[2:-1]):
+            if i % 100 == 0:
+                print(i)
 #             if word in [utils.START_SYMBOL, utils.END_SYMBOL, utils.DOT]:
 #                 continue
             
@@ -141,14 +143,17 @@ class Optimizer(object):
     
 
 def loss_function(v):
+    print("start loss function")
     global optimizer
     term1 = (optimizer.feat_metrix * v).sum()
     term2 = sum(log(sum(exp(p) for p in optimizer.loss_function_aux_func(i, v))) for i in range(optimizer.n))
     term3 = (optimizer.lambda_param/2) * (LA.norm(v)**2)
     
+    print("end loss function")
     return -(term1 - term2 - term3)
 
 def loss_function_der(v):
+    print("start loss function der")
     global optimizer
     term1 = sum(optimizer.feat_metrix)
     term2 = optimizer.calc_expected_counts(v)
@@ -157,4 +162,5 @@ def loss_function_der(v):
     der = np.zeros_like(v)
     der[:] = -(term1 - term2 - term3)
     
+    print("end loss function der")
     return der 
