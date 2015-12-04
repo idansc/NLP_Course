@@ -13,10 +13,13 @@ os.chdir(os.path.dirname(__file__))
 def learn_parameter_vector(training_data, feat_threshold, maxiter):
     t_total = time.process_time()
     
+    print("Beginning learning. Data:", training_data, "Features threshold:", feat_threshold, "Max iterations:", maxiter)
+    print("Parsing...")
     t_step = time.process_time()
     parser = Parser(training_data)
     print("Parsing done. Elapsed time:", time.process_time() - t_step)
     
+    print("Generating features...")
     t_step = time.process_time()
     manager = FeaturesManager(parser.get_sentences(), feat_threshold)
     print("Features generation done. Elapsed time:", time.process_time() - t_step)
@@ -27,12 +30,13 @@ def learn_parameter_vector(training_data, feat_threshold, maxiter):
         sys.exit()       
     print("Number of features:", manager.get_num_features())
     
+    print("Optimizing...")
     t_step = time.process_time() 
     optimizer = Optimizer(parser.get_sentences(), parser.get_num_words(), manager, maxiter)
     v = optimizer.optimize(v0=np.zeros(manager.get_num_features()))
     print("Optimization done. Elapsed time:", time.process_time() - t_step)
     
-    print("Learning done. Elapsed time:", time.process_time() - t_total)
+    print("Learning done. Total elapsed time:", time.process_time() - t_total)
     return v
 
 def load_parameter_vector(path):

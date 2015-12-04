@@ -115,13 +115,13 @@ class Optimizer(object):
     
     def calc_expected_counts(self, v):
         m = []
-        print("calculating expected counts")
+        print("Calculating expected counts...")
         t = time.process_time()
         for s in self.sentences:
             m.append(self.calc_expected_counts_aux(s, v))
         
         return np.array(sum(m))
-        print("calculating expected counts done. Elapsed time:", time.process_time() - t)
+        print("Calculation of expected counts done. Elapsed time:", time.process_time() - t)
 #         res = np.zeros_like(v)
 #         for s in self.sentences:
 #             res += self.calc_expected_counts_aux(s, v)
@@ -156,7 +156,7 @@ class Optimizer(object):
     
 
 def loss_function(v):
-    print("entering L(v)")
+    print("Calculating L(v)...")
     t = time.process_time()
     
     global optimizer
@@ -168,23 +168,23 @@ def loss_function(v):
         
     term3 = (optimizer.lambda_param/2) * (LA.norm(v)**2)
     
-    print("exiting L(v). Elapsed time:", time.process_time() - t)
+    print("Calculation of L(v) done. Elapsed time:", time.process_time() - t)
     return -(term1 - term2 - term3)
 
 def loss_function_der(v):
-    print("entering L'(v)")
+    print("Calculating L'(v)...")
     t = time.process_time()
     
     global optimizer
     term1 = optimizer.term1_of_loss_function_der
-    print("calculating term2")
+    print("Calculating term2...")
     
     term2 = optimizer.calc_expected_counts(v)
-    print("calculating term2 done. Elapsed time:", time.process_time() - t)
+    print("Calculation of term2 done. Elapsed time:", time.process_time() - t)
     term3 = optimizer.lambda_param * v
     
     der = np.zeros_like(v)
     der[:] = -(term1 - term2 - term3)
     
-    print("exiting L'(v). Elapsed time:", time.process_time() - t)
+    print("Calculation of L'(v) done. Elapsed time:", time.process_time() - t)
     return der 
