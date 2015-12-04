@@ -1,11 +1,12 @@
 import utils
 import numpy as np
+import time
 
 from numpy import linalg as LA
 from scipy.optimize import minimize
 from scipy.sparse import csr_matrix
 from math import log, exp
-import time.process_time
+
 from history import History
 
 optimizer = None

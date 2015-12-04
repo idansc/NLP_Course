@@ -2,11 +2,11 @@ import os
 import sys
 import numpy as np
 import pickle
+import time
 
 from optimizer import Optimizer
 from dataparser import Parser
 from features_manager import FeaturesManager
-import time.process_time
 
 os.chdir(os.path.dirname(__file__))
 
@@ -14,12 +14,11 @@ def learn_parameter_vector(training_data, feat_threshold, maxiter):
     t_total = time.process_time()
     
     t_step = time.process_time()
-#     parser = Parser("../resources/sample.wtag")
-    parser = Parser("../resources/train.wtag")
+    parser = Parser(training_data)
     print("Parsing done. Elapsed time:", time.process_time() - t_step)
     
     t_step = time.process_time()
-    manager = FeaturesManager(sentences=parser.get_sentences(), feat_threshold)
+    manager = FeaturesManager(parser.get_sentences(), feat_threshold)
     print("Features generation done. Elapsed time:", time.process_time() - t_step)
      
     num_features = manager.get_num_features()
@@ -46,8 +45,7 @@ def store_parameter_vector(v, path):
         pickle.dump(v, f)
     
 if __name__ == '__main__':
-    
-    
+#     v = learn_parameter_vector(training_data="../resources/sample.wtag", feat_threshold=4, maxiter=7)
     v = learn_parameter_vector(training_data="../resources/train.wtag", feat_threshold=4, maxiter=7)
     store_parameter_vector(v, 'param_vec.dump')
     
