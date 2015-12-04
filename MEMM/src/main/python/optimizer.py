@@ -14,12 +14,12 @@ class Optimizer(object):
     Optimizes the parameters of MEMM for a given set of features.
     '''
 
-    def __init__(self, sentences, generator):
+    def __init__(self, sentences, num_words, feat_manager):
         self.lambda_param = 50.0
-        self.n = len(sentences) - 3
-        self.m = generator.get_num_features()
+        self.n = num_words
+        self.m = feat_manager.get_num_features()
         self.sentences = sentences
-        self.generator = generator
+        self.feat_manager = feat_manager
 
         self.feat_metrix = self.clac_features_matrix()
         
@@ -37,6 +37,7 @@ class Optimizer(object):
         col = np.array([], dtype=np.int)
         row = np.array([], dtype=np.int)
 
+        idx = 0
         for s in self.sentences:
             for i, (word, tag) in enumerate(s[2:-1]):
 #                 if word in [utils.START_SYMBOL, utils.END_SYMBOL, utils.DOT]:
@@ -47,36 +48,17 @@ class Optimizer(object):
                 tm1 = s[i-1][1]
                 wm1 = s[i-1][0]
                 wp1 = s[i+1][0]
-                history.set(tm2, tm1, wm1, word, wp1, i)
+                history.set(tm2, tm1, wm1, word, wp1)
                 
-                feat_vec = np.array(self.generator.calc_feature_vec(history, tag))
+                feat_vec = np.array(self.feat_manager.calc_feature_vec(history, tag))
                 col = np.concatenate((col, feat_vec))
-                row = np.concatenate((row, np.full(feat_vec.size, i-2, dtype=np.int)))
+                row = np.concatenate((row, np.full(feat_vec.size, idx + i-2, dtype=np.int)))
+            
+            idx += len(s) - 3
                 
-            data = np.ones(col.size, dtype=np.int)
+        data = np.ones(col.size, dtype=np.int)
                 
         return csr_matrix((data, (row, col)), shape=(self.n, self.m), dtype=np.int)
-    
-    def loss_function_aux_func(self, i, v):
-        history = History()
-        
-        i += 2
-        tm2 = self.sentences[i-2][1]
-        tm1 = self.sentences[i-1][1]
-        w = self.sentences[i]
-        wm1 = self.sentences[i-1][0]
-        wp1 = self.sentences[i+1][0]
-        history.set(tm2, tm1, wm1, w, wp1, i)
-        
-        res = np.zeros(len(utils.TAGS))
-        for j, tag in enumerate(utils.TAGS):    
-            feat_vec = np.array(self.generator.calc_feature_vec(history, tag))
-            m = lil_matrix((1, self.m))            
-            m[0, feat_vec] = 1
-            res[j] = m.tocsr().dot(v)[0]
-            
-#         print(res)        
-        return res
     
     def optimize(self, v0):
 #         res = minimize(loss_function, v0, method='BFGS', jac=loss_function_der, options={'disp': True})
@@ -93,7 +75,7 @@ class Optimizer(object):
     def calc_prob_denum_aux(self, history, v):
         res = np.zeros(len(utils.TAGS))
         for i, tag in enumerate(utils.TAGS):    
-            feat_vec = np.array(self.generator.calc_feature_vec(history, tag))
+            feat_vec = np.array(self.feat_manager.calc_feature_vec(history, tag))
             m = lil_matrix((1, self.m))            
             m[0, feat_vec] = 1
             res[i] = m.tocsr().dot(v)[0]
@@ -101,7 +83,7 @@ class Optimizer(object):
         return res
     
     def calc_prob(self, tag, history, v, denum):
-        feat_vec = np.array(self.generator.calc_feature_vec(history, tag))
+        feat_vec = np.array(self.feat_manager.calc_feature_vec(history, tag))
         m = lil_matrix((1, self.m), dtype=float)            
         m[0, feat_vec] = 1
         
@@ -109,35 +91,57 @@ class Optimizer(object):
 
         return num / denum
         
-    def calc_expected_counts_aux(self, i ,v):
+    def calc_expected_counts_aux(self, sentence ,v):
         history = History()
         
-        i += 2
-        tm2 = self.sentences[i-2][1]
-        tm1 = self.sentences[i-1][1]
-        w = self.sentences[i]
-        wm1 = self.sentences[i-1][0]
-        wp1 = self.sentences[i+1][0]
-        history.set(tm2, tm1, wm1, w, wp1, i)
-        
-        denum = sum(exp(p) for p in self.calc_prob_denum_aux(history, v))
-        
-        res = np.zeros(len(v))
-        for tag in utils.TAGS:    
-            feat_vec = np.array(self.generator.calc_feature_vec(history, tag))
-            m = lil_matrix((1, self.m))            
-            m[0, feat_vec] = 1
-            prob = self.calc_prob(tag, history, v, denum)
-            res += (m * prob).toarray()[0]
+        for i, (word, tag) in enumerate(sentence[2:-1]):
+            i += 2
+            tm2 = sentence[i-2][1]
+            tm1 = sentence[i-1][1]
+            w = word
+            wm1 = sentence[i-1][0]
+            wp1 = sentence[i+1][0]
+            history.set(tm2, tm1, wm1, w, wp1)
+            
+            denum = sum(exp(p) for p in self.calc_prob_denum_aux(history, v))
+            
+            res = np.zeros(len(v))
+            for tag in utils.TAGS:    
+                feat_vec = np.array(self.feat_manager.calc_feature_vec(history, tag))
+                m = lil_matrix((1, self.m))            
+                m[0, feat_vec] = 1
+                prob = self.calc_prob(tag, history, v, denum)
+                res += (m * prob).toarray()[0]
         
         return res
     
     def calc_expected_counts(self, v):
         res = np.zeros_like(v)
-        for i in range(self.n):
-            curr = self.calc_expected_counts_aux(i, v)
+        for s in self.sentences:
+            curr = self.calc_expected_counts_aux(s, v)
             res += curr
         
+        return res
+    
+    def loss_function_aux_func(self, sentence, v):
+        history = History()
+        
+        for i, (word, tag) in enumerate(sentence[2:-1]):
+            i += 2
+            tm2 = sentence[i-2][1]
+            tm1 = sentence[i-1][1]
+            wm1 = sentence[i-1][0]
+            wp1 = sentence[i+1][0]
+            history.set(tm2, tm1, wm1, word, wp1)
+            
+            res = np.zeros(len(utils.TAGS))
+            for j, tag in enumerate(utils.TAGS):    
+                feat_vec = np.array(self.feat_manager.calc_feature_vec(history, tag))
+                m = lil_matrix((1, self.m))            
+                m[0, feat_vec] = 1
+                res[j] = m.tocsr().dot(v)[0]
+                
+#         print(res)        
         return res
     
 
@@ -146,7 +150,7 @@ def loss_function(v):
     
     global optimizer
     term1 = (optimizer.feat_metrix * v).sum()
-    term2 = sum(log(sum(exp(p) for p in optimizer.loss_function_aux_func(i, v))) for i in range(optimizer.n))
+    term2 = sum(log(sum(exp(p) for p in optimizer.loss_function_aux_func(s, v))) for s in optimizer.sentences)
     term3 = (optimizer.lambda_param/2) * (LA.norm(v)**2)
     
     print("exiting L(v)")

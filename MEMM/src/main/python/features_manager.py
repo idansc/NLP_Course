@@ -1,7 +1,7 @@
 from features import *
 from history import History
 
-class FeaturesGenerator(object):
+class FeaturesManager(object):
     '''
     Generates set of features out of a given training data
     '''
@@ -19,7 +19,7 @@ class FeaturesGenerator(object):
                 tm1 = s[i-1][1]
                 wm1 = s[i-1][0]
                 wp1 = s[i+1][0]
-                history.set(tm2, tm1, wm1, word, wp1, i)
+                history.set(tm2, tm1, wm1, word, wp1)
                 for template in self.feature_templates:
                     template.add_feature(history, tag)
         

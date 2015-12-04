@@ -11,13 +11,11 @@ class History(object):
         self.wm1 = None # w minus 1
         self.w = None   # w
         self.wp1 = None # w plus 1
-        self.i = -1     # index
     
-    def set(self, tm2, tm1, wm1, w, wp1, i):
+    def set(self, tm2, tm1, wm1, w, wp1):
         self.tm2 = tm2
         self.tm1 = tm1
         self.wm1 = wm1
         self.w = w
         self.wp1 = wp1
-        self.i = i
         
