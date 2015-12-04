@@ -10,10 +10,10 @@ from features_manager import FeaturesManager
 os.chdir(os.path.dirname(__file__))
 
 if __name__ == '__main__':
-    
+
 #     parser = Parser("../resources/sample.wtag")
     parser = Parser("../resources/train.wtag")
-    manager = FeaturesManager(sentences=parser.get_sentences(), feat_threshold=1)
+    manager = FeaturesManager(sentences=parser.get_sentences(), feat_threshold=5)
     
     num_features = manager.get_num_features()
     if num_features == 0:

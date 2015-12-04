@@ -3,7 +3,7 @@ import numpy as np
 
 from numpy import linalg as LA
 from scipy.optimize import minimize
-from scipy.sparse import csr_matrix, lil_matrix
+from scipy.sparse import csr_matrix, csc_matrix
 from math import log, exp
 from history import History
 
@@ -22,6 +22,7 @@ class Optimizer(object):
         self.feat_manager = feat_manager
 
         self.feat_metrix = self.clac_features_matrix()
+        self.term1_of_loss_function_der = sum(self.feat_metrix)
         
         global optimizer
         optimizer = self
@@ -63,15 +64,9 @@ class Optimizer(object):
     def optimize(self, v0):
 #         res = minimize(loss_function, v0, method='BFGS', jac=loss_function_der, options={'disp': True})
         res = minimize(loss_function, v0, method='L-BFGS-B', jac=loss_function_der, options={'disp': True})
+#         res = minimize(loss_function, v0, method='L-BFGS-B', jac=loss_function_der, options={'maxiter': 8, 'disp': True})
         return res.x
         
-    def foo(self):
-        row = np.array([0, 0, 1, 2, 2, 2, 3])
-        col = np.array([0, 2, 2, 0, 1, 2, 2])
-        data = np.array([1, 2, 3, 4, 5, 6, 1])
-        m = csr_matrix((data, (row, col)), shape=(4, 3)).toarray()
-        print(m)
-    
     def calc_prob_denum_aux(self, history, v):
         res = np.zeros(len(utils.TAGS))
         for i, tag in enumerate(utils.TAGS): 
@@ -82,19 +77,14 @@ class Optimizer(object):
                    
         return res
     
-    def calc_prob(self, tag, history, v, denum):
-        indices = self.feat_manager.calc_feature_vec(history, tag)
-        if not indices:
-            num = 1
-        else:
-            num = exp(sum(v[indices]))
-
-        return num / denum
-        
     def calc_expected_counts_aux(self, sentence ,v):
         history = History()
         
+        m1 = []
         for i, (word, tag) in enumerate(sentence[2:-1]):
+#             if word in utils.IGNORE_WORDS:
+#                 continue
+            
             i += 2
             tm2 = sentence[i-2][1]
             tm1 = sentence[i-1][1]
@@ -105,35 +95,43 @@ class Optimizer(object):
             
             denum = sum(exp(p) for p in self.calc_prob_denum_aux(history, v))
             
-            res = np.zeros_like(v)
+            m2 = []
             for tag in utils.TAGS: 
+                
                 indices = self.feat_manager.calc_feature_vec(history, tag)
                 if not indices:
                     continue
                 else:
                     curr = np.zeros_like(v)
                     curr[indices] = exp(sum(v[indices])) / denum
-                    res += curr
-                   
-#                 feat_vec = np.array(self.feat_manager.calc_feature_vec(history, tag))
-#                 m = lil_matrix((1, self.m))            
-#                 m[0, feat_vec] = 1
-#                 prob = self.calc_prob(tag, history, v, denum)
-#                 res += (m * prob).toarray()[0]
+                    m2.append(curr)
+
+            m1.append(sum(m2)) 
         
-        return res
+        return sum(m1)
     
     def calc_expected_counts(self, v):
-        res = np.zeros_like(v)
+        m = []
+        print("calc_expected_counts 1")
         for s in self.sentences:
-            res += self.calc_expected_counts_aux(s, v)
+            m.append(self.calc_expected_counts_aux(s, v))
         
-        return res
+        return np.array(sum(m))
+        print("calc_expected_counts 1 done")
+#         res = np.zeros_like(v)
+#         for s in self.sentences:
+#             res += self.calc_expected_counts_aux(s, v)
+#         
+#         return res
     
     def loss_function_aux_func(self, sentence, v):
         history = History()
         
+        outersum = np.zeros(len(sentence) - 3)
         for i, (word, tag) in enumerate(sentence[2:-1]):
+#             if word in utils.IGNORE_WORDS:
+#                 continue
+            
             i += 2
             tm2 = sentence[i-2][1]
             tm1 = sentence[i-1][1]
@@ -141,14 +139,16 @@ class Optimizer(object):
             wp1 = sentence[i+1][0]
             history.set(tm2, tm1, wm1, word, wp1)
             
-            res = np.zeros(len(utils.TAGS))
+            innersum = np.zeros(len(utils.TAGS))
             for j, tag in enumerate(utils.TAGS):
                 indices = self.feat_manager.calc_feature_vec(history, tag)
                 if not indices:
-                    continue
-                res[j] = sum(v[indices])
-                
-        return res
+                    innersum[j] = 1
+                else:
+                    innersum[j] = exp(sum(v[indices]))
+            
+            outersum[i-2] = log(sum(innersum))   
+        return sum(outersum)
     
 
 def loss_function(v):
@@ -156,7 +156,11 @@ def loss_function(v):
     
     global optimizer
     term1 = (optimizer.feat_metrix * v).sum()
-    term2 = sum(log(sum(exp(p) for p in optimizer.loss_function_aux_func(s, v))) for s in optimizer.sentences)
+    
+    term2 = 0.0
+    for s in optimizer.sentences:
+        term2 += optimizer.loss_function_aux_func(s, v)
+        
     term3 = (optimizer.lambda_param/2) * (LA.norm(v)**2)
     
     print("exiting L(v)")
@@ -166,8 +170,11 @@ def loss_function_der(v):
     print("entering L'(v)")
     
     global optimizer
-    term1 = sum(optimizer.feat_metrix)
+    term1 = optimizer.term1_of_loss_function_der
+    print("calculating term2")
+    
     term2 = optimizer.calc_expected_counts(v)
+    print("calculating term2 done")
     term3 = optimizer.lambda_param * v
     
     der = np.zeros_like(v)
