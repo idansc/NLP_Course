@@ -115,18 +115,10 @@ class Optimizer(object):
     
     def calc_expected_counts(self, v):
         m = []
-        print("Calculating expected counts...")
-        t = time.process_time()
         for s in self.sentences:
             m.append(self.calc_expected_counts_aux(s, v))
         
         return np.array(sum(m))
-        print("Calculation of expected counts done. Elapsed time:", time.process_time() - t)
-#         res = np.zeros_like(v)
-#         for s in self.sentences:
-#             res += self.calc_expected_counts_aux(s, v)
-#         
-#         return res
     
     def loss_function_aux_func(self, sentence, v):
         history = History()
@@ -177,10 +169,7 @@ def loss_function_der(v):
     
     global optimizer
     term1 = optimizer.term1_of_loss_function_der
-    print("Calculating term2...")
-    
     term2 = optimizer.calc_expected_counts(v)
-    print("Calculation of term2 done. Elapsed time:", time.process_time() - t)
     term3 = optimizer.lambda_param * v
     
     der = np.zeros_like(v)
