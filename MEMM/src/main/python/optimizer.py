@@ -16,8 +16,8 @@ class Optimizer(object):
     Optimizes the parameters of MEMM for a given set of features.
     '''
 
-    def __init__(self, sentences, num_words, feat_manager, maxiter):
-        self.lambda_param = 50.0
+    def __init__(self, sentences, num_words, feat_manager, lambda_param, maxiter):
+        self.lambda_param = lambda_param
         self.n = num_words
         self.m = feat_manager.get_num_features()
         self.sentences = sentences
@@ -160,7 +160,7 @@ def loss_function(v):
         
     term3 = (optimizer.lambda_param/2) * (LA.norm(v)**2)
     
-    print("Calculation of L(v) done. Elapsed time:", time.process_time() - t)
+    print("Done. Elapsed time:", time.process_time() - t)
     return -(term1 - term2 - term3)
 
 def loss_function_der(v):
@@ -175,5 +175,5 @@ def loss_function_der(v):
     der = np.zeros_like(v)
     der[:] = -(term1 - term2 - term3)
     
-    print("Calculation of L'(v) done. Elapsed time:", time.process_time() - t)
+    print("Done. Elapsed time:", time.process_time() - t)
     return der 
