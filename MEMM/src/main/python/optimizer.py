@@ -74,20 +74,20 @@ class Optimizer(object):
     
     def calc_prob_denum_aux(self, history, v):
         res = np.zeros(len(utils.TAGS))
-        for i, tag in enumerate(utils.TAGS):    
-            feat_vec = np.array(self.feat_manager.calc_feature_vec(history, tag))
-            m = lil_matrix((1, self.m))            
-            m[0, feat_vec] = 1
-            res[i] = m.tocsr().dot(v)[0]
+        for i, tag in enumerate(utils.TAGS): 
+            indices = self.feat_manager.calc_feature_vec(history, tag)
+            if not indices:
+                continue
+            res[i] = sum(v[indices])
                    
         return res
     
     def calc_prob(self, tag, history, v, denum):
-        feat_vec = np.array(self.feat_manager.calc_feature_vec(history, tag))
-        m = lil_matrix((1, self.m), dtype=float)            
-        m[0, feat_vec] = 1
-        
-        num = exp(m.tocsr().dot(v)[0])
+        indices = self.feat_manager.calc_feature_vec(history, tag)
+        if not indices:
+            num = 1
+        else:
+            num = exp(sum(v[indices]))
 
         return num / denum
         
@@ -105,21 +105,28 @@ class Optimizer(object):
             
             denum = sum(exp(p) for p in self.calc_prob_denum_aux(history, v))
             
-            res = np.zeros(len(v))
-            for tag in utils.TAGS:    
-                feat_vec = np.array(self.feat_manager.calc_feature_vec(history, tag))
-                m = lil_matrix((1, self.m))            
-                m[0, feat_vec] = 1
-                prob = self.calc_prob(tag, history, v, denum)
-                res += (m * prob).toarray()[0]
+            res = np.zeros_like(v)
+            for tag in utils.TAGS: 
+                indices = self.feat_manager.calc_feature_vec(history, tag)
+                if not indices:
+                    continue
+                else:
+                    curr = np.zeros_like(v)
+                    curr[indices] = exp(sum(v[indices])) / denum
+                    res += curr
+                   
+#                 feat_vec = np.array(self.feat_manager.calc_feature_vec(history, tag))
+#                 m = lil_matrix((1, self.m))            
+#                 m[0, feat_vec] = 1
+#                 prob = self.calc_prob(tag, history, v, denum)
+#                 res += (m * prob).toarray()[0]
         
         return res
     
     def calc_expected_counts(self, v):
         res = np.zeros_like(v)
         for s in self.sentences:
-            curr = self.calc_expected_counts_aux(s, v)
-            res += curr
+            res += self.calc_expected_counts_aux(s, v)
         
         return res
     
@@ -135,13 +142,12 @@ class Optimizer(object):
             history.set(tm2, tm1, wm1, word, wp1)
             
             res = np.zeros(len(utils.TAGS))
-            for j, tag in enumerate(utils.TAGS):    
-                feat_vec = np.array(self.feat_manager.calc_feature_vec(history, tag))
-                m = lil_matrix((1, self.m))            
-                m[0, feat_vec] = 1
-                res[j] = m.tocsr().dot(v)[0]
+            for j, tag in enumerate(utils.TAGS):
+                indices = self.feat_manager.calc_feature_vec(history, tag)
+                if not indices:
+                    continue
+                res[j] = sum(v[indices])
                 
-#         print(res)        
         return res
     
 
