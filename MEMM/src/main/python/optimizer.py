@@ -14,11 +14,11 @@ class Optimizer(object):
     Optimizes the parameters of MEMM for a given set of features.
     '''
 
-    def __init__(self, parser, generator):
+    def __init__(self, sentences, generator):
         self.lambda_param = 50.0
-        self.n = len(parser.get_word_tag_array()) - 3
+        self.n = len(sentences) - 3
         self.m = generator.get_num_features()
-        self.word_tag_array = parser.get_word_tag_array()
+        self.sentences = sentences
         self.generator = generator
 
         self.feat_metrix = self.clac_features_matrix()
@@ -37,24 +37,23 @@ class Optimizer(object):
         col = np.array([], dtype=np.int)
         row = np.array([], dtype=np.int)
 
-        for i, (word, tag) in enumerate(self.word_tag_array[2:-1]):
-            if i % 100 == 0:
-                print(i)
-#             if word in [utils.START_SYMBOL, utils.END_SYMBOL, utils.DOT]:
-#                 continue
-            
-            i += 2
-            tm2 = self.word_tag_array[i-2][1]
-            tm1 = self.word_tag_array[i-1][1]
-            wm1 = self.word_tag_array[i-1][0]
-            wp1 = self.word_tag_array[i+1][0]
-            history.set(tm2, tm1, wm1, word, wp1, i)
-            
-            feat_vec = np.array(self.generator.calc_feature_vec(history, tag))
-            col = np.concatenate((col, feat_vec))
-            row = np.concatenate((row, np.full(feat_vec.size, i-2, dtype=np.int)))
-            
-        data = np.ones(col.size, dtype=np.int)
+        for s in self.sentences:
+            for i, (word, tag) in enumerate(s[2:-1]):
+#                 if word in [utils.START_SYMBOL, utils.END_SYMBOL, utils.DOT]:
+#                     continue
+                
+                i += 2
+                tm2 = s[i-2][1]
+                tm1 = s[i-1][1]
+                wm1 = s[i-1][0]
+                wp1 = s[i+1][0]
+                history.set(tm2, tm1, wm1, word, wp1, i)
+                
+                feat_vec = np.array(self.generator.calc_feature_vec(history, tag))
+                col = np.concatenate((col, feat_vec))
+                row = np.concatenate((row, np.full(feat_vec.size, i-2, dtype=np.int)))
+                
+            data = np.ones(col.size, dtype=np.int)
                 
         return csr_matrix((data, (row, col)), shape=(self.n, self.m), dtype=np.int)
     
@@ -62,11 +61,11 @@ class Optimizer(object):
         history = History()
         
         i += 2
-        tm2 = self.word_tag_array[i-2][1]
-        tm1 = self.word_tag_array[i-1][1]
-        w = self.word_tag_array[i]
-        wm1 = self.word_tag_array[i-1][0]
-        wp1 = self.word_tag_array[i+1][0]
+        tm2 = self.sentences[i-2][1]
+        tm1 = self.sentences[i-1][1]
+        w = self.sentences[i]
+        wm1 = self.sentences[i-1][0]
+        wp1 = self.sentences[i+1][0]
         history.set(tm2, tm1, wm1, w, wp1, i)
         
         res = np.zeros(len(utils.TAGS))
@@ -114,11 +113,11 @@ class Optimizer(object):
         history = History()
         
         i += 2
-        tm2 = self.word_tag_array[i-2][1]
-        tm1 = self.word_tag_array[i-1][1]
-        w = self.word_tag_array[i]
-        wm1 = self.word_tag_array[i-1][0]
-        wp1 = self.word_tag_array[i+1][0]
+        tm2 = self.sentences[i-2][1]
+        tm1 = self.sentences[i-1][1]
+        w = self.sentences[i]
+        wm1 = self.sentences[i-1][0]
+        wp1 = self.sentences[i+1][0]
         history.set(tm2, tm1, wm1, w, wp1, i)
         
         denum = sum(exp(p) for p in self.calc_prob_denum_aux(history, v))
@@ -143,17 +142,19 @@ class Optimizer(object):
     
 
 def loss_function(v):
-    print("start loss function")
+    print("entering L(v)")
+    
     global optimizer
     term1 = (optimizer.feat_metrix * v).sum()
     term2 = sum(log(sum(exp(p) for p in optimizer.loss_function_aux_func(i, v))) for i in range(optimizer.n))
     term3 = (optimizer.lambda_param/2) * (LA.norm(v)**2)
     
-    print("end loss function")
+    print("exiting L(v)")
     return -(term1 - term2 - term3)
 
 def loss_function_der(v):
-    print("start loss function der")
+    print("entering L'(v)")
+    
     global optimizer
     term1 = sum(optimizer.feat_metrix)
     term2 = optimizer.calc_expected_counts(v)
@@ -162,5 +163,5 @@ def loss_function_der(v):
     der = np.zeros_like(v)
     der[:] = -(term1 - term2 - term3)
     
-    print("end loss function der")
+    print("exiting L'(v)")
     return der 
