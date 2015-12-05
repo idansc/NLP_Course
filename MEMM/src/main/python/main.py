@@ -22,11 +22,11 @@ def store_parameters_vector(v, path):
 
 def learn_parameters_vector(parser, feat_manager, lambda_param, maxiter):
     print("Optimizing...")
-    t_step = time.process_time() 
+    time = time.process_time() 
     optimizer = Optimizer(parser.get_sentences(), parser.get_num_words(), feat_manager,
                           lambda_param, maxiter)
     v = optimizer.optimize(v0=np.zeros(feat_manager.get_num_features()))
-    print("Done. Elapsed time:", time.process_time() - t_step, "\n")
+    print("Done. Elapsed time:", time.process_time() - time, "\n")
     store_parameters_vector(v, 'param_vec.dump')
     
     return v  
@@ -38,27 +38,25 @@ if __name__ == '__main__':
     test_data = "../resources/test_sample.wtag"
     
     print("Beginning parsing...")
-    t_step = time.process_time()
+    time = time.process_time()
     parser = Parser(training_data, test_data, viterbi_tags_treshold=6, use_common_tags=False)
-    print("Done. Elapsed time:", time.process_time() - t_step, "\n")
+    print("Done. Elapsed time:", time.process_time() - time, "\n")
     
     print("Generating features...")
-    t_step = time.process_time()
+    time = time.process_time()
     feat_manager = FeaturesManager(parser.get_sentences(), feat_threshold=1)
-    print("Done. Elapsed time:", time.process_time() - t_step)
+    print("Done. Elapsed time:", time.process_time() - time)
     
     num_features = feat_manager.get_num_features()
     if num_features == 0:
         print("No features generated. Exiting program...")
         sys.exit()       
-    print("Number of features:", feat_manager.get_num_features())
-    print()
+    print("Number of features:", feat_manager.get_num_features(), "\n")
     
     # *** Loading or learning parameters vector *** 
-    
-    v = learn_parameters_vector(parser, feat_manager, lambda_param=50.0, maxiter=10)
+#     v = learn_parameters_vector(parser, feat_manager, lambda_param=50.0, maxiter=10)
 #     v = load_parameters_vector('../resources/param_vector_dumps/baseline/iter11_threshold4/param_vec.dump')
-#     v = np.zeros(5000) # Stub parameters vector
+    v = np.zeros(5000) # Stub parameters vector
     print(v)
     
     inference = Inference(parser, v, feat_manager)
