@@ -15,9 +15,6 @@ class Inference:
         return list(self.parser.get_word_tags(w))
 
     def viterbi(self,s):
-        #TODO: remove if no need
-        s.insert(0, START_SYMBOL)
-        s.insert(0, START_SYMBOL)
         pi = {}
         bp = {}
         #init

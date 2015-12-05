@@ -7,18 +7,14 @@ import time
 from optimizer import Optimizer
 from dataparser import Parser
 from features_manager import FeaturesManager
+from inference import Inference
 
 os.chdir(os.path.dirname(__file__))
 
-def learn_parameter_vector(training_data, lambda_param, feat_threshold, maxiter):
+def learn_parameter_vector(lambda_param, feat_threshold, maxiter):
     t_total = time.process_time()
     
-    print("Beginning learning. Data:", training_data, "; Lambda:", lambda_param, "; Features threshold:", feat_threshold, "; Max iterations:", maxiter)
-    print()
-    print("Parsing...")
-    t_step = time.process_time()
-    parser = Parser(training_data)
-    print("Done. Elapsed time:", time.process_time() - t_step)
+    print("begin finding Lambda:", lambda_param, "; Features threshold:", feat_threshold, "; Max iterations:", maxiter)
     print()
     print("Generating features...")
     t_step = time.process_time()
@@ -50,9 +46,18 @@ def store_parameter_vector(v, path):
         pickle.dump(v, f)
     
 if __name__ == '__main__':
-#     v = learn_parameter_vector(training_data="../resources/sample.wtag", lambda_param=50.0, feat_threshold=4, maxiter=7)
-    v = learn_parameter_vector(training_data="../resources/train.wtag", lambda_param=50.0, feat_threshold=5, maxiter=14)
-    store_parameter_vector(v, 'param_vec.dump')
+    training_data = "../resources/sample.wtag"
+    test_data = "../resources/test.wtag"
+    print("Beginning learning. Data:", training_data,"Parsing...")
+    t_step = time.process_time()
+    parser = Parser(training_data,test_data)
+    print("Done. Elapsed time:", time.process_time() - t_step)
+#     v = learn_parameter_vector( lambda_param=50.0, feat_threshold=4, maxiter=7)
+#    v = learn_parameter_vector(training_data="../resources/train.wtag", lambda_param=50.0, feat_threshold=5, maxiter=14)
+#    store_parameter_vector(v, 'param_vec.dump')
     
 #     v = load_parameter_vector('../resources/param_vector_dumps/baseline/iter11_threshold4/param_vec.dump')
+    inference = Inference(parser)
+    for s in parser.get_test_sentences():
+        res = inference.viterbi(s)
     print("Done")

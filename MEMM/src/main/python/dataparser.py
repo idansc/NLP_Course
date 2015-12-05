@@ -13,13 +13,14 @@ class Parser(object):
     END_TUPLE = (END_SYMBOL, END_SYMBOL)
     VITERBI_TAGS_THRESHOLD = 6
     
-    def __init__(self, filepath):
+    def __init__(self, filepath, test_fp):
         self.sentences = []
+        self.test_sentences = []
         self.parse(filepath)
+        self.parse_test(test_fp)
         self.count_tags = Counter()
         self.word_tags_dict = defaultdict(set)
         self.init_word_tags()
-
 
     def parse(self,filepath):
         with open(filepath, 'r') as datafile:
@@ -35,7 +36,19 @@ class Parser(object):
         if len(self.sentences) == 0:
             print("Training data is empty. Exiting program...")
             sys.exit()
-    
+
+    def parse_test(self,test_fp):
+        with open(test_fp, 'r') as train_file:
+            for line in train_file:
+                line = line.strip()
+                sentence = \
+                    [START_SYMBOL, START_SYMBOL] \
+                    + [tuple(w.split('_'))[0] for w in line.split(' ')]
+            self.test_sentences.append(sentence)
+
+    def get_test_sentences(self):
+        return self.test_sentences
+
     def get_sentences(self):
         return self.sentences
     
