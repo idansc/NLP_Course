@@ -1,6 +1,6 @@
 import sys
 
-from constants import START_SYMBOL, END_SYMBOL, TAGS, IGNORE_WORDS, IGNORE_TAGS
+from constants import START_SYMBOL, END_SYMBOL, TAGS, IGNORE_WORDS, IGNORE_TAGS, ACTUAL_TAGS
 from collections import defaultdict
 from collections import Counter
 
@@ -45,7 +45,7 @@ class Parser(object):
                 sentence = \
                     [START_SYMBOL, START_SYMBOL] \
                     + [tuple(w.split('_'))[0] for w in line.split(' ')] \
-                    + [self.END_TUPLE]
+                    + [END_SYMBOL]
                 self.test_sentences.append(sentence)
 
     def get_test_sentences(self):
@@ -106,5 +106,5 @@ class Parser(object):
     def get_word_tags(self, w):
         #returns the tags for a word, the default for unknown word is top tags.
         #return self.word_tags_dict.get(w,self.count_tags.most_common(self.viterbi_tags_treshold))
-        return self.word_tags_dict.get(w, TAGS)
+        return self.word_tags_dict.get(w, ACTUAL_TAGS)
         
