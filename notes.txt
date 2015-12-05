@@ -1,4 +1,0 @@
-21.11
-*We need to parse to feature vector (ptobably a matrix for each word/history and tag(y) ) 
-*The vector need to be sparse 
-*there is optimization flow (done by yoav)

@@ -43,11 +43,11 @@ class Parser(object):
             for line in test_file:
                 line = line.strip()
                 sentence = \
-                    [START_SYMBOL, START_SYMBOL] \
-                    + [tuple(w.split('_'))[0] for w in line.split(' ')] \
-                    + [END_SYMBOL]
+                    [self.START_TUPLE, self.START_TUPLE] \
+                    + [tuple(w.split('_')) for w in line.split(' ')] \
+                    + [self.END_TUPLE]
                 self.test_sentences.append(sentence)
-
+        
     def get_test_sentences(self):
         return self.test_sentences
 

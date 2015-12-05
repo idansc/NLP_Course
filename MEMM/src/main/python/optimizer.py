@@ -147,7 +147,7 @@ def loss_function(v):
         
     term3 = (optimizer.lambda_param/2) * (LA.norm(v)**2)
     
-    print("Done. Elapsed start_time:", time.process_time() - start_time)
+    print("Done. Elapsed time:", time.process_time() - start_time)
     return -(term1 - term2 - term3)
 
 def loss_function_der(v):
@@ -162,5 +162,5 @@ def loss_function_der(v):
     der = np.zeros_like(v)
     der[:] = -(term1 - term2 - term3)
     
-    print("Done. Elapsed start_time:", time.process_time() - start_time)
+    print("Done. Elapsed time:", time.process_time() - start_time)
     return der 

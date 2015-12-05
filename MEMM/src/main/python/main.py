@@ -7,7 +7,7 @@ import time
 from optimizer import Optimizer
 from dataparser import Parser
 from features_manager import FeaturesManager
-from inference import Inference
+from statistics import Statistics
 
 os.chdir(os.path.dirname(__file__))
 
@@ -26,7 +26,7 @@ def learn_parameters_vector(parser, feat_manager, lambda_param, maxiter):
     optimizer = Optimizer(parser.get_sentences(), parser.get_num_words(), feat_manager,
                           lambda_param, maxiter)
     v = optimizer.optimize(v0=np.zeros(feat_manager.get_num_features()))
-    print("Done. Elapsed start_time:", start_time.process_time() - start_time, "\n")
+    print("Done. Elapsed time:", start_time.process_time() - start_time, "\n")
     store_parameters_vector(v, 'param_vec.dump')
     
     return v  
@@ -51,11 +51,11 @@ def get_param_vector(config, parser, feat_manager):
 if __name__ == '__main__':
     config = {
         'training_data': "../resources/train.wtag",
-        'test_data': "../resources/test_sample.wtag",
+        'test_data': "../resources/test.wtag",
         'feat_threshold': 4,
         'viterbi_tags_treshold': 6,
         'use_common_tags': False,
-        'param_vector_mode': 'load', # Options: 'stub', 'learn' or 'load'
+        'param_vector_mode': 'stub', # Options: 'stub', 'learn' or 'load'
         'learning_config': {
                 'lambda_param': 50.0,
                 'maxiter': 10
@@ -67,12 +67,12 @@ if __name__ == '__main__':
     start_time = time.process_time()
     parser = Parser(config['training_data'], config['test_data'],
                     config['viterbi_tags_treshold'], config['use_common_tags'])
-    print("Done. Elapsed start_time:", time.process_time() - start_time, "\n")
+    print("Done. Elapsed time:", time.process_time() - start_time, "\n")
     
     print("Generating features...")
     start_time = time.process_time()
     feat_manager = FeaturesManager(parser.get_sentences(), config['feat_threshold'])
-    print("Done. Elapsed start_time:", time.process_time() - start_time)
+    print("Done. Elapsed time:", time.process_time() - start_time)
     
     num_features = feat_manager.get_num_features()
     if num_features == 0:
@@ -83,8 +83,7 @@ if __name__ == '__main__':
     v = get_param_vector(config, parser, feat_manager)
     print(v)
     
-    inference = Inference(parser, v, feat_manager)
-    for s in parser.get_test_sentences():
-        res = inference.viterbi(s)
-        print(res)
+    stats = Statistics(parser, v, feat_manager)
+    stats.print_statistics()
+    
     print("Done")
