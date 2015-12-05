@@ -136,7 +136,7 @@ class Optimizer(object):
 
 def loss_function(v):
     print("Calculating L(v)...")
-    t = time.process_time()
+    start_time = time.process_time()
     
     global optimizer
     term1 = (optimizer.feat_metrix * v).sum()
@@ -147,12 +147,12 @@ def loss_function(v):
         
     term3 = (optimizer.lambda_param/2) * (LA.norm(v)**2)
     
-    print("Done. Elapsed time:", time.process_time() - t)
+    print("Done. Elapsed start_time:", time.process_time() - start_time)
     return -(term1 - term2 - term3)
 
 def loss_function_der(v):
     print("Calculating L'(v)...")
-    t = time.process_time()
+    start_time = time.process_time()
     
     global optimizer
     term1 = optimizer.term1_of_loss_function_der
@@ -162,5 +162,5 @@ def loss_function_der(v):
     der = np.zeros_like(v)
     der[:] = -(term1 - term2 - term3)
     
-    print("Done. Elapsed time:", time.process_time() - t)
+    print("Done. Elapsed start_time:", time.process_time() - start_time)
     return der 
