@@ -11,7 +11,7 @@ class FeaturesManager(object):
         history = History()
         for s in sentences:  
             for i,(word,tag) in enumerate(s[2:-1]):
-#                 if word in [utils.START_SYMBOL, utils.END_SYMBOL, utils.DOT]:
+#                 if word in [constants.START_SYMBOL, constants.END_SYMBOL, constants.DOT]:
 #                     continue
                 
                 i += 2

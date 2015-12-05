@@ -1,5 +1,5 @@
 import unittest
-import utils
+import constants
 
 from dataparser import Parser
 
@@ -16,7 +16,7 @@ class DataParserTests(unittest.TestCase):
         self.assertEqual(parser.get_num_words(), 49)
     
     def test_get_all_tags(self):
-        self.assertEqual(self.parser.get_all_tags(), utils.TAGS)
+        self.assertEqual(self.parser.get_all_tags(), constants.TAGS)
     
 if __name__ == "__main__":
     unittest.main()

@@ -1,5 +1,5 @@
 import unittest
-import utils
+import constants
 
 from dataparser import Parser
 from features_manager import FeaturesManager

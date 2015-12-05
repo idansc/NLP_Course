@@ -1,5 +1,3 @@
-from _overlapped import NULL
-
 class History(object):
     '''
     Represents a History

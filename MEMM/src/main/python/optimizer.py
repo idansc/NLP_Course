@@ -1,3 +1,4 @@
+import constants
 import utils
 import numpy as np
 import time
@@ -29,12 +30,6 @@ class Optimizer(object):
         
         global optimizer
         optimizer = self
-#         print(self.feat_metrix)
-#         print(self.feat_metrix.get_shape())       
-#         self.foo()
-#         print(self.loss_function(np.zeros(self.m)))
-#         print(self.n)
-#         print(self.loss_function_der(np.zeros(self.m)))
     
     def clac_features_matrix(self):
         history = History()
@@ -44,7 +39,7 @@ class Optimizer(object):
         idx = 0
         for s in self.sentences:
             for i, (word, tag) in enumerate(s[2:-1]):
-#                 if word in [utils.START_SYMBOL, utils.END_SYMBOL, utils.DOT]:
+#                 if word in [constants.START_SYMBOL, constants.END_SYMBOL, constants.DOT]:
 #                     continue
                 
                 i += 2
@@ -70,22 +65,12 @@ class Optimizer(object):
         res = minimize(loss_function, v0, method='L-BFGS-B', jac=loss_function_der, options={'maxiter': self.maxiter, 'disp': True})
         return res.x
         
-    def calc_prob_denum_aux(self, history, v):
-        res = np.zeros(len(utils.TAGS))
-        for i, tag in enumerate(utils.TAGS): 
-            indices = self.feat_manager.calc_feature_vec(history, tag)
-            if not indices:
-                continue
-            res[i] = sum(v[indices])
-                   
-        return res
-    
     def calc_expected_counts_aux(self, sentence ,v):
         history = History()
         
         m1 = []
         for i, (word, tag) in enumerate(sentence[2:-1]):
-#             if word in utils.IGNORE_WORDS:
+#             if word in constants.IGNORE_WORDS:
 #                 continue
             
             i += 2
@@ -96,10 +81,13 @@ class Optimizer(object):
             wp1 = sentence[i+1][0]
             history.set(tm2, tm1, wm1, w, wp1)
             
-            denum = sum(exp(p) for p in self.calc_prob_denum_aux(history, v))
+            denum = utils.calc_prob_denum(self.feat_manager, history, v)
             
             m2 = []
-            for tag in utils.TAGS: 
+            for tag in constants.TAGS: 
+#                 if tag in constants.IGNORE_TAGS:
+#                     continue
+                utils.calc_prob(self.feat_manager, v, history, tag)
                 
                 indices = self.feat_manager.calc_feature_vec(history, tag)
                 if not indices:
@@ -125,7 +113,7 @@ class Optimizer(object):
         
         outersum = np.zeros(len(sentence) - 3)
         for i, (word, tag) in enumerate(sentence[2:-1]):
-#             if word in utils.IGNORE_WORDS:
+#             if word in constants.IGNORE_WORDS:
 #                 continue
             
             i += 2
@@ -135,8 +123,8 @@ class Optimizer(object):
             wp1 = sentence[i+1][0]
             history.set(tm2, tm1, wm1, word, wp1)
             
-            innersum = np.zeros(len(utils.TAGS))
-            for j, tag in enumerate(utils.TAGS):
+            innersum = np.zeros(len(constants.TAGS))
+            for j, tag in enumerate(constants.TAGS):
                 indices = self.feat_manager.calc_feature_vec(history, tag)
                 if not indices:
                     innersum[j] = 1
