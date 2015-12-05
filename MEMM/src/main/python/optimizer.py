@@ -1,10 +1,12 @@
 import utils
 import numpy as np
+import time
 
 from numpy import linalg as LA
 from scipy.optimize import minimize
-from scipy.sparse import csr_matrix, csc_matrix
+from scipy.sparse import csr_matrix
 from math import log, exp
+
 from history import History
 
 optimizer = None
@@ -14,12 +16,13 @@ class Optimizer(object):
     Optimizes the parameters of MEMM for a given set of features.
     '''
 
-    def __init__(self, sentences, num_words, feat_manager):
-        self.lambda_param = 50.0
+    def __init__(self, sentences, num_words, feat_manager, lambda_param, maxiter):
+        self.lambda_param = lambda_param
         self.n = num_words
         self.m = feat_manager.get_num_features()
         self.sentences = sentences
         self.feat_manager = feat_manager
+        self.maxiter = maxiter
 
         self.feat_metrix = self.clac_features_matrix()
         self.term1_of_loss_function_der = sum(self.feat_metrix)
@@ -63,8 +66,8 @@ class Optimizer(object):
     
     def optimize(self, v0):
 #         res = minimize(loss_function, v0, method='BFGS', jac=loss_function_der, options={'disp': True})
-        res = minimize(loss_function, v0, method='L-BFGS-B', jac=loss_function_der, options={'disp': True})
-#         res = minimize(loss_function, v0, method='L-BFGS-B', jac=loss_function_der, options={'maxiter': 8, 'disp': True})
+#         res = minimize(loss_function, v0, method='L-BFGS-B', jac=loss_function_der, options={'disp': True})
+        res = minimize(loss_function, v0, method='L-BFGS-B', jac=loss_function_der, options={'maxiter': self.maxiter, 'disp': True})
         return res.x
         
     def calc_prob_denum_aux(self, history, v):
@@ -112,17 +115,10 @@ class Optimizer(object):
     
     def calc_expected_counts(self, v):
         m = []
-        print("calc_expected_counts 1")
         for s in self.sentences:
             m.append(self.calc_expected_counts_aux(s, v))
         
         return np.array(sum(m))
-        print("calc_expected_counts 1 done")
-#         res = np.zeros_like(v)
-#         for s in self.sentences:
-#             res += self.calc_expected_counts_aux(s, v)
-#         
-#         return res
     
     def loss_function_aux_func(self, sentence, v):
         history = History()
@@ -152,7 +148,8 @@ class Optimizer(object):
     
 
 def loss_function(v):
-    print("entering L(v)")
+    print("Calculating L(v)...")
+    t = time.process_time()
     
     global optimizer
     term1 = (optimizer.feat_metrix * v).sum()
@@ -163,22 +160,20 @@ def loss_function(v):
         
     term3 = (optimizer.lambda_param/2) * (LA.norm(v)**2)
     
-    print("exiting L(v)")
+    print("Done. Elapsed time:", time.process_time() - t)
     return -(term1 - term2 - term3)
 
 def loss_function_der(v):
-    print("entering L'(v)")
+    print("Calculating L'(v)...")
+    t = time.process_time()
     
     global optimizer
     term1 = optimizer.term1_of_loss_function_der
-    print("calculating term2")
-    
     term2 = optimizer.calc_expected_counts(v)
-    print("calculating term2 done")
     term3 = optimizer.lambda_param * v
     
     der = np.zeros_like(v)
     der[:] = -(term1 - term2 - term3)
     
-    print("exiting L'(v)")
+    print("Done. Elapsed time:", time.process_time() - t)
     return der 
