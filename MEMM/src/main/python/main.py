@@ -6,21 +6,24 @@ import pickle
 from optimizer import Optimizer
 from dataparser import Parser
 from features_manager import FeaturesManager
+from inference import Inference
 
 os.chdir(os.path.dirname(__file__))
 
 if __name__ == '__main__':
+    parser = Parser("../resources/sample.wtag")
+#    parser = Parser("../resources/train.wtag")
+    inference = Inference(parser)
+    inference.viterbi("The spokesman further said that at least two more offers are expected from other companies within two weeks .".split(" "))
 
-#     parser = Parser("../resources/sample.wtag")
-    parser = Parser("../resources/train.wtag")
     manager = FeaturesManager(sentences=parser.get_sentences(), feat_threshold=5)
-    
+
     num_features = manager.get_num_features()
     if num_features == 0:
         print("No features generated. Exiting program...")
-        sys.exit()       
+        sys.exit()
     print("Number of features:", manager.get_num_features())
-    
+
     optimizer = Optimizer(parser.get_sentences(), parser.get_num_words(), manager)
     v = optimizer.optimize(v0=np.zeros(manager.get_num_features()))
        
@@ -28,6 +31,7 @@ if __name__ == '__main__':
         pickle.dump(v, f)
        
     print(v)
+
 
     print("Done")
     
