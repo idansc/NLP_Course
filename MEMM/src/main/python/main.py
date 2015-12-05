@@ -11,19 +11,30 @@ from inference import Inference
 
 os.chdir(os.path.dirname(__file__))
 
-def load_parameter_vector(path):
+def load_parameters_vector(path):
     with open(path,'rb') as f:
         v = pickle.load(f)
     return v
 
-def store_parameter_vector(v, path):
+def store_parameters_vector(v, path):
     with open(path, 'wb') as f:
         pickle.dump(v, f)
+
+def learn_parameters_vector(parser, feat_manager, lambda_param, maxiter):
+    print("Optimizing...")
+    t_step = time.process_time() 
+    optimizer = Optimizer(parser.get_sentences(), parser.get_num_words(), feat_manager,
+                          lambda_param, maxiter)
+    v = optimizer.optimize(v0=np.zeros(feat_manager.get_num_features()))
+    print("Done. Elapsed time:", time.process_time() - t_step, "\n")
+    store_parameters_vector(v, 'param_vec.dump')
+    
+    return v  
     
 if __name__ == '__main__':
     
-#     training_data = "../resources/training_sample.wtag"
-    training_data = "../resources/train.wtag"
+    training_data = "../resources/training_sample.wtag"
+#     training_data = "../resources/train.wtag"
     test_data = "../resources/test_sample.wtag"
     
     print("Beginning parsing...")
@@ -33,7 +44,7 @@ if __name__ == '__main__':
     
     print("Generating features...")
     t_step = time.process_time()
-    feat_manager = FeaturesManager(parser.get_sentences(), feat_threshold=6)
+    feat_manager = FeaturesManager(parser.get_sentences(), feat_threshold=1)
     print("Done. Elapsed time:", time.process_time() - t_step)
     
     num_features = feat_manager.get_num_features()
@@ -45,18 +56,10 @@ if __name__ == '__main__':
     
     # *** Loading or learning parameters vector *** 
     
-#     print("Optimizing...")
-#     t_step = time.process_time() 
-#     optimizer = Optimizer(parser.get_sentences(), parser.get_num_words(), feat_manager,
-#                            lambda_param=50.0, maxiter = 10)
-#     v = optimizer.optimize(v0=np.zeros(num_features.get_num_features()))
-#     print("Done. Elapsed time:", time.process_time() - t_step)
-#     store_parameter_vector(v, 'param_vec.dump')
-    
-#     v = load_parameter_vector('../resources/param_vector_dumps/baseline/iter11_threshold4/param_vec.dump')
-    
-    # Stub parameters vector
-    v = np.zeros(5000)
+    v = learn_parameters_vector(parser, feat_manager, lambda_param=50.0, maxiter=10)
+#     v = load_parameters_vector('../resources/param_vector_dumps/baseline/iter11_threshold4/param_vec.dump')
+#     v = np.zeros(5000) # Stub parameters vector
+    print(v)
     
     inference = Inference(parser, v, feat_manager)
     for s in parser.get_test_sentences():

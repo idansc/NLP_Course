@@ -87,7 +87,6 @@ class Optimizer(object):
             for tag in constants.TAGS: 
 #                 if tag in constants.IGNORE_TAGS:
 #                     continue
-                utils.calc_prob(self.feat_manager, v, history, tag)
                 
                 indices = self.feat_manager.calc_feature_vec(history, tag)
                 if not indices:
