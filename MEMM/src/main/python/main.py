@@ -33,9 +33,9 @@ def learn_parameters_vector(parser, feat_manager, lambda_param, maxiter):
     
 if __name__ == '__main__':
     
-    training_data = "../resources/training_sample.wtag"
-#     training_data = "../resources/train.wtag"
-    test_data = "../resources/test_sample.wtag"
+#    training_data = "../resources/training_sample.wtag"
+    training_data = "../resources/train.wtag"
+    test_data = "../resources/test.wtag"
     
     print("Beginning parsing...")
     time = time.process_time()
@@ -44,7 +44,7 @@ if __name__ == '__main__':
     
     print("Generating features...")
     time = time.process_time()
-    feat_manager = FeaturesManager(parser.get_sentences(), feat_threshold=1)
+    feat_manager = FeaturesManager(parser.get_sentences(), feat_threshold=4)
     print("Done. Elapsed time:", time.process_time() - time)
     
     num_features = feat_manager.get_num_features()
@@ -63,5 +63,4 @@ if __name__ == '__main__':
     for s in parser.get_test_sentences():
         res = inference.viterbi(s)
         print(res)
-    
     print("Done")

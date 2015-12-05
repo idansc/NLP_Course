@@ -13,5 +13,5 @@ ACTUAL_TAGS = {'JJR', 'VBP', 'FW', 'NNP', 'VBG', 'IN', 'MD', 'RB', 'VBN',
                'NNPS', 'JJS', 'PDT', 'PRP$', "''", 'RBS', 'TO', '-LRB-', '-RRB-', 
                'UH', 'SYM', 'VBD', 'WDT', 'RP', 'NNS', 'CC', 'RBR', 'PRP', 'WP$', 'CD'}
 
-IGNORE_WORDS = {START_SYMBOL,'.', '#', ':', ',', '``'}
-IGNORE_TAGS = {START_SYMBOL,'.', '#', ':', ',', '``'}
+IGNORE_WORDS = {START_SYMBOL,END_SYMBOL,'.', '#', ':', ',', '``'}
+IGNORE_TAGS = {START_SYMBOL,END_SYMBOL,'.', '#', ':', ',', '``'}
