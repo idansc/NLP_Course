@@ -1,0 +1,43 @@
+RUNNING THE L-BFGS-B CODE
+
+it    = iteration number
+nf    = number of function evaluations
+nseg  = number of segments explored during the Cauchy search
+nact  = number of active bounds at the generalized Cauchy point
+sub   = manner in which the subspace minimization terminated:
+        con = converged, bnd = a bound was reached
+itls  = number of iterations performed in the line search
+stepl = step length used
+tstep = norm of the displacement (total step)
+projg = norm of the projected gradient
+f     = function value
+
+           * * *
+
+Machine precision = 2.220D-16
+ N =         6678     M =           10
+
+   it   nf  nseg  nact  sub  itls  stepl    tstep     projg        f
+    0    1     -     -   -     -     -        -     5.907D+03  4.610D+05
+    1    3     1     0  ---    1  2.9D-04  5.0D+00  4.998D+03  3.815D+05
+    2    4     0     0  con    0  1.0D+00  3.4D+01  5.785D+03  3.107D+05
+    3    5     0     0  con    0  1.0D+00  1.0D+01  7.863D+03  2.744D+05
+    4    6     0     0  con    0  1.0D+00  5.8D+00  1.583D+03  2.417D+05
+    5    7     0     0  con    0  1.0D+00  3.7D+00  8.695D+02  2.325D+05
+    6    8     0     0  con    0  1.0D+00  5.0D+00  1.325D+03  2.242D+05
+    7    9     0     0  con    0  1.0D+00  5.5D+00  1.306D+03  2.165D+05
+    8   10     0     0  con    0  1.0D+00  4.9D+00  9.883D+02  2.127D+05
+    9   11     0     0  con    0  1.0D+00  2.1D+00  4.986D+02  2.114D+05
+   10   12     0     0  con    0  1.0D+00  8.8D-01  2.469D+02  2.107D+05
+   11   13     0     0  con    0  1.0D+00  2.6D+00  2.021D+02  2.097D+05
+   12   14     0     0  con    0  1.0D+00  1.7D+00  6.959D+02  2.095D+05
+   13   15     0     0  con    0  1.0D+00  4.9D-01  1.169D+02  2.093D+05
+   14   16     0     0  con    0  1.0D+00  4.4D-01  1.035D+02  2.092D+05
+   15   17     0     0  con    0  1.0D+00  5.6D-01  9.080D+01  2.091D+05
+   16   18     0     0  con    0  1.0D+00  8.7D-01  2.780D+02  2.091D+05
+   17   19     0     0  con    0  1.0D+00  2.7D-01  3.181D+01  2.090D+05
+
+STOP: TOTAL NO. of ITERATIONS EXCEEDS LIMIT                 
+
+ Total User time 0.000E+00 seconds.
+

@@ -60,8 +60,6 @@ class Optimizer(object):
         return csr_matrix((data, (row, col)), shape=(self.n, self.m), dtype=np.int)
     
     def optimize(self, v0):
-#         res = minimize(loss_function, v0, method='BFGS', jac=loss_function_der, options={'disp': True})
-#         res = minimize(loss_function, v0, method='L-BFGS-B', jac=loss_function_der, options={'disp': True})
         res = minimize(loss_function, v0, method='L-BFGS-B', jac=loss_function_der, options={'maxiter': self.maxiter, 'disp': True})
         return res.x
         
@@ -69,7 +67,7 @@ class Optimizer(object):
         history = History()
         
         m1 = []
-        for i, (word, tag) in enumerate(sentence[2:-1]):
+        for i, (word, _) in enumerate(sentence[2:-1]):
 #             if word in constants.IGNORE_WORDS:
 #                 continue
             

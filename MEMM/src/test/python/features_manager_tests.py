@@ -33,6 +33,22 @@ class FeaturesManagerTests(unittest.TestCase):
         feat_manager = FeaturesManager(sentences=parser.get_sentences(), feat_threshold=2)
         self.assertEqual(feat_manager.get_num_features(), 1)
     
+    def test_calc_feature_vec(self):
+        parser = Parser("../resources/features_test/test_calc_feature_vec.wtag", "../resources/test_sample.wtag", 6, False)
+        feat_manager = FeaturesManager(sentences=parser.get_sentences(), feat_threshold=1)
+        self.assertEqual(feat_manager.get_num_features(), 9)
+        
+        history = History()
+        tm2 = "DT"
+        tm1 = "NN"
+        w = "concern"
+        wm1 = "biotechnology"
+        wp1 = constants.END_SYMBOL
+        history.set(tm2, tm1, wm1, w, wp1)
+        tag = "NN"
+        print(feat_manager.calc_feature_vec(history, tag))
+#         self.assertEqual(, )
+        
     def test_calc_prob(self):
         history = History()
         tm2 = constants.START_SYMBOL
