@@ -63,7 +63,7 @@ if __name__ == '__main__':
         'test_data': "../resources/test_sample.wtag",
         'feat_threshold': 5,
         'viterbi_tags_treshold': 6,
-        'use_advanced_features': False,
+        'use_advanced_features': True,
         'use_common_tags': False,
         'param_vector_mode': 'load', # Options: 'stub', 'learn' or 'load'
         'learning_config': {

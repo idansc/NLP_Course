@@ -9,7 +9,7 @@ class FeaturesManager(object):
     def __init__(self, sentences, feat_threshold, use_advanced_features):
         self.feature_templates = [BaseFeatureTemplate1(), BaseFeatureTemplate2(), BaseFeatureTemplate3()]
         if use_advanced_features == True:
-            self.feature_templates += [AdvancedFeatureTemplate1(), AdvancedFeatureTemplate2()]
+            self.feature_templates += [AdvancedFeatureTemplate1(), AdvancedFeatureTemplate2(), AdvancedFeatureTemplate3(), AdvancedFeatureTemplate4(), AdvancedFeatureTemplate5()]
         history = History()
         for s in sentences:  
             for i,(word,tag) in enumerate(s[2:-1]):
