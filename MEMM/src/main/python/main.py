@@ -4,6 +4,7 @@ import numpy as np
 import pickle
 import time
 
+from os import path
 from optimizer import Optimizer
 from dataparser import Parser
 from features_manager import FeaturesManager
@@ -38,9 +39,16 @@ def get_param_vector(config, parser, feat_manager):
     elif config['param_vector_mode'] == 'learn':
         v = learn_parameters_vector(parser, feat_manager,
                                     config['learning_config']['lambda_param'],
-                                    config['learning_config']['maxiter'])
+                                    config['learning_config']['maxiter'],
+                                    config['use_advanced_features']
+                                )
     elif config['param_vector_mode'] == 'load':
-        if int(os.path.dirname(config['param_vector_dump_path'])[-1]) != config['feat_threshold']:
+        path_list = config['param_vector_dump_path'].split('/')
+        model = path_list [-3]
+        if (model == 'baseline' and config['use_advanced_features'] != False) or (model == 'extended' and config['use_advanced_features'] != True):
+            raise Exception("Features' model of dump file and Features' model of features extracted from training data must agree")
+        dirname = path_list [-2]
+        if int(dirname[-1]) != config['feat_threshold']:
             raise Exception("Features' threshold of dump file and Features' threshold of features extracted from training data must agree")
         v = load_parameters_vector(config['param_vector_dump_path'])
     else:
@@ -52,12 +60,12 @@ def get_param_vector(config, parser, feat_manager):
 if __name__ == '__main__':
     config = {
         'training_data': "../resources/train.wtag",
-        'test_data': "../resources/test.wtag",
+        'test_data': "../resources/test_sample.wtag",
         'feat_threshold': 5,
         'viterbi_tags_treshold': 6,
         'use_advanced_features': False,
         'use_common_tags': False,
-        'param_vector_mode': 'learn', # Options: 'stub', 'learn' or 'load'
+        'param_vector_mode': 'load', # Options: 'stub', 'learn' or 'load'
         'learning_config': {
                 'lambda_param': 70.0,
                 'maxiter': 15
@@ -73,7 +81,7 @@ if __name__ == '__main__':
     
     print("Generating features...")
     start_time = time.process_time()
-    feat_manager = FeaturesManager(parser.get_sentences(), config['feat_threshold'])
+    feat_manager = FeaturesManager(parser.get_sentences(), config['feat_threshold'], config['use_advanced_features'])
     print("Done. Elapsed time:", time.process_time() - start_time)
     
     num_features = feat_manager.get_num_features()

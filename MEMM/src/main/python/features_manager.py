@@ -6,7 +6,7 @@ class FeaturesManager(object):
     Generates set of features out of a given training data
     '''
 
-    def __init__(self, sentences, feat_threshold, use_advanced_features = False):
+    def __init__(self, sentences, feat_threshold, use_advanced_features):
         self.feature_templates = [BaseFeatureTemplate1(), BaseFeatureTemplate2(), BaseFeatureTemplate3()]
         if use_advanced_features == True:
             self.feature_templates += [AdvancedFeatureTemplate1(), AdvancedFeatureTemplate2()]
