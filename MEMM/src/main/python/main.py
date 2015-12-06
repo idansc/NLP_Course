@@ -19,14 +19,15 @@ def load_parameters_vector(path):
 def store_parameters_vector(v, path):
     with open(path, 'wb') as f:
         pickle.dump(v, f)
+    print("Parameters vector has been saved successfully")
 
 def learn_parameters_vector(parser, feat_manager, lambda_param, maxiter):
     print("Optimizing...")
-    start_time = start_time.process_time() 
+    start_time = time.process_time() 
     optimizer = Optimizer(parser.get_sentences(), parser.get_num_words(), feat_manager,
                           lambda_param, maxiter)
     v = optimizer.optimize(v0=np.zeros(feat_manager.get_num_features()))
-    print("Done. Elapsed time:", start_time.process_time() - start_time, "\n")
+    print("Done. Elapsed time:", time.process_time() - start_time, "\n")
     store_parameters_vector(v, 'param_vec.dump')
     
     return v  
@@ -52,13 +53,13 @@ if __name__ == '__main__':
     config = {
         'training_data': "../resources/train.wtag",
         'test_data': "../resources/test.wtag",
-        'feat_threshold': 4,
+        'feat_threshold': 5,
         'viterbi_tags_treshold': 6,
         'use_common_tags': False,
-        'param_vector_mode': 'load', # Options: 'stub', 'learn' or 'load'
+        'param_vector_mode': 'learn', # Options: 'stub', 'learn' or 'load'
         'learning_config': {
-                'lambda_param': 50.0,
-                'maxiter': 10
+                'lambda_param': 70.0,
+                'maxiter': 15
             },
         'param_vector_dump_path': '../resources/param_vector_dumps/baseline/iter11_threshold4/param_vec.dump'
     }
@@ -83,7 +84,7 @@ if __name__ == '__main__':
     v = get_param_vector(config, parser, feat_manager)
     print(v)
     
-    stats = Statistics(parser, v, feat_manager)
-    stats.print_statistics()
+#     stats = Statistics(parser, v, feat_manager)
+#     stats.print_statistics()
     
     print("Done")

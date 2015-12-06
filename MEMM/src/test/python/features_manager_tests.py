@@ -26,7 +26,7 @@ class FeaturesManagerTests(unittest.TestCase):
 #         self.assertEqual(manager.get_num_features(), 5829)
     
     def test_num_features(self):
-        parser = Parser("../resources/features-test.wtag", "../resources/features_test/test_num_featurese.wtag", 6, False)
+        parser = Parser("../resources/features_test/test_num_featurese.wtag", "../resources/test_sample.wtag", 6, False)
         feat_manager = FeaturesManager(sentences=parser.get_sentences(), feat_threshold=1)
         self.assertEqual(feat_manager.get_num_features(), 17)
         
@@ -43,7 +43,7 @@ class FeaturesManagerTests(unittest.TestCase):
         history.set(tm2, tm1, wm1, w, wp1)
         tag = "STUB"
         
-        parser = Parser("../resources/features-test.wtag", "../resources/features_test/test_num_featurese.wtag", 6, False)
+        parser = Parser("../resources/features_test/test_calc_prob.wtag", "../resources/test_sample.wtag", 6, False)
         feat_manager = FeaturesManager(sentences=parser.get_sentences(), feat_threshold=1)
         
         v = np.zeros(feat_manager.get_num_features())
