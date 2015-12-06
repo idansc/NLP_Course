@@ -85,7 +85,7 @@ class AdvancedFeatureTemplate2(FeatureTemplate):
     def eval(self, history, tag):
         if len(history.w) < 3:
             return 0
-        return 1 if self.get_key(history, tag) and history.w[0:3] == "pre" in self.features else 0
+        return 1 if self.get_key(history, tag) and history.w[:3] == "pre" in self.features else 0
 
 class AdvancedFeatureTemplate3(FeatureTemplate):
     '''
