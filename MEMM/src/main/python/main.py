@@ -56,12 +56,12 @@ if __name__ == '__main__':
         'feat_threshold': 5,
         'viterbi_tags_treshold': 6,
         'use_common_tags': False,
-        'param_vector_mode': 'learn', # Options: 'stub', 'learn' or 'load'
+        'param_vector_mode': 'load', # Options: 'stub', 'learn' or 'load'
         'learning_config': {
                 'lambda_param': 70.0,
                 'maxiter': 15
             },
-        'param_vector_dump_path': '../resources/param_vector_dumps/baseline/iter11_threshold4/param_vec.dump'
+        'param_vector_dump_path': '../resources/param_vector_dumps/baseline/iter16_threshold5/param_vec.dump'
     }
     
     print("Beginning parsing...")
@@ -84,7 +84,7 @@ if __name__ == '__main__':
     v = get_param_vector(config, parser, feat_manager)
     print(v)
     
-#     stats = Statistics(parser, v, feat_manager)
-#     stats.print_statistics()
+    stats = Statistics(parser, v, feat_manager)
+    stats.print_statistics()
     
     print("Done")

@@ -8,7 +8,7 @@ def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(DataParserTests))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(FeaturesManagerTests))
-    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(OptimizerTests))
+#     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(OptimizerTests))
     return suite
 
 if __name__ == "__main__":

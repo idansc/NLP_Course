@@ -1,4 +1,5 @@
 from abc import ABCMeta, abstractmethod
+from collections import OrderedDict
 
 class FeatureTemplate(metaclass=ABCMeta):
     '''
@@ -6,7 +7,7 @@ class FeatureTemplate(metaclass=ABCMeta):
     '''
     
     def __init__(self):
-        self.features = {}
+        self.features = OrderedDict()
     
     def add_feature(self, history, tag):
         cnt = self.features.get(self.get_key(history, tag), -1)
@@ -19,7 +20,7 @@ class FeatureTemplate(metaclass=ABCMeta):
         return 1 if self.get_key(history, tag) in self.features else 0
     
     def filter(self, threshold, idx):
-        filtered_features = {}
+        filtered_features = OrderedDict()
         for k, v in self.features.items():
             if v >= threshold:
                 filtered_features[k] = idx
