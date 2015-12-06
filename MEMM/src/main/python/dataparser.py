@@ -91,9 +91,10 @@ class Parser(object):
             if self.use_common_tags == True:
                 all_words = self.get_all_words()
                 thresh_diff = self.viterbi_tags_treshold - len(self.word_tags_dict[w])
-                if thresh_diff > 0:
-                    most_common_tags = [pair[0] for pair in self.count_tags.most_common(thresh_diff)]
-                    self.word_tags_dict[w].update(most_common_tags)
+                for w in all_words:
+                    if thresh_diff > 0:
+                        most_common_tags = [pair[0] for pair in self.count_tags.most_common(thresh_diff)]
+                        self.word_tags_dict[w].update(most_common_tags)
 
 
                 '''
