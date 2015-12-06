@@ -84,18 +84,18 @@ class Optimizer(object):
             denum = utils.calc_prob_denum(self.feat_manager, history, v)
             
             m2 = []
-            for tag in constants.TAGS: 
-#                 if tag in constants.IGNORE_TAGS:
+            for t in constants.TAGS: 
+#                 if t in constants.IGNORE_TAGS:
 #                     continue
                 
-                indices = self.feat_manager.calc_feature_vec(history, tag)
+                indices = self.feat_manager.calc_feature_vec(history, t)
                 if not indices:
                     continue
                 else:
                     curr = np.zeros_like(v)
                     curr[indices] = exp(sum(v[indices])) / denum
                     m2.append(curr)
-
+            
             m1.append(sum(m2)) 
         
         return sum(m1)

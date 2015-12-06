@@ -14,13 +14,12 @@ def calc_prob_denum(feat_manager, history, v):
     return sum(exp(p) for p in res)
 
 def calc_prob(feat_manager, v, history, tag):
-    indices = feat_manager.calc_feature_vec(history, tag)
     denum = calc_prob_denum(feat_manager, history, v)
+    
+    indices = feat_manager.calc_feature_vec(history, tag)
     if not indices:
-        res = 1 / denum
+        res = 1.0 / denum
     else:
-        vec = np.zeros_like(v)
-        vec[indices] = exp(sum(v[indices])) / denum
-        res = sum(vec)
+        res = exp(sum(v[indices])) / denum
     
     return res
