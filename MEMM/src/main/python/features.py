@@ -60,4 +60,54 @@ class BaseFeatureTemplate3(FeatureTemplate):
     
     def get_key(self, history, tag):
         return (history.tm2, history.tm1, tag)
+
+class AdvancedFeatureTemplate1(FeatureTemplate):
+    '''
+    f101
+    '''
+    
+    def get_key(self, history, tag):
+        return tag
+    
+    def eval(self, history, tag):
+        if len(history.w) < 3:
+            return 0
+        return 1 if self.get_key(history, tag) and history.w[-3:-1] == "ing" in self.features else 0
+
+class AdvancedFeatureTemplate2(FeatureTemplate):
+    '''
+    f102
+    '''
+     
+    def get_key(self, history, tag):
+        return tag
+     
+    def eval(self, history, tag):
+        if len(history.w) < 3:
+            return 0
+        return 1 if self.get_key(history, tag) and history.w[0:2] == "pre" in self.features else 0
+
+class AdvancedFeatureTemplate3(FeatureTemplate):
+    '''
+    f105
+    '''
+    
+    def get_key(self, history, tag):
+        return tag
+
+class AdvancedFeatureTemplate4(FeatureTemplate):
+    '''
+    f106
+    '''
+     
+    def get_key(self, history, tag):
+        return (history.wm1, tag)
+
+class AdvancedFeatureTemplate5(FeatureTemplate):
+    '''
+    f107
+    '''
+     
+    def get_key(self, history, tag):
+        return (history.wp1, tag)
         

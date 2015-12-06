@@ -27,15 +27,15 @@ class FeaturesManagerTests(unittest.TestCase):
     
     def test_num_features(self):
         parser = Parser("../resources/features_test/test_num_featurese.wtag", "../resources/test_sample.wtag", 6, False)
-        feat_manager = FeaturesManager(sentences=parser.get_sentences(), feat_threshold=1)
+        feat_manager = FeaturesManager(sentences=parser.get_sentences(), feat_threshold=1, use_advanced_features=False)
         self.assertEqual(feat_manager.get_num_features(), 17)
         
-        feat_manager = FeaturesManager(sentences=parser.get_sentences(), feat_threshold=2)
+        feat_manager = FeaturesManager(sentences=parser.get_sentences(), feat_threshold=2, use_advanced_features=False)
         self.assertEqual(feat_manager.get_num_features(), 1)
     
     def test_calc_feature_vec(self):
         parser = Parser("../resources/features_test/test_calc_feature_vec.wtag", "../resources/test_sample.wtag", 6, False)
-        feat_manager = FeaturesManager(sentences=parser.get_sentences(), feat_threshold=1)
+        feat_manager = FeaturesManager(sentences=parser.get_sentences(), feat_threshold=1, use_advanced_features=False)
         self.assertEqual(feat_manager.get_num_features(), 9)
         
         history = History()
@@ -46,8 +46,7 @@ class FeaturesManagerTests(unittest.TestCase):
         wp1 = constants.END_SYMBOL
         history.set(tm2, tm1, wm1, w, wp1)
         tag = "NN"
-        print(feat_manager.calc_feature_vec(history, tag))
-#         self.assertEqual(, )
+        self.assertEqual(feat_manager.calc_feature_vec(history, tag), [2, 5, 8])
         
     def test_calc_prob(self):
         history = History()
@@ -60,7 +59,7 @@ class FeaturesManagerTests(unittest.TestCase):
         tag = "STUB"
         
         parser = Parser("../resources/features_test/test_calc_prob.wtag", "../resources/test_sample.wtag", 6, False)
-        feat_manager = FeaturesManager(sentences=parser.get_sentences(), feat_threshold=1)
+        feat_manager = FeaturesManager(sentences=parser.get_sentences(), feat_threshold=1, use_advanced_features=False)
         
         v = np.zeros(feat_manager.get_num_features())
         self.assertEqual(utils.calc_prob(feat_manager, v, history, tag), 1 / len(constants.TAGS))
