@@ -57,7 +57,7 @@ class Parser(object):
     def get_all_tags(self):
         tags = set()
         for s in self.sentences:
-            for wt in s:
+            for wt in s[2:-1]:
                 tags.add(wt[1])
         
         return tags
@@ -65,7 +65,7 @@ class Parser(object):
     def get_all_words(self):
         tags = set()
         for s in self.sentences:
-            for wt in s:
+            for wt in s[2:-1]:
                 tags.add(wt[0])
         
         return tags

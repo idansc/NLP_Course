@@ -55,7 +55,7 @@ if __name__ == '__main__':
         'feat_threshold': 4,
         'viterbi_tags_treshold': 6,
         'use_common_tags': False,
-        'param_vector_mode': 'stub', # Options: 'stub', 'learn' or 'load'
+        'param_vector_mode': 'load', # Options: 'stub', 'learn' or 'load'
         'learning_config': {
                 'lambda_param': 50.0,
                 'maxiter': 10
