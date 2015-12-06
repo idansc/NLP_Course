@@ -33,6 +33,7 @@ class Statistics(object):
             for j, wt in enumerate(s_tagged):
                 if wt == ground_truth[j]:
                     hits += 1
+            print("Current Accuracy:", hits / total_words)
             
         print("   **** Statistics ****   ")
         print("Total amount of sentences:", len(self.test_sentences_words_only))

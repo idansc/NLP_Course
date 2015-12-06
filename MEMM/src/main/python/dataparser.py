@@ -90,17 +90,21 @@ class Parser(object):
             # fit the tags to threshold
             if self.use_common_tags == True:
                 all_words = self.get_all_words()
-                most_common_tags_pairs = self.count_tags.most_common(self.viterbi_tags_treshold)
-                most_common_tags = [pair[0] for pair in most_common_tags_pairs]
-                for w in all_words:
+                thresh_diff = self.viterbi_tags_treshold - len(self.word_tags_dict[w])
+                if thresh_diff > 0:
+                    most_common_tags = [pair[0] for pair in self.count_tags.most_common(thresh_diff)]
                     self.word_tags_dict[w].update(most_common_tags)
-                    '''   thresh_diff = self.viterbi_tags_treshold - len(self.word_tags_dict[w])
+
+
+                '''
+                             for w in all_words:
+                    if()
                         while thresh_diff > 0:
                             for tag in self.count_tags.most_common(self.viterbi_tags_treshold):
                                 if tag not in self.word_tags_dict[w]:
                                     thresh_diff-=1
                                     self.word_tags_dict[w].add(tag)
-                    '''
+                '''
 
 
     def get_word_tags(self, w):
