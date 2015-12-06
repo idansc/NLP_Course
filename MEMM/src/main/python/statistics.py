@@ -1,5 +1,6 @@
 
 from inference import Inference
+from collections import Counter
 
 class Statistics(object):
     '''
@@ -18,6 +19,7 @@ class Statistics(object):
         
         total_words = 0
         hits = 0
+        missed_tags = Counter()
         
         for i, s in enumerate(self.test_sentences_words_only):
             tags = self.inference.viterbi(s)
@@ -33,6 +35,8 @@ class Statistics(object):
             for j, wt in enumerate(s_tagged):
                 if wt == ground_truth[j]:
                     hits += 1
+                else:
+                    missed_tags[wt] += 1
             print("Current Accuracy:", hits / total_words)
             
         print("   **** Statistics ****   ")

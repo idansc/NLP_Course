@@ -21,7 +21,7 @@ class Inference:
         pi = {}
         bp = {}
         #init
-        pi[(1, START_SYMBOL, START_SYMBOL)] = log(1 + 1)
+        pi[(1, START_SYMBOL, START_SYMBOL)] = 1
         history = History()
         #algo
         for k in range(2, len(sentence)-1):
@@ -41,7 +41,7 @@ class Inference:
                     key = (k-1,t_tags[t_idx],u_tags[u_idx])
                     prev_pi = pi[key]
 
-                    pi_val= prev_pi + log(q_val+1)
+                    pi_val= prev_pi*q_val
                     pi_vals.append(pi_val)
                 max_index = np.argmax(pi_vals)
                 bp[(k,u_tags[u_idx],v_tags[v_idx])] = t_tags[max_index]
