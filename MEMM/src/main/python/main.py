@@ -40,7 +40,7 @@ def get_param_vector(config, parser, feat_manager):
     elif config['param_vector_mode'] == 'load':
         path_list = config['param_vector_dump_path'].split('/')
         model = path_list [-3]
-        if (model == 'baseline' and config['use_advanced_features'] != False) or (model == 'extended' and config['use_advanced_features'] != True):
+        if (model == 'baseline' and config['use_advanced_features'] != False) or (model == 'advanced' and config['use_advanced_features'] != True):
             raise Exception("Features' model of dump file and Features' model of features extracted from training data must agree")
         dirname = path_list [-2]
         if int(dirname[-1]) != config['feat_threshold']:

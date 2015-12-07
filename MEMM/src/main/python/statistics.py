@@ -46,10 +46,9 @@ class Statistics(object):
                     if wt == ground_truth[j]:
                         hits_unknown_words += 1
                     total_unknown_words +=1
-            print("Current Accuracy:", hits / total_words)
-            print("Current Unknown Words Accuracy:", hits_unknown_words / total_unknown_words)
-            
-        print("   **** Statistics ****   ")
+            print("Sentence No.", i, " ; Current Accuracy:", hits / total_words, " ; Current Unknown Words Accuracy:", hits_unknown_words / total_unknown_words)
+        
+        print("\n   **** Statistics ****   \n")
         print("Total amount of sentences:", len(self.test_sentences_words_only))
         print("Total amount of words:", total_words)
         print("Total amount of hits:", hits)
