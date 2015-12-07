@@ -48,5 +48,8 @@ class FeaturesManager(object):
                 AdvancedFeatureTemplate3(),
                 AdvancedFeatureTemplate4(),
                 AdvancedFeatureTemplate5()
+#                 ,
+#                 AdvancedFeatureTemplate6(),
+#                 AdvancedFeatureTemplate7()
             ]
         pass

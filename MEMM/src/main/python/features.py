@@ -42,6 +42,7 @@ class BaseFeatureTemplate1(FeatureTemplate):
     '''
     
     def get_key(self, history, tag):
+#         return (history.w.lower(), tag)
         return (history.w, tag)
 
 class BaseFeatureTemplate2(FeatureTemplate):
@@ -88,9 +89,11 @@ class AdvancedFeatureTemplate2(FeatureTemplate):
         self.n = n
          
     def get_key(self, history, tag):
+#         return (tag, history.w[:self.n].lower())
         return (tag, history.w[:self.n])
      
     def eval(self, history, tag):
+#         return 1 if (self.get_key(history, tag) in self.features) and (history.w[:self.n].lower() in self.prefixes) else 0
         return 1 if (self.get_key(history, tag) in self.features) and (history.w[:self.n] in self.prefixes) else 0
     
 class AdvancedFeatureTemplate3(FeatureTemplate):
@@ -116,4 +119,25 @@ class AdvancedFeatureTemplate5(FeatureTemplate):
      
     def get_key(self, history, tag):
         return (history.wp1, tag)
-        
+
+class AdvancedFeatureTemplate6(FeatureTemplate):
+    '''
+    w_i contains a number and t_i = T
+    '''
+     
+    def get_key(self, history, tag):
+        return (tag, history.w.lower())
+     
+    def eval(self, history, tag):
+        return 1 if (self.get_key(history, tag) in self.features) and (any(char.isdigit() for char in history.w)) else 0
+    
+class AdvancedFeatureTemplate7(FeatureTemplate):
+    '''
+    w_i contains an uppercase character and t_i = T
+    '''
+     
+    def get_key(self, history, tag):
+        return (tag, history.w.lower())
+     
+    def eval(self, history, tag):
+        return 1 if (self.get_key(history, tag) in self.features) and (any(char.isupper() for char in history.w)) else 0       
