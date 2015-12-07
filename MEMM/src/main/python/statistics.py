@@ -40,17 +40,15 @@ class Statistics(object):
             for j, wt in enumerate(s_tagged):
                 if wt == ground_truth[j]:
                     hits += 1
-            print("Sentence No.", i, " ; Current accuracy:", hits / total_words)
                 else:
                     missed_tags[wt] += 1
                 if not self.parser.is_word_known(actual_s[j]):
                     if wt == ground_truth[j]:
                         hits_unknown_words += 1
                     total_unknown_words +=1
-            print("Current Accuracy:", hits / total_words)
-            print("Current Unknown Words Accuracy:", hits_unknown_words / total_unknown_words)
-            
-        print("   **** Statistics ****   ")
+            print("Sentence No.", i, " ; Current Accuracy:", hits / total_words, " ; Current Unknown Words Accuracy:", hits_unknown_words / total_unknown_words)
+        
+        print("\n   **** Statistics ****   \n")
         print("Total amount of sentences:", len(self.test_sentences_words_only))
         print("Total amount of words:", total_words)
         print("Total amount of hits:", hits)
