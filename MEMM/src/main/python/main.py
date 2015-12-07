@@ -65,7 +65,7 @@ if __name__ == '__main__':
                 'lambda_param': 70.0,
                 'maxiter': 12
             },
-        'param_vector_dump_path': '../resources/param_vector_dumps/advanced/iter16_threshold5/param_vec.dump'
+        'param_vector_dump_path': '../resources/param_vector_dumps/advanced/iter13_threshold8/param_vec.dump'
     }
     
     print("Beginning parsing...")
