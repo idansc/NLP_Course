@@ -86,10 +86,10 @@ if __name__ == '__main__':
     print("Number of features:", feat_manager.get_num_features(), "\n")
     
     v = get_param_vector(config, parser, feat_manager)
-    print(v)
+    print(v, "\n")
     
-    print("Extracting result from test data...")
+    print("Extracting results from test data...")
     start_time = time.process_time()
     stats = Statistics(parser, v, feat_manager)
     stats.print_statistics()    
-    print("Done. Elapsed time:", time.process_time() - start_time)
+    print("Done extracting results from test data. Elapsed time:", time.process_time() - start_time)
