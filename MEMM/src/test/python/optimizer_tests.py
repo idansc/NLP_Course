@@ -15,10 +15,10 @@ class OptimizerTests(unittest.TestCase):
         
     def test_param_vector(self):
         parser = Parser("../resources/optimizer_test/test_param_vector.wtag", "../resources/test_sample.wtag", 6, False)
-        feat_manager = FeaturesManager(sentences=parser.get_sentences(), feat_threshold=1)
+        feat_manager = FeaturesManager(parser, feat_threshold=1)
         self.assertEqual(feat_manager.get_num_features(), 17)
         
-        optimizer = Optimizer(parser.get_sentences(), parser.get_num_words(), feat_manager,
+        optimizer = Optimizer(parser, parser.get_num_words(), feat_manager,
                           lambda_param=50.0, maxiter=50)
         v = optimizer.optimize(v0=np.zeros(feat_manager.get_num_features()))
         print(v)

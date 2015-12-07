@@ -56,12 +56,11 @@ if __name__ == '__main__':
     config = {
         'training_data': "../resources/train.wtag",
         'test_data': "../resources/test.wtag",
-        'comp_data': "../resources/comp.words",
-        'feat_threshold': 5,
+        'feat_threshold': 8,
         'viterbi_tags_treshold': 30,
         'use_advanced_features': False,
         'use_common_tags': False,
-        'param_vector_mode': 'load', # Options: 'stub', 'learn' or 'load'
+        'param_vector_mode': 'learn', # Options: 'stub', 'learn' or 'load'
         'learning_config': {
                 'lambda_param': 70.0,
                 'maxiter': 15,
@@ -81,7 +80,7 @@ if __name__ == '__main__':
     
     print("Generating features...")
     start_time = time.process_time()
-    feat_manager = FeaturesManager(parser.get_sentences(), config['feat_threshold'], config['use_advanced_features'])
+    feat_manager = FeaturesManager(parser, config['feat_threshold'], config['use_advanced_features'])
     print("Done. Elapsed time:", time.process_time() - start_time)
     
     num_features = feat_manager.get_num_features()
@@ -91,12 +90,13 @@ if __name__ == '__main__':
     print("Number of features:", feat_manager.get_num_features(), "\n")
     
     v = get_param_vector(config, parser, feat_manager)
-    print(v)
+    print(v, "\n")
     
-    print("Extracting result from test data...")
+    print("Extracting results from test data...")
     start_time = time.process_time()
     stats = Statistics(parser, v, feat_manager,config)
     stats.print_statistics()    
+    print("Done extracting results from test data. Elapsed time:", time.process_time() - start_time)
     print("Done. Elapsed time:", time.process_time() - start_time)
 
 
