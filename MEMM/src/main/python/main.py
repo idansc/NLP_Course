@@ -24,8 +24,8 @@ def store_parameters_vector(v, path):
 def learn_parameters_vector(parser, feat_manager, config):
     print("Optimizing...")
     start_time = time.process_time() 
-    optimizer = Optimizer(parser.get_sentences(), parser.get_num_words(), feat_manager,
-                          config['lambda_param'], config['maxiter'])
+    optimizer = Optimizer(parser, feat_manager,
+                          config['lambda_param'], config['maxiter'], config['specific_words_tag'])
     v = optimizer.optimize(v0=np.zeros(feat_manager.get_num_features()))
     print("Done. Elapsed time:", time.process_time() - start_time, "\n")
     store_parameters_vector(v, 'param_vec.dump')
@@ -56,21 +56,26 @@ if __name__ == '__main__':
     config = {
         'training_data': "../resources/train.wtag",
         'test_data': "../resources/test.wtag",
+        'comp_data': "../resources/comp.words",
         'feat_threshold': 5,
-        'viterbi_tags_treshold': 20,
+        'viterbi_tags_treshold': 30,
         'use_advanced_features': False,
         'use_common_tags': False,
         'param_vector_mode': 'load', # Options: 'stub', 'learn' or 'load'
         'learning_config': {
                 'lambda_param': 70.0,
-                'maxiter': 12
+                'maxiter': 16,
+                'specific_words_tag': False
             },
-        'param_vector_dump_path': '../resources/param_vector_dumps/baseline/iter16_threshold5/param_vec.dump'
+        'param_vector_dump_path': '../resources/param_vector_dumps/baseline/iter16_threshold5/param_vec.dump',
+        'specific_words_tag': True,
+        'confusion_matrix_print': False,
+        'competition': True
     }
     
     print("Beginning parsing...")
     start_time = time.process_time()
-    parser = Parser(config['training_data'], config['test_data'],
+    parser = Parser(config['training_data'], config['test_data'], config['comp_data'],
                     config['viterbi_tags_treshold'], config['use_common_tags'])
     print("Done. Elapsed time:", time.process_time() - start_time, "\n")
     
@@ -90,6 +95,6 @@ if __name__ == '__main__':
     
     print("Extracting results from test data...")
     start_time = time.process_time()
-    stats = Statistics(parser, v, feat_manager)
+    stats = Statistics(parser, v, feat_manager, config)
     stats.print_statistics()    
     print("Done extracting results from test data. Elapsed time:", time.process_time() - start_time)

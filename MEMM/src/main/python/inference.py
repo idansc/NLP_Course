@@ -13,6 +13,8 @@ class Inference:
         self.feat_manager = feat_manager
 
     def s_k(self,w):
+        if any(char.isdigit() for char in w):
+            return ['CD']
         if w in IGNORE_WORDS:
             return [w]
         return list(self.parser.get_word_tags(w))

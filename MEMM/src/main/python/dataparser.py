@@ -12,9 +12,10 @@ class Parser(object):
     START_TUPLE = (START_SYMBOL, START_SYMBOL)
     END_TUPLE = (END_SYMBOL, END_SYMBOL)
     
-    def __init__(self, training_data_path, test_data_path, viterbi_tags_treshold, use_common_tags):
+    def __init__(self, training_data_path, test_data_path, comp_data_path, viterbi_tags_treshold, use_common_tags):
         self.sentences = []
         self.test_sentences = []
+        self.comp_sentences = []
         self.parse_training(training_data_path)
         self.viterbi_tags_treshold = viterbi_tags_treshold
         self.use_common_tags = use_common_tags
@@ -23,6 +24,8 @@ class Parser(object):
         self.word_tags_dict = defaultdict(set)
         self.most_common_tags = []
         self.init_word_tags()
+        self.comp_sentences = []
+        self.parse_comp(comp_data_path)
 
 
     def parse_training(self,filepath):
@@ -49,7 +52,19 @@ class Parser(object):
                     + [tuple(w.split('_')) for w in line.split(' ')] \
                     + [self.END_TUPLE]
                 self.test_sentences.append(sentence)
+
+    def parse_comp(self, test_comp_path):
+        with open(test_comp_path, 'r') as comp_file:
+            for line in comp_file:
+                line = line.strip()
+                sentence = [START_SYMBOL, START_SYMBOL] \
+                    + line.split(' ') \
+                    + [END_SYMBOL]
+                self.comp_sentences.append(sentence)
         
+    def get_comp_sentences(self):
+        return self.comp_sentences
+
     def get_test_sentences(self):
         return self.test_sentences
 
