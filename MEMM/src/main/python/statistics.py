@@ -10,15 +10,20 @@ class Statistics(object):
     def __init__(self, parser, v, feat_manager):
         self.test_sentences = parser.get_test_sentences()
         self.inference = Inference(parser, v, feat_manager)
-        
+        self.parser = parser
+
         self.test_sentences_words_only = []
         for s in parser.get_test_sentences():
             self.test_sentences_words_only.append([wt[0] for wt in s])
         
     def print_statistics(self):
-        
+
+        total_unknown_words = 0
+        hits_unknown_words = 0
+
         total_words = 0
         hits = 0
+
         missed_tags = Counter()
         
         for i, s in enumerate(self.test_sentences_words_only):
@@ -37,10 +42,19 @@ class Statistics(object):
                     hits += 1
                 else:
                     missed_tags[wt] += 1
+                if not self.parser.is_word_known(actual_s[j]):
+                    if wt == ground_truth[j]:
+                        hits_unknown_words += 1
+                    total_unknown_words +=1
             print("Current Accuracy:", hits / total_words)
+            print("Current Unknown Words Accuracy:", hits_unknown_words / total_unknown_words)
             
         print("   **** Statistics ****   ")
         print("Total amount of sentences:", len(self.test_sentences_words_only))
         print("Total amount of words:", total_words)
         print("Total amount of hits:", hits)
         print("Accuracy:", hits / total_words)
+        print("Total amount of unknown words:", total_words)
+        print("Total amount of unknown words hits:", hits_unknown_words)
+        print("Unknown Words accuracy:", hits / total_words)
+

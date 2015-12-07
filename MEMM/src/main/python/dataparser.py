@@ -113,4 +113,6 @@ class Parser(object):
         #returns the tags for a word, the default for unknown word is top tags.
         #return self.word_tags_dict.get(w,self.count_tags.most_common(self.viterbi_tags_treshold))
         return self.word_tags_dict.get(w, self.most_common_tags)
-        
+
+    def is_word_known(self, w):
+        return w in self.word_tags_dict
