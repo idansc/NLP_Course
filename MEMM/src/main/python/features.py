@@ -63,30 +63,36 @@ class BaseFeatureTemplate3(FeatureTemplate):
 
 class AdvancedFeatureTemplate1(FeatureTemplate):
     '''
-    f101
+    f101. Suffixes of length n
     '''
     
+    def __init__(self, suffixes, n):
+        super().__init__()
+        self.suffixes = suffixes
+        self.n = n
+    
     def get_key(self, history, tag):
-        return tag
+        return (tag, history.w[-self.n:])
     
     def eval(self, history, tag):
-        if len(history.w) < 3:
-            return 0
-        return 1 if (self.get_key(history, tag) in self.features) and (history.w[-3:] == "ing") else 0
-
+        return 1 if (self.get_key(history, tag) in self.features) and (history.w[-self.n:] in self.suffixes) else 0
+    
 class AdvancedFeatureTemplate2(FeatureTemplate):
     '''
-    f102
+    f102. Prefixes of length n
     '''
-     
+    
+    def __init__(self, prefixes, n):
+        super().__init__()
+        self.prefixes = prefixes
+        self.n = n
+         
     def get_key(self, history, tag):
-        return tag
+        return (tag, history.w[:self.n])
      
     def eval(self, history, tag):
-        if len(history.w) < 3:
-            return 0
-        return 1 if (self.get_key(history, tag) in self.features) and (history.w[:3] == "pre") else 0
-
+        return 1 if (self.get_key(history, tag) in self.features) and (history.w[:self.n] in self.prefixes) else 0
+    
 class AdvancedFeatureTemplate3(FeatureTemplate):
     '''
     f105

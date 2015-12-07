@@ -16,26 +16,26 @@ class FeaturesManagerTests(unittest.TestCase):
 #     def test_num_of_features(self):
 #         parser = Parser("../resources/train.wtag", "../resources/test_sample.wtag", 6, False)
 #         
-#         manager = FeaturesManager(sentences=parser.get_sentences(), feat_threshold=1)
+#         manager = FeaturesManager(parser, feat_threshold=1)
 #         self.assertEqual(manager.get_num_features(), 24625)
 #         
-#         manager = FeaturesManager(sentences=parser.get_sentences(), feat_threshold=2)
+#         manager = FeaturesManager(parser, feat_threshold=2)
 #         self.assertEqual(manager.get_num_features(), 13311)
 #         
-#         manager = FeaturesManager(sentences=parser.get_sentences(), feat_threshold=6)
+#         manager = FeaturesManager(parser, feat_threshold=6)
 #         self.assertEqual(manager.get_num_features(), 5829)
     
     def test_num_features(self):
         parser = Parser("../resources/features_test/test_num_featurese.wtag", "../resources/test_sample.wtag", 6, False)
-        feat_manager = FeaturesManager(sentences=parser.get_sentences(), feat_threshold=1, use_advanced_features=False)
+        feat_manager = FeaturesManager(parser, feat_threshold=1, use_advanced_features=False)
         self.assertEqual(feat_manager.get_num_features(), 17)
         
-        feat_manager = FeaturesManager(sentences=parser.get_sentences(), feat_threshold=2, use_advanced_features=False)
+        feat_manager = FeaturesManager(parser, feat_threshold=2, use_advanced_features=False)
         self.assertEqual(feat_manager.get_num_features(), 1)
     
     def test_calc_feature_vec(self):
         parser = Parser("../resources/features_test/test_calc_feature_vec.wtag", "../resources/test_sample.wtag", 6, False)
-        feat_manager = FeaturesManager(sentences=parser.get_sentences(), feat_threshold=1, use_advanced_features=False)
+        feat_manager = FeaturesManager(parser, feat_threshold=1, use_advanced_features=False)
         self.assertEqual(feat_manager.get_num_features(), 9)
         
         history = History()
@@ -59,7 +59,7 @@ class FeaturesManagerTests(unittest.TestCase):
         tag = "STUB"
         
         parser = Parser("../resources/features_test/test_calc_prob.wtag", "../resources/test_sample.wtag", 6, False)
-        feat_manager = FeaturesManager(sentences=parser.get_sentences(), feat_threshold=1, use_advanced_features=False)
+        feat_manager = FeaturesManager(parser, feat_threshold=1, use_advanced_features=False)
         
         v = np.zeros(feat_manager.get_num_features())
         self.assertEqual(utils.calc_prob(feat_manager, v, history, tag), 1 / len(constants.TAGS))
@@ -75,6 +75,16 @@ class FeaturesManagerTests(unittest.TestCase):
 
         v = np.ones(feat_manager.get_num_features())
         self.assertEqual(utils.calc_prob(feat_manager, v, history, tag), exp(3) / (len(constants.TAGS) - 1.0 + exp(3)))
+    
+    def test_suffixes_features(self):
+        parser = Parser("../resources/features_test/test_suffixes_features.wtag", "../resources/test_sample.wtag", 6, False)
+        feat_manager = FeaturesManager(parser, feat_threshold=2, use_advanced_features=True)
+        self.assertEqual(feat_manager.get_num_features(), 2)
+
+    def test_prefixes_features(self):
+        parser = Parser("../resources/features_test/test_prefixes_features.wtag", "../resources/test_sample.wtag", 6, False)
+        feat_manager = FeaturesManager(parser, feat_threshold=2, use_advanced_features=True)
+        self.assertEqual(feat_manager.get_num_features(), 2)
 
 if __name__ == "__main__":
     unittest.main()

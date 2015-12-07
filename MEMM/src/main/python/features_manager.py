@@ -6,12 +6,12 @@ class FeaturesManager(object):
     Generates set of features out of a given training data
     '''
 
-    def __init__(self, sentences, feat_threshold, use_advanced_features):
+    def __init__(self, parser, feat_threshold, use_advanced_features):
         self.feature_templates = [BaseFeatureTemplate1(), BaseFeatureTemplate2(), BaseFeatureTemplate3()]
         if use_advanced_features == True:
-            self.feature_templates += [AdvancedFeatureTemplate1(), AdvancedFeatureTemplate2(), AdvancedFeatureTemplate3(), AdvancedFeatureTemplate4(), AdvancedFeatureTemplate5()]
+            self.addAdvancedFeatureTemplates(parser, feat_threshold)
         history = History()
-        for s in sentences:  
+        for s in parser.get_sentences():  
             for i,(word,tag) in enumerate(s[2:-1]):
 #                 if word in [constants.START_SYMBOL, constants.END_SYMBOL, constants.DOT]:
 #                     continue
@@ -35,3 +35,18 @@ class FeaturesManager(object):
     def get_num_features(self):
         return sum(len(t.features) for t in self.feature_templates)
     
+    def addAdvancedFeatureTemplates(self, parser, feat_threshold):
+        self.feature_templates += [
+                AdvancedFeatureTemplate1(parser.get_suffixes(1, feat_threshold), 1),
+                AdvancedFeatureTemplate1(parser.get_suffixes(2, feat_threshold), 2),
+                AdvancedFeatureTemplate1(parser.get_suffixes(3, feat_threshold), 3),
+                AdvancedFeatureTemplate1(parser.get_suffixes(4, feat_threshold), 4),
+                AdvancedFeatureTemplate2(parser.get_prefixes(1, feat_threshold), 1),
+                AdvancedFeatureTemplate2(parser.get_prefixes(2, feat_threshold), 2),
+                AdvancedFeatureTemplate2(parser.get_prefixes(3, feat_threshold), 3),
+                AdvancedFeatureTemplate2(parser.get_prefixes(4, feat_threshold), 4),
+                AdvancedFeatureTemplate3(),
+                AdvancedFeatureTemplate4(),
+                AdvancedFeatureTemplate5()
+            ]
+        pass

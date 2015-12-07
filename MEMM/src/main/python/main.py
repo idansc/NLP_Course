@@ -54,8 +54,8 @@ def get_param_vector(config, parser, feat_manager):
     
 if __name__ == '__main__':
     config = {
-        'training_data': "../resources/train.wtag",
-        'test_data': "../resources/test.wtag",
+        'training_data': "../resources/train_sample.wtag",
+        'test_data': "../resources/test_sample.wtag",
         'feat_threshold': 5,
         'viterbi_tags_treshold': 30,
         'use_advanced_features': True,
@@ -76,7 +76,7 @@ if __name__ == '__main__':
     
     print("Generating features...")
     start_time = time.process_time()
-    feat_manager = FeaturesManager(parser.get_sentences(), config['feat_threshold'], config['use_advanced_features'])
+    feat_manager = FeaturesManager(parser, config['feat_threshold'], config['use_advanced_features'])
     print("Done. Elapsed time:", time.process_time() - start_time)
     
     num_features = feat_manager.get_num_features()

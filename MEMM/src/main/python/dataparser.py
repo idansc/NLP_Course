@@ -1,6 +1,6 @@
 import sys
 
-from constants import START_SYMBOL, END_SYMBOL, TAGS, IGNORE_WORDS, IGNORE_TAGS, ACTUAL_TAGS
+from constants import START_SYMBOL, END_SYMBOL, IGNORE_WORDS, IGNORE_TAGS
 from collections import defaultdict
 from collections import Counter
 
@@ -116,3 +116,18 @@ class Parser(object):
 
     def is_word_known(self, w):
         return w in self.word_tags_dict
+    
+    def get_prefixes(self, n, threshold):
+        prefixes = Counter()
+        for sentence in self.sentences:
+            prefixes.update([wt[0][:n] for wt in sentence[2:-1] if len(wt[0]) >= n])
+        
+        return {pair[0] for pair in prefixes.items() if pair[1] >= threshold}
+    
+    def get_suffixes(self, n, threshold):
+        suffixes = Counter()
+        for sentence in self.sentences:
+            suffixes.update([wt[0][-n:] for wt in sentence[2:-1] if len(wt[0]) >= n])
+        
+        return {pair[0] for pair in suffixes.items() if pair[1] >= threshold}
+        
