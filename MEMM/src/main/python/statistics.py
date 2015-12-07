@@ -53,7 +53,7 @@ class Statistics(object):
         print("Total amount of words:", total_words)
         print("Total amount of hits:", hits)
         print("Accuracy:", hits / total_words)
-        print("Total amount of unknown words:", total_words)
+        print("Total amount of unknown words:", total_unknown_words)
         print("Total amount of unknown words hits:", hits_unknown_words)
         print("Unknown Words accuracy:", hits_unknown_words / total_unknown_words)
 
