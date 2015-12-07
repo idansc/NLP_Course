@@ -17,13 +17,15 @@ class Optimizer(object):
     Optimizes the parameters of MEMM for a given set of features.
     '''
 
-    def __init__(self, sentences, num_words, feat_manager, lambda_param, maxiter):
+    def __init__(self, parser, feat_manager, lambda_param, maxiter, specific_words_tag):
         self.lambda_param = lambda_param
-        self.n = num_words
+        self.n = parser.get_num_words()
         self.m = feat_manager.get_num_features()
-        self.sentences = sentences
+        self.sentences = parser.get_sentences()
         self.feat_manager = feat_manager
         self.maxiter = maxiter
+        self.parser = parser
+        self.specific_words_tag = specific_words_tag
 
         self.feat_metrix = self.clac_features_matrix()
         self.term1_of_loss_function_der = sum(self.feat_metrix)
@@ -78,8 +80,11 @@ class Optimizer(object):
             wm1 = sentence[i-1][0]
             wp1 = sentence[i+1][0]
             history.set(tm2, tm1, wm1, w, wp1)
-            
-            denum = utils.calc_prob_denum(self.feat_manager, history, v)
+
+            if self.specific_words_tag:
+                denum = utils.calc_prob_denum_most_common(self.feat_manager, history, v, self.parser)
+            else:
+                denum = utils.calc_prob_denum(self.feat_manager, history, v)
             
             m2 = []
             for t in constants.TAGS: 

@@ -24,8 +24,8 @@ def store_parameters_vector(v, path):
 def learn_parameters_vector(parser, feat_manager, config):
     print("Optimizing...")
     start_time = time.process_time() 
-    optimizer = Optimizer(parser.get_sentences(), parser.get_num_words(), feat_manager,
-                          config['lambda_param'], config['maxiter'])
+    optimizer = Optimizer(parser, feat_manager,
+                          config['lambda_param'], config['maxiter'], config['specific_words_tag'])
     v = optimizer.optimize(v0=np.zeros(feat_manager.get_num_features()))
     print("Done. Elapsed time:", time.process_time() - start_time, "\n")
     store_parameters_vector(v, 'param_vec.dump')
@@ -57,15 +57,17 @@ if __name__ == '__main__':
         'training_data': "../resources/train.wtag",
         'test_data': "../resources/test.wtag",
         'feat_threshold': 5,
-        'viterbi_tags_treshold': 30,
-        'use_advanced_features': True,
+        'viterbi_tags_treshold': 10,
+        'use_advanced_features': False,
         'use_common_tags': False,
         'param_vector_mode': 'load', # Options: 'stub', 'learn' or 'load'
         'learning_config': {
                 'lambda_param': 70.0,
-                'maxiter': 15
+                'maxiter': 15,
+                'specific_words_tag': False
             },
-        'param_vector_dump_path': '../resources/param_vector_dumps/advanced/iter16_threshold5/param_vec.dump'
+        'param_vector_dump_path': '../resources/param_vector_dumps/baseline/iter16_threshold5/param_vec.dump',
+        'specific_words_tag': True
     }
     
     print("Beginning parsing...")

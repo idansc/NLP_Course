@@ -25,6 +25,7 @@ class Statistics(object):
         hits = 0
 
         missed_tags = Counter()
+        predicted = Counter()
         
         for i, s in enumerate(self.test_sentences_words_only):
             tags = self.inference.viterbi(s)
@@ -41,8 +42,9 @@ class Statistics(object):
                 if wt == ground_truth[j]:
                     hits += 1
                 else:
-                    missed_tags[wt] += 1
-                if not self.parser.is_word_known(actual_s[j]):
+                    missed_tags[ground_truth[j][1]] += 1
+                predicted[(ground_truth[j][1], wt[1])]+=1
+                if not self.parser.is_word_known(wt[0]):
                     if wt == ground_truth[j]:
                         hits_unknown_words += 1
                     total_unknown_words +=1
@@ -56,4 +58,11 @@ class Statistics(object):
         print("Total amount of unknown words:", total_unknown_words)
         print("Total amount of unknown words hits:", hits_unknown_words)
         print("Unknown Words accuracy:", hits_unknown_words / total_unknown_words)
-
+        print("\n ****Most missed tags**** \n")
+'''
+        most_missed_tags = [pairs[0] for pairs in missed_tags.most_common(10)]
+        print(missed_tags.most_common(10))
+        for tag1 in most_missed_tags:
+            for tag2 in most_missed_tags:
+                print("Actual: ", tag1, "Predict:", tag2, "amount of times:", predicted.get((tag1,tag2),0))
+'''
