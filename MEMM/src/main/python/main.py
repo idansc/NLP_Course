@@ -57,7 +57,7 @@ if __name__ == '__main__':
         'training_data': "../resources/train.wtag",
         'test_data': "../resources/test.wtag",
         'feat_threshold': 5,
-        'viterbi_tags_treshold': 20,
+        'viterbi_tags_treshold': 30,
         'use_advanced_features': True,
         'use_common_tags': False,
         'param_vector_mode': 'load', # Options: 'stub', 'learn' or 'load'
