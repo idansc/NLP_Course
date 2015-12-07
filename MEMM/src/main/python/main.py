@@ -57,15 +57,15 @@ if __name__ == '__main__':
         'training_data': "../resources/train.wtag",
         'test_data': "../resources/test.wtag",
         'feat_threshold': 5,
-        'viterbi_tags_treshold': 6,
+        'viterbi_tags_treshold': 20,
         'use_advanced_features': True,
         'use_common_tags': False,
-        'param_vector_mode': 'learn', # Options: 'stub', 'learn' or 'load'
+        'param_vector_mode': 'load', # Options: 'stub', 'learn' or 'load'
         'learning_config': {
                 'lambda_param': 70.0,
                 'maxiter': 15
             },
-        'param_vector_dump_path': '../resources/param_vector_dumps/baseline/iter16_threshold5/param_vec.dump'
+        'param_vector_dump_path': '../resources/param_vector_dumps/advanced/iter16_threshold5/param_vec.dump'
     }
     
     print("Beginning parsing...")

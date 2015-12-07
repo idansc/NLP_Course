@@ -21,7 +21,9 @@ class Parser(object):
         self.parse_test(test_data_path)
         self.count_tags = Counter()
         self.word_tags_dict = defaultdict(set)
+        self.most_common_tags = []
         self.init_word_tags()
+
 
     def parse_training(self,filepath):
         with open(filepath, 'r') as datafile:
@@ -79,6 +81,7 @@ class Parser(object):
                 if t in IGNORE_TAGS:
                     continue
                 self.count_tags[t]+=1
+        self.most_common_tags = [pair[0] for pair in self.count_tags.most_common(self.viterbi_tags_treshold)]
 
     def init_word_tags(self):
         self.init_common_tags()
@@ -91,9 +94,9 @@ class Parser(object):
             if self.use_common_tags == True:
                 all_words = self.get_all_words()
                 thresh_diff = self.viterbi_tags_treshold - len(self.word_tags_dict[w])
-                if thresh_diff > 0:
-                    most_common_tags = [pair[0] for pair in self.count_tags.most_common(thresh_diff)]
-                    self.word_tags_dict[w].update(most_common_tags)
+                for w in all_words:
+                    if thresh_diff > 0:
+                        self.word_tags_dict[w].update(self.most_common_tags[:thresh_diff])
 
 
                 '''
@@ -106,9 +109,10 @@ class Parser(object):
                                     self.word_tags_dict[w].add(tag)
                 '''
 
-
     def get_word_tags(self, w):
         #returns the tags for a word, the default for unknown word is top tags.
         #return self.word_tags_dict.get(w,self.count_tags.most_common(self.viterbi_tags_treshold))
-        return self.word_tags_dict.get(w, ACTUAL_TAGS)
-        
+        return self.word_tags_dict.get(w, self.most_common_tags)
+
+    def is_word_known(self, w):
+        return w in self.word_tags_dict
