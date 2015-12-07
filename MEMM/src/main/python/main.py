@@ -54,16 +54,16 @@ def get_param_vector(config, parser, feat_manager):
     
 if __name__ == '__main__':
     config = {
-        'training_data': "../resources/train_sample.wtag",
-        'test_data': "../resources/test_sample.wtag",
-        'feat_threshold': 5,
+        'training_data': "../resources/train.wtag",
+        'test_data': "../resources/test.wtag",
+        'feat_threshold': 8,
         'viterbi_tags_treshold': 30,
         'use_advanced_features': True,
         'use_common_tags': False,
-        'param_vector_mode': 'load', # Options: 'stub', 'learn' or 'load'
+        'param_vector_mode': 'learn', # Options: 'stub', 'learn' or 'load'
         'learning_config': {
                 'lambda_param': 70.0,
-                'maxiter': 15
+                'maxiter': 12
             },
         'param_vector_dump_path': '../resources/param_vector_dumps/advanced/iter16_threshold5/param_vec.dump'
     }
