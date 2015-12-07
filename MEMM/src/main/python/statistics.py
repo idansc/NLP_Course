@@ -35,7 +35,8 @@ class Statistics(object):
                 tagged_sentence = []
                 for j in range(len(actual_s)):
                     tagged_sentence.append(actual_s[j]+"_"+tags[j])
-                print(" ".join(tagged_sentence))
+                with open("result.txt", "w") as f:
+	                f.write(" ".join(tagged_sentence))
 
         else:
             for i, s in enumerate(self.test_sentences_words_only):
