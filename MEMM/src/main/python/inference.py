@@ -12,7 +12,7 @@ class Inference:
         self.v = v
         self.feat_manager = feat_manager
 
-    def s_k(self,w):
+    def s_k(self,w,tm1=''):
         if any(char.isdigit() for char in w):
             return ['CD']
         if w in IGNORE_WORDS:
@@ -29,7 +29,7 @@ class Inference:
         for k in range(2, len(sentence)-1):
             t_tags = self.s_k(sentence[k-2])
             u_tags = self.s_k(sentence[k-1])
-            v_tags = self.s_k(sentence[k])
+            v_tags = self.s_k(sentence[k],sentence[k-1])
             for u_idx, v_idx in product(range(len(u_tags)), range(len(v_tags))):
                 pi_vals = []
                 for t_idx in range(len(t_tags)):

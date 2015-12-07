@@ -56,8 +56,9 @@ if __name__ == '__main__':
     config = {
         'training_data': "../resources/train.wtag",
         'test_data': "../resources/test.wtag",
+        'comp_data': "../resources/comp.words",
         'feat_threshold': 5,
-        'viterbi_tags_treshold': 10,
+        'viterbi_tags_treshold': 30,
         'use_advanced_features': False,
         'use_common_tags': False,
         'param_vector_mode': 'load', # Options: 'stub', 'learn' or 'load'
@@ -67,12 +68,14 @@ if __name__ == '__main__':
                 'specific_words_tag': False
             },
         'param_vector_dump_path': '../resources/param_vector_dumps/baseline/iter16_threshold5/param_vec.dump',
-        'specific_words_tag': True
+        'specific_words_tag': True,
+        'confusion_matrix_print': False,
+        'competition': True
     }
     
     print("Beginning parsing...")
     start_time = time.process_time()
-    parser = Parser(config['training_data'], config['test_data'],
+    parser = Parser(config['training_data'], config['test_data'], config['comp_data'],
                     config['viterbi_tags_treshold'], config['use_common_tags'])
     print("Done. Elapsed time:", time.process_time() - start_time, "\n")
     
@@ -92,6 +95,9 @@ if __name__ == '__main__':
     
     print("Extracting result from test data...")
     start_time = time.process_time()
-    stats = Statistics(parser, v, feat_manager)
+    stats = Statistics(parser, v, feat_manager,config)
     stats.print_statistics()    
     print("Done. Elapsed time:", time.process_time() - start_time)
+
+
+
