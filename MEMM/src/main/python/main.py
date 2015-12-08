@@ -67,7 +67,8 @@ if __name__ == '__main__':
                 'maxiter': 16,
                 'specific_words_tag': False
             },
-        'param_vector_dump_path': '../resources/param_vector_dumps/baseline/iter16_threshold5/param_vec.dump',
+        'param_vector_dump_path': '../resources/param_vector_dumps/advanced/iter13_threshold8/param_vec.dump',
+
         'confusion_matrix_print': False,
         'competition': False
     }
