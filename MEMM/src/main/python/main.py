@@ -64,11 +64,11 @@ if __name__ == '__main__':
         'param_vector_mode': 'load', # Options: 'stub', 'learn' or 'load'
         'learning_config': {
                 'lambda_param': 70.0,
-                'maxiter': 16,
+                'maxiter': 15,
                 'specific_words_tag': False
             },
         'param_vector_dump_path': '../resources/param_vector_dumps/advanced/iter13_threshold8/param_vec.dump',
-        'specific_words_tag': True,
+        'specific_words_tag': False,
         'confusion_matrix_print': False,
         'competition': False
     }

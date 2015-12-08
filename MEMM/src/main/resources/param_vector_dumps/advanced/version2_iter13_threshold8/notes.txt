@@ -1,0 +1,3 @@
+In this version:
+- Two more features: numbers and uppercase
+- Not using lower() in features. 

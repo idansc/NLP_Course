@@ -42,8 +42,8 @@ class BaseFeatureTemplate1(FeatureTemplate):
     '''
     
     def get_key(self, history, tag):
-#         return (history.w.lower(), tag)
-        return (history.w, tag)
+        return (history.w.lower(), tag)
+#         return (history.w, tag)
 
 class BaseFeatureTemplate2(FeatureTemplate):
     '''
