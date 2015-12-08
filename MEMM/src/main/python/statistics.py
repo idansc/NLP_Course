@@ -28,6 +28,7 @@ class Statistics(object):
 
         missed_tags = Counter()
         predicted = Counter()
+        tagged_competition = ""
         if self.compatition:
             for i, s in enumerate(self.parser.get_comp_sentences()):
                 tags = self.inference.viterbi(s)
@@ -35,8 +36,10 @@ class Statistics(object):
                 tagged_sentence = []
                 for j in range(len(actual_s)):
                     tagged_sentence.append(actual_s[j]+"_"+tags[j])
-                with open("result.txt", "w") as f:
-	                f.write(" ".join(tagged_sentence)+"\n")
+                print("current sentence: ",i," "," ".join(tagged_sentence)+"\n")
+                tagged_competition += " ".join(tagged_sentence)+"\n"
+            with open("result.wtag", "w") as f:
+	            f.write(tagged_competition)
 
         else:
             for i, s in enumerate(self.test_sentences_words_only):
@@ -44,8 +47,8 @@ class Statistics(object):
                 actual_s = s[2:-1]
                 tagged_sentence = []
 
-                if len(actual_s) != len(tags):
-                    raise Exception("Incompatible lengths")
+              #  if len(actual_s) != len(tags):
+               #     raise Exception("Incompatible lengths")
 
                 s_tagged = list(zip(actual_s, tags))
                 total_words += len(s_tagged)
