@@ -57,9 +57,9 @@ if __name__ == '__main__':
         'training_data': "../resources/train.wtag",
         'test_data': "../resources/test.wtag",
         'comp_data': "../resources/comp.words",
-        'feat_threshold': 5,
+        'feat_threshold': 8,
         'viterbi_tags_treshold':20,
-        'use_advanced_features': False,
+        'use_advanced_features': True,
         'use_common_tags': False,
         'param_vector_mode': 'load', # Options: 'stub', 'learn' or 'load'
         'learning_config': {
@@ -70,7 +70,7 @@ if __name__ == '__main__':
         'param_vector_dump_path': '../resources/param_vector_dumps/advanced/iter13_threshold8/param_vec.dump',
 
         'confusion_matrix_print': False,
-        'competition': False
+        'competition': True
     }
     
     print("Beginning parsing...")
