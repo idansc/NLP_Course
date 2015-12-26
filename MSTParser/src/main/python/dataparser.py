@@ -1,5 +1,8 @@
 import sys
 
+from labeled_token import LabeledToken
+from constants import ROOT_SYMBOL
+
 class Parser(object):
     '''
     Handles data parsing
@@ -30,10 +33,24 @@ class Parser(object):
         return result
     
     def parse_labeled_sentence(self, labeled_sentence):
-        parsed_sentence = []
-        for labeled_word in labeled_sentence:
-            labeled_word_array = labeled_word.split('\t')
-            parsed_sentence.append((labeled_word_array[0], labeled_word_array[1], labeled_word_array[3], labeled_word_array[6]))
+        root_token = LabeledToken(
+                idx=0,
+                token=ROOT_SYMBOL,
+                pos=None,
+                head=None
+            )
+        parsed_sentence = [root_token]
+        
+        for line in labeled_sentence:
+            splitted_line = line.split('\t')
+            labeled_token = LabeledToken(
+                    idx=int(splitted_line[0]),
+                    token=splitted_line[1],
+                    pos=splitted_line[3],
+                    head=int(splitted_line[6])
+                )
+            parsed_sentence.append(labeled_token)
+            
         return parsed_sentence
     
     def get_train_sentences(self):
