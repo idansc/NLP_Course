@@ -6,8 +6,7 @@ class Parser(object):
     '''
 
     def __init__(self, training_data_path):
-        self.sentences = []
-        self.test_sentences = self.parse_labeled_data(training_data_path)
+        self.train_sentences = self.parse_labeled_data(training_data_path)
         
         
     def parse_labeled_data(self, filepath):
@@ -36,4 +35,7 @@ class Parser(object):
             labeled_word_array = labeled_word.split('\t')
             parsed_sentence.append((labeled_word_array[0], labeled_word_array[1], labeled_word_array[3], labeled_word_array[6]))
         return parsed_sentence
+    
+    def get_train_sentences(self):
+        return self.train_sentences
         
