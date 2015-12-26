@@ -38,7 +38,7 @@ class FeatureTemplate(metaclass=ABCMeta):
 
 class BaseFeatureTemplate1(FeatureTemplate):
     '''
-    No. 1
+    Feature no. 1
     '''
     
     def get_key(self, sentence, edge):
