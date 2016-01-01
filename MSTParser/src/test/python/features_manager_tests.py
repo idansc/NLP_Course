@@ -1,8 +1,8 @@
 import unittest
+import numpy as np
 
 from dataparser import Parser
 from features_manager import FeaturesManager
-from labeled_token import LabeledToken
 
 class FeaturesManagerTests(unittest.TestCase):
     
@@ -27,7 +27,20 @@ class FeaturesManagerTests(unittest.TestCase):
         manager = FeaturesManager(parser, 1)
         x = parser.parse_foramtted_data("../resources/test_simple1.unlabeled")[0]
         y = {(0,2), (2,1), (2,4), (4,3)}
-        print(manager.calc_feature_vec(x, y))
+        self.assertTrue(
+                (
+                    manager.calc_feature_vec(x, y)
+                        == np.full(len(y), len(manager.feature_templates), dtype=np.int)
+                ).all()
+            )
+        
+        x = parser.parse_foramtted_data("../resources/test_simple2.unlabeled")[0]
+        self.assertFalse(
+            (
+                manager.calc_feature_vec(x, y)
+                    == np.full(len(y), len(manager.feature_templates), dtype=np.int)
+            ).all()
+        )
 
 if __name__ == "__main__":
     unittest.main()
