@@ -1,7 +1,7 @@
 from abc import ABCMeta, abstractmethod
 from collections import OrderedDict
 
-class FeatureTemplate(metaclass=ABCMeta):
+class LocalFeatureTemplate(metaclass=ABCMeta):
     '''
     Defines common structure for all features
     '''
@@ -9,15 +9,15 @@ class FeatureTemplate(metaclass=ABCMeta):
     def __init__(self):
         self.features = OrderedDict()
     
-    def add_feature(self, sentence, edge):
-        cnt = self.features.get(self.get_key(sentence, edge), -1)
+    def add_local_feature(self, sentence, head, modifier):
+        cnt = self.features.get(self.get_key(sentence, head, modifier), -1)
         if cnt == -1:
-            self.features[self.get_key(sentence, edge)] = 1
+            self.features[self.get_key(sentence, head, modifier)] = 1
         else:
-            self.features[self.get_key(sentence, edge)] = cnt + 1
+            self.features[self.get_key(sentence, head, modifier)] = cnt + 1
         
-    def eval(self, sentence, edge):
-        return 1 if self.get_key(sentence, edge) in self.features else 0
+    def eval(self, sentence, head, modifier):
+        return 1 if self.get_key(sentence, head, modifier) in self.features else 0
     
     def filter(self, threshold, idx):
         filtered_features = OrderedDict()
@@ -28,19 +28,28 @@ class FeatureTemplate(metaclass=ABCMeta):
         self.features = filtered_features
         return idx
         
-    def get_feature_index(self, sentence, edge):
-        return self.features[self.get_key(sentence, edge)]
+    def get_feature_index(self, sentence, head, modifier):
+        return self.features[self.get_key(sentence, head, modifier)]
     
     @abstractmethod
-    def get_key(self, sentence, edge):
+    def get_key(self, sentence, head, modifier):
         pass
 
 
-class BaseFeatureTemplate1(FeatureTemplate):
+class BaseLFT1(LocalFeatureTemplate):
     '''
-    Feature no. 1
+    Base local feature template no. 1
     '''
     
-    def get_key(self, sentence, edge):
-        return (sentence[edge[0]].token, sentence[edge[0]].pos)
+    def get_key(self, sentence, head, modifier):
+        return (sentence[head].token, sentence[head].pos)
+
+
+class BaseLFT2(LocalFeatureTemplate):
+    '''
+    Base local feature template no. 2
+    '''
+    
+    def get_key(self, sentence, head, modifier):
+        return sentence[head].token
 

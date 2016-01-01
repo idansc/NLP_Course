@@ -9,30 +9,30 @@ class Parser(object):
     '''
 
     def __init__(self, training_data_path):
-        self.train_sentences = self.parse_labeled_data(training_data_path)
+        self.train_sentences = self.parse_foramtted_data(training_data_path)
         
         
-    def parse_labeled_data(self, filepath):
+    def parse_foramtted_data(self, filepath):
         result = []
         with open(filepath, 'r') as datafile:
             labeled_sentence = []
             for line in datafile:
                 line = line.strip()
-                if not line: # list is empty
+                if not line: # line is empty
                     if labeled_sentence: # labeled_sentence is not empty 
-                        result.append(self.parse_labeled_sentence(labeled_sentence))
+                        result.append(self.parse_foramtted_sentence(labeled_sentence))
                     labeled_sentence = []
                     continue
                 
                 labeled_sentence.append(line)
                 
         if not result:
-            print("Labeled data is empty. Exiting program...")
+            print("Data is empty. Exiting program...")
             sys.exit()
         
         return result
     
-    def parse_labeled_sentence(self, labeled_sentence):
+    def parse_foramtted_sentence(self, labeled_sentence):
         root_token = LabeledToken(
                 idx=0,
                 token=ROOT_SYMBOL,
@@ -47,7 +47,7 @@ class Parser(object):
                     idx=int(splitted_line[0]),
                     token=splitted_line[1],
                     pos=splitted_line[3],
-                    head=int(splitted_line[6])
+                    head=int(splitted_line[6]) if splitted_line[6].isdigit() else None
                 )
             parsed_sentence.append(labeled_token)
             
