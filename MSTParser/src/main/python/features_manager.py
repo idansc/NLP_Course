@@ -1,3 +1,5 @@
+import numpy as np
+
 from features import *
 
 class FeaturesManager(object):
@@ -20,14 +22,17 @@ class FeaturesManager(object):
         
         self.num_features = idx       
 
-    def calc_feature_vec(self, sentence, dep_parse_tree):
-        local_feature_vectors = []
-        for (head, modifier) in dep_parse_tree:
-            local_feature_vectors.append(
-                    [t.eval(sentence, head, modifier) for t in self.feature_templates]
-                )
-
-        return [sum(g) for g in local_feature_vectors] 
+    def calc_feature_vec(self, sentence, head, modifier):
+        f = np.zeros(self.num_features)
+        indices = [t.get_feature_index(sentence, head, modifier) for t in self.feature_templates if t.eval(sentence, head, modifier) == 1]
+        for idx in indices:
+            f[idx] += 1
+            
+        return f
+    
+    def calc_feature_vec_for_tree(self, sentence, dep_parse_tree):
+        summands = [self.calc_feature_vec(sentence, head, modifier) for (head, modifier) in dep_parse_tree]
+        return [sum(g) for g in summands]
     
     def get_num_features(self):
         return self.num_features

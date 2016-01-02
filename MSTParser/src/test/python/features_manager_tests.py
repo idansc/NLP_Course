@@ -29,7 +29,7 @@ class FeaturesManagerTests(unittest.TestCase):
         y = {(0,2), (2,1), (2,4), (4,3)}
         self.assertTrue(
                 (
-                    manager.calc_feature_vec(x, y)
+                    manager.calc_feature_vec_for_tree(x, y)
                         == np.full(len(y), len(manager.feature_templates), dtype=np.int)
                 ).all()
             )
@@ -37,7 +37,7 @@ class FeaturesManagerTests(unittest.TestCase):
         x = parser.parse_foramtted_data("../resources/test_simple2.unlabeled")[0]
         self.assertFalse(
             (
-                manager.calc_feature_vec(x, y)
+                manager.calc_feature_vec_for_tree(x, y)
                     == np.full(len(y), len(manager.feature_templates), dtype=np.int)
             ).all()
         )

@@ -22,9 +22,9 @@ def store_parameters_vector(v, path):
     
 def get_weight_vector(parser, manager, config):
     if config['param_vector_mode'] == 'stub':
-        v = np.zeros(manager.get_num_features())
+        w = np.zeros(manager.get_num_features())
 #     elif config['param_vector_mode'] == 'learn':
-#         v = learn_parameters_vector(parser, feat_manager, config['learning_config'])
+#         w = learn_parameters_vector(parser, feat_manager, config['learning_config'])
 #     elif config['param_vector_mode'] == 'load':
 #         path_list = config['param_vector_dump_path'].split('/')
 #         model = path_list [-3]
@@ -33,11 +33,11 @@ def get_weight_vector(parser, manager, config):
 #         dirname = path_list [-2]
 #         if int(dirname[-1]) != config['feat_threshold']:
 #             raise Exception("Features' threshold of dump file and Features' threshold of features extracted from training data must agree")
-#         v = load_parameters_vector(config['param_vector_dump_path'])
+#         w = load_parameters_vector(config['param_vector_dump_path'])
     else:
         raise Exception("Unknown param_vector_mode")
     
-    return v
+    return w
 
 if __name__ == '__main__':
     config = {
@@ -62,5 +62,5 @@ if __name__ == '__main__':
         sys.exit()       
     print("Number of features:", num_features, "\n")
     
-    v = get_weight_vector(parser, manager, config)
-    print("Weight vector:\n", v, "\n")
+    w = get_weight_vector(parser, manager, config)
+    print("Weight vector:\n", w, "\n")
