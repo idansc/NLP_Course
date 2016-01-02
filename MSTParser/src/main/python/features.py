@@ -53,3 +53,66 @@ class BaseLFT2(LocalFeatureTemplate):
     def get_key(self, sentence, head, modifier):
         return sentence[head].token
 
+class BaseLFT3(LocalFeatureTemplate):
+    '''
+    Base local feature template no. 3
+    '''
+    
+    def get_key(self, sentence, head, modifier):
+        return sentence[head].pos
+
+
+class BaseLFT4(LocalFeatureTemplate):
+    '''
+    Base local feature template no. 4
+    '''
+    
+    def get_key(self, sentence, head, modifier):
+        return (sentence[modifier].token, sentence[modifier].pos)
+
+
+class BaseLFT5(LocalFeatureTemplate):
+    '''
+    Base local feature template no. 5
+    '''
+    
+    def get_key(self, sentence, head, modifier):
+        return sentence[modifier].token
+
+
+class BaseLFT6(LocalFeatureTemplate):
+    '''
+    Base local feature template no. 6
+    '''
+    
+    def get_key(self, sentence, head, modifier):
+        return sentence[modifier].pos
+
+
+class BaseLFT8(LocalFeatureTemplate):
+    '''
+    Base local feature template no. 8
+    '''
+    
+    def get_key(self, sentence, head, modifier):
+        return (sentence[head].pos, sentence[modifier].token, sentence[modifier].pos)
+
+
+class BaseLFT10(LocalFeatureTemplate):
+    '''
+    Base local feature template no. 10
+    '''
+    
+    def get_key(self, sentence, head, modifier):
+        return (sentence[head].token, sentence[head].pos, sentence[modifier].pos)
+
+
+class BaseLFT13(LocalFeatureTemplate):
+    '''
+    Base local feature template no. 13
+    '''
+    
+    def get_key(self, sentence, head, modifier):
+        return (sentence[head].pos, sentence[modifier].pos)
+
+

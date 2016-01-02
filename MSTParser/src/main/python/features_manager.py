@@ -8,7 +8,7 @@ class FeaturesManager(object):
     '''
 
     def __init__(self, parser, feature_threshold):
-        self.feature_templates = [BaseLFT1(), BaseLFT2()]
+        self.feature_templates = [BaseLFT1(), BaseLFT2(), BaseLFT3(), BaseLFT4(), BaseLFT5(), BaseLFT6(), BaseLFT8(), BaseLFT10(), BaseLFT13()]
         for sentence in parser.get_train_sentences():
             for labeled_token in sentence[1:]:
                 head = labeled_token.head
