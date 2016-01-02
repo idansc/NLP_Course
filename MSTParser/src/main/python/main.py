@@ -7,6 +7,7 @@ import pickle
 
 from dataparser import Parser
 from features_manager import FeaturesManager
+from inferrer import Inferrer
 
 os.chdir(os.path.dirname(__file__))
 
@@ -41,9 +42,10 @@ def get_weight_vector(parser, manager, config):
 
 if __name__ == '__main__':
     config = {
-        'training_data': "../resources/train_sample.labeled",
+        'training_data': "../resources/train.labeled",
         'feature_threshold': 1,
         'param_vector_mode': 'stub', # Options: 'stub', 'learn' or 'load'
+        'test_data': "../resources/test.labeled"
     }
     
     print("Beginning parsing...")
@@ -63,4 +65,11 @@ if __name__ == '__main__':
     print("Number of features:", num_features, "\n")
     
     w = get_weight_vector(parser, manager, config)
-    print("Weight vector:\n", w, "\n")
+    print("Weight vector: (", config['param_vector_mode'], ")\n", w, "\n")
+    
+    print("Inferring...")
+    start_time = time.process_time()
+    inferrer = Inferrer(config['test_data'], parser, manager, w)
+    print("Done. Elapsed time:", time.process_time() - start_time / 60, "secs\n")
+    
+    inferrer.print_statistics()
