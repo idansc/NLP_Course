@@ -11,8 +11,9 @@ class Parser(object):
     def __init__(self, training_data_path):
         self.train_sentences = self.parse_foramtted_data(training_data_path)
         
-        
-    def parse_foramtted_data(self, filepath):
+    
+    @staticmethod    
+    def parse_foramtted_data(filepath):
         result = []
         with open(filepath, 'r') as datafile:
             labeled_sentence = []
@@ -20,7 +21,7 @@ class Parser(object):
                 line = line.strip()
                 if not line: # line is empty
                     if labeled_sentence: # labeled_sentence is not empty 
-                        result.append(self.parse_foramtted_sentence(labeled_sentence))
+                        result.append(Parser.parse_foramtted_sentence(labeled_sentence))
                     labeled_sentence = []
                     continue
                 
@@ -32,7 +33,8 @@ class Parser(object):
         
         return result
     
-    def parse_foramtted_sentence(self, labeled_sentence):
+    @staticmethod
+    def parse_foramtted_sentence(labeled_sentence):
         root_token = LabeledToken(
                 idx=0,
                 token=ROOT_SYMBOL,

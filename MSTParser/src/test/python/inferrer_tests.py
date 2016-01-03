@@ -7,10 +7,17 @@ from inferrer import Inferrer
 
 class InferrerTests(unittest.TestCase):
     
-#     def __init__(self, *args, **kwargs):
-#         super().__init__(*args, **kwargs)
-#         self.parser = Parser("../resources/train.wtag", "../resources/test_sample.wtag", 6, False)
-    
+    def test_print_statistics(self):
+        parser = Parser("../resources/train_simple.labeled")
+        manager = FeaturesManager(parser, 1)
+        w = np.zeros(manager.get_num_features())
+#         
+        inferrer = Inferrer("../resources/test_simple4.labeled", parser, manager, w)
+
+        outpath = "../resources/test_simple4.res"
+        inferrer.store(outpath)
+#         inferrer.print_statistics()
+#         
     def test_build_graph(self):
         parser = Parser("../resources/train_simple.labeled")
         manager = FeaturesManager(parser, 1)
@@ -33,7 +40,7 @@ class InferrerTests(unittest.TestCase):
         self.assertDictEqual(Inferrer.reformat_dep_tree(G), {1: 3, 2: 1, 3: 0, 4: 3})
     
     
-    def test_print_statistics(self):
+    def test_print_statistics_error(self):
         parser = Parser("../resources/train_simple.labeled")
         manager = FeaturesManager(parser, 1)
         w = np.zeros(manager.get_num_features())

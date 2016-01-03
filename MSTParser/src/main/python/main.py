@@ -2,30 +2,38 @@ import os
 import sys
 import time
 import numpy as np
-
 import pickle
-
 from dataparser import Parser
 from features_manager import FeaturesManager
 from inferrer import Inferrer
+from optimizer import Optimizer
 
 os.chdir(os.path.dirname(__file__))
 
-def load_parameters_vector(path):
+def load_weight_vector(path):
     with open(path,'rb') as f:
-        v = pickle.load(f)
-    return v
+        w = pickle.load(f)
+    return w
 
-def store_parameters_vector(v, path):
+def store_weight_vector(w, path):
     with open(path, 'wb') as f:
-        pickle.dump(v, f)
+        pickle.dump(w, f)
     print("Parameters vector has been saved successfully")
+    
+def learn_weight_vector(parser, feat_manager, config):
+    print("Optimizing...")
+    start_time = time.process_time() 
+    result = Optimizer.perceptron(parser, feat_manager, config['num_iter'])
+    print("Done. K:", result[1], "; Elapsed time:", time.process_time() - start_time, "\n")
+    store_weight_vector(result[0], 'param_vec.dump')
+    
+    return result[0] 
     
 def get_weight_vector(parser, manager, config):
     if config['param_vector_mode'] == 'stub':
         w = np.zeros(manager.get_num_features())
-#     elif config['param_vector_mode'] == 'learn':
-#         w = learn_parameters_vector(parser, feat_manager, config['learning_config'])
+    elif config['param_vector_mode'] == 'learn':
+        w = learn_weight_vector(parser, manager, config['learning_config'])
 #     elif config['param_vector_mode'] == 'load':
 #         path_list = config['param_vector_dump_path'].split('/')
 #         model = path_list [-3]
@@ -34,7 +42,7 @@ def get_weight_vector(parser, manager, config):
 #         dirname = path_list [-2]
 #         if int(dirname[-1]) != config['feat_threshold']:
 #             raise Exception("Features' threshold of dump file and Features' threshold of features extracted from training data must agree")
-#         w = load_parameters_vector(config['param_vector_dump_path'])
+#         w = load_weight_vector(config['param_vector_dump_path'])
     else:
         raise Exception("Unknown param_vector_mode")
     
@@ -44,8 +52,9 @@ if __name__ == '__main__':
     config = {
         'training_data': "../resources/train.labeled",
         'feature_threshold': 1,
-        'param_vector_mode': 'stub', # Options: 'stub', 'learn' or 'load'
-        'test_data': "../resources/test.labeled"
+        'param_vector_mode': 'learn', # Options: 'stub', 'learn' or 'load'
+        'test_data': "../resources/test.labeled",
+        'learning_config': {'num_iter': 10}
     }
     
     print("Beginning parsing...")

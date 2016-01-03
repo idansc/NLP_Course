@@ -1,0 +1,7 @@
+1	If	_	IN	_	_	5	VMOD	_	_
+2	not	_	RB	_	_	3	DEP	_	_
+3	now	_	RB	_	_	1	VMOD	_	_
+4	,	_	,	_	_	5	P	_	_
+5	when	_	WRB	_	_	0	ROOT	_	_
+6	?	_	.	_	_	5	P	_	_
+

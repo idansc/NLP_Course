@@ -32,7 +32,7 @@ class FeaturesManager(object):
     
     def calc_feature_vec_for_tree(self, sentence, dep_parse_tree):
         summands = [self.calc_feature_vec(sentence, head, modifier) for (head, modifier) in dep_parse_tree]
-        return [sum(g) for g in summands]
+        return sum(np.array(g) for g in summands)
     
     def get_num_features(self):
         return self.num_features
