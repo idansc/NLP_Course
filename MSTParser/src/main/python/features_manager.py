@@ -7,8 +7,10 @@ class FeaturesManager(object):
     Generates set of features out of a given training data
     '''
 
-    def __init__(self, parser, feature_threshold):
+    def __init__(self, parser, feature_threshold, extended_mode=False):
         self.feature_templates = [BaseLFT1(), BaseLFT2(), BaseLFT3(), BaseLFT4(), BaseLFT5(), BaseLFT6(), BaseLFT8(), BaseLFT10(), BaseLFT13()]
+#         if extended_mode:
+#             self.feature_templates += [AdvancedLFT1(), AdvancedLFT1()]
         for sentence in parser.get_train_sentences():
             for labeled_token in sentence[1:]:
                 head = labeled_token.head
@@ -23,12 +25,12 @@ class FeaturesManager(object):
         self.num_features = idx       
 
     def calc_feature_vec(self, sentence, head, modifier):
-        f = np.zeros(self.num_features)
+        g = np.zeros(self.num_features)
         indices = [t.get_feature_index(sentence, head, modifier) for t in self.feature_templates if t.eval(sentence, head, modifier) == 1]
         for idx in indices:
-            f[idx] += 1
+            g[idx] += 1
             
-        return f
+        return g
     
     def calc_feature_vec_for_tree(self, sentence, dep_parse_tree):
         summands = [self.calc_feature_vec(sentence, head, modifier) for (head, modifier) in dep_parse_tree]
