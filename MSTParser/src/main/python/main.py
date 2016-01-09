@@ -3,6 +3,7 @@ import sys
 import time
 import numpy as np
 import pickle
+from utils import calc_elpased_time 
 from dataparser import Parser
 from features_manager import FeaturesManager
 from inferrer import Inferrer
@@ -24,7 +25,7 @@ def learn_weight_vector(parser, feat_manager, config):
     print("Optimizing...")
     start_time = time.time() 
     result = Optimizer.perceptron(parser, feat_manager, config['num_iter'])
-    print("Done. K:", result[1], "; Elapsed time:", time.time() - start_time, "\n")
+    print("Done. K:", result[1], "; Elapsed time:", calc_elpased_time(start_time), "\n")
     store_weight_vector(result[0], 'weights.dump')
     
     return result[0] 
@@ -65,12 +66,12 @@ if __name__ == '__main__':
     print("Beginning parsing...")
     start_time = time.time()
     parser = Parser(config['training_data'])
-    print("Done. Elapsed time:", (time.time() - start_time), "secs\n")
+    print("Done. Elapsed time:", calc_elpased_time(start_time), "\n")
     
     print("Generating features...")
     start_time = time.time()
     manager = FeaturesManager(parser, config['feature_threshold'], config['extended_mode'])
-    print("Done. Elapsed time:", time.time() - start_time, "secs\n")
+    print("Done. Elapsed time:", calc_elpased_time(start_time), "\n")
     
     num_features = manager.get_num_features()
     if num_features == 0:
@@ -84,7 +85,7 @@ if __name__ == '__main__':
     print("Inferring...")
     start_time = time.time()
     inferrer = Inferrer(config['input_data'], parser, manager, w)
-    print("Done. Elapsed time:", time.time() - start_time, "secs\n")
+    print("Done. Elapsed time:", calc_elpased_time(start_time), "\n")
     
     inferrer.print_statistics()
 #     inferrer.store(config['output_path'])

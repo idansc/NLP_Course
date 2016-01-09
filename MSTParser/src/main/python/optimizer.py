@@ -1,7 +1,8 @@
+import time
+from utils import calc_elpased_time
 import numpy as np
 from inferrer import Inferrer
 from edmonds import edmonds
-import time
 
 class Optimizer(object):
     '''
@@ -16,7 +17,7 @@ class Optimizer(object):
         
         start_time = time.time()
         for i in range(num_iter):
-            print("Itreration no.", i+1, "elapsed time:", (time.time() - start_time), "secs\n")
+            print("Itreration no.", i+1, "elapsed time:", calc_elpased_time(start_time), "secs\n")
             start_time = time.process_time()
             for sentence in train_sentences:
                 correct = Optimizer.get_parse_tree(sentence)
@@ -31,11 +32,9 @@ class Optimizer(object):
                     for idx, cnt in learned_indices.items():
                         w[idx] -= cnt
                     
-#                     w = w + features_manager.calc_feature_vec_for_tree(sentence, correct) - features_manager.calc_feature_vec_for_tree(sentence, learned)
-#                     k += 1
+                    k += 1
             
-        return (w, k)
-#         return (w/(num_iter*len(train_sentences)), k)
+        return (w/(num_iter*len(train_sentences)), k)
     
     @staticmethod
     def find_arg_max(sentence, features_manager, w):

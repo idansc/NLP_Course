@@ -29,13 +29,6 @@ class FeaturesManager(object):
 
     def calc_feature_vec(self, sentence, head, modifier):
         return [t.get_feature_index(sentence, head, modifier) for t in self.feature_templates if t.eval(sentence, head, modifier) == 1]
-
-#         g = np.zeros(self.num_features)
-#         indices = [t.get_feature_index(sentence, head, modifier) for t in self.feature_templates if t.eval(sentence, head, modifier) == 1]
-#         for idx in indices:
-#             g[idx] += 1
-#             
-#         return g
     
     def calc_feature_vec_for_tree(self, sentence, dep_parse_tree):
         result = {}
@@ -46,9 +39,6 @@ class FeaturesManager(object):
                 result[idx] = cnt + 1
         
         return result
-        
-#         summands = [self.calc_feature_vec(sentence, head, modifier) for (head, modifier) in dep_parse_tree]
-#         return sum(np.array(g) for g in summands)
     
     def get_num_features(self):
         return self.num_features
