@@ -17,8 +17,8 @@ class Optimizer(object):
         
         start_time = time.time()
         for i in range(num_iter):
-            print("Itreration no.", i+1, "elapsed time:", calc_elpased_time(start_time), "secs\n")
-            start_time = time.process_time()
+            print("Itreration no.", i+1, "; Elapsed time:", calc_elpased_time(start_time), "\n")
+            start_time = time.time()
             for sentence in train_sentences:
                 correct = Optimizer.get_parse_tree(sentence)
                 learned = Optimizer.find_arg_max(sentence, features_manager, w)
