@@ -17,7 +17,7 @@ class Optimizer(object):
         
         start_time = time.time()
         for i in range(num_iter):
-            print("Itreration no.", i+1, "; Elapsed time:", calc_elpased_time(start_time), "\n")
+            print("Itreration no.", i+1, "; Elapsed time:", calc_elpased_time(start_time))
             start_time = time.time()
             for sentence in train_sentences:
                 correct = Optimizer.get_parse_tree(sentence)
