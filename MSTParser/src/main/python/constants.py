@@ -1,2 +1,1 @@
-
 ROOT_SYMBOL = '@'

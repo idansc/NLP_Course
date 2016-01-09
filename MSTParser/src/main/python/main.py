@@ -51,7 +51,7 @@ def get_weight_vector(parser, manager, config):
 if __name__ == '__main__':
     config = {
         'training_data': "../resources/train.labeled",
-        'feature_threshold': 1,
+        'feature_threshold': 5,
         'extended_mode': True,
         'param_vector_mode': 'learn', # Options: 'stub', 'learn' or 'load'
         'learning_config': {'num_iter': 10},

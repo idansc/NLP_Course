@@ -10,11 +10,8 @@ class LocalFeatureTemplate(metaclass=ABCMeta):
         self.features = OrderedDict()
     
     def add_local_feature(self, sentence, head, modifier):
-        cnt = self.features.get(self.get_key(sentence, head, modifier), -1)
-        if cnt == -1:
-            self.features[self.get_key(sentence, head, modifier)] = 1
-        else:
-            self.features[self.get_key(sentence, head, modifier)] = cnt + 1
+        cnt = self.features.get(self.get_key(sentence, head, modifier), 0)
+        self.features[self.get_key(sentence, head, modifier)] = cnt + 1
         
     def eval(self, sentence, head, modifier):
         return 1 if self.get_key(sentence, head, modifier) in self.features else 0
@@ -36,127 +33,161 @@ class LocalFeatureTemplate(metaclass=ABCMeta):
         pass
 
 
-class BaseLFT1(LocalFeatureTemplate):
+class BasicLFT1(LocalFeatureTemplate):
     '''
-    Base local feature template no. 1
+    Basic local feature template no. 1
     '''
     
     def get_key(self, sentence, head, modifier):
         return (sentence[head].token, sentence[head].pos)
 
 
-class BaseLFT2(LocalFeatureTemplate):
+class BasicLFT2(LocalFeatureTemplate):
     '''
-    Base local feature template no. 2
+    Basic local feature template no. 2
     '''
     
     def get_key(self, sentence, head, modifier):
         return sentence[head].token
 
-class BaseLFT3(LocalFeatureTemplate):
+class BasicLFT3(LocalFeatureTemplate):
     '''
-    Base local feature template no. 3
+    Basic local feature template no. 3
     '''
     
     def get_key(self, sentence, head, modifier):
         return sentence[head].pos
 
 
-class BaseLFT4(LocalFeatureTemplate):
+class BasicLFT4(LocalFeatureTemplate):
     '''
-    Base local feature template no. 4
+    Basic local feature template no. 4
     '''
     
     def get_key(self, sentence, head, modifier):
         return (sentence[modifier].token, sentence[modifier].pos)
 
 
-class BaseLFT5(LocalFeatureTemplate):
+class BasicLFT5(LocalFeatureTemplate):
     '''
-    Base local feature template no. 5
+    Basic local feature template no. 5
     '''
     
     def get_key(self, sentence, head, modifier):
         return sentence[modifier].token
 
 
-class BaseLFT6(LocalFeatureTemplate):
+class BasicLFT6(LocalFeatureTemplate):
     '''
-    Base local feature template no. 6
+    Basic local feature template no. 6
     '''
     
     def get_key(self, sentence, head, modifier):
         return sentence[modifier].pos
 
 
-class BaseLFT8(LocalFeatureTemplate):
+class BasicLFT8(LocalFeatureTemplate):
     '''
-    Base local feature template no. 8
+    Basic local feature template no. 8
     '''
     
     def get_key(self, sentence, head, modifier):
         return (sentence[head].pos, sentence[modifier].token, sentence[modifier].pos)
 
 
-class BaseLFT10(LocalFeatureTemplate):
+class BasicLFT10(LocalFeatureTemplate):
     '''
-    Base local feature template no. 10
+    Basic local feature template no. 10
     '''
     
     def get_key(self, sentence, head, modifier):
         return (sentence[head].token, sentence[head].pos, sentence[modifier].pos)
 
 
-class BaseLFT13(LocalFeatureTemplate):
+class BasicLFT13(LocalFeatureTemplate):
     '''
-    Base local feature template no. 13
+    Basic local feature template no. 13
     '''
     
     def get_key(self, sentence, head, modifier):
         return (sentence[head].pos, sentence[modifier].pos)
 
 
+class ExtendedLFT1(LocalFeatureTemplate):
     '''
-    class AdvancedLFT1(LocalFeatureTemplate):
-    In between POS feature.
-    '''
-
-class AdvancedLFT2(LocalFeatureTemplate):
-    '''
-    p.pos,p.pos+1,c.pos-1,c.pos
+    Extended local feature template no. 7
     '''
     def get_key(self, sentence, head, modifier):
-        try:
-            return (sentence[head].pos,sentence[head+1].pos,sentence[modifier-1].pos,sentence[modifier].pos)
-        except IndexError:
-            return (sentence[head].pos,sentence[head].pos,sentence[modifier].pos,sentence[modifier].pos)
+        return (sentence[head].token, sentence[head].pos, sentence[modifier].token, sentence[modifier].pos)
 
-class AdvancedLFT3(LocalFeatureTemplate):
+
+class ExtendedLFT2(LocalFeatureTemplate):
     '''
-    p.pos-1,p.pos,c.pos-1,c.pos
+    Extended local feature template no. 9
     '''
     def get_key(self, sentence, head, modifier):
-        try:
-            return (sentence[head-1].pos,sentence[head].pos,sentence[modifier-1].pos,sentence[modifier].pos)
-        except IndexError:
-            return (sentence[head].pos,sentence[head].pos,sentence[modifier].pos,sentence[modifier].pos)
+        return (sentence[head].token, sentence[modifier].token, sentence[modifier].pos)
 
-class AdvancedLFT4(LocalFeatureTemplate):
+
+class ExtendedLFT3(LocalFeatureTemplate):
     '''
-    p.pos,p.pos+1,c.pos,c.pos+1
+    Extended local feature template no. 11
     '''
     def get_key(self, sentence, head, modifier):
-        try:
-            return (sentence[head].pos,sentence[head+1].pos,sentence[modifier].pos,sentence[modifier+1].pos)
-        except IndexError:
-            return (sentence[head].pos,sentence[head].pos,sentence[modifier].pos,sentence[modifier].pos)
+        return (sentence[head].token, sentence[head].pos, sentence[modifier].token)
 
-class AdvancedLFT5(LocalFeatureTemplate):
+
+class ExtendedLFT4(LocalFeatureTemplate):
     '''
-    p.pos-1,p.pos,c.pos,c.pos+1
+    Extended local feature template no. 12
     '''
     def get_key(self, sentence, head, modifier):
-        try:
-            return (sentence[head-1].pos,sentence[head].pos,sentence[modifier].pos,sentence[modifier+1].pos)
-        except IndexError:
-            return (sentence[head].pos,sentence[head].pos,sentence[modifier].pos,sentence[modifier].pos)
+        return (sentence[head].token, sentence[modifier].token)
+
+
+class ExtendedLFT5(LocalFeatureTemplate):
+    '''
+    Distance
+    '''
+    def get_key(self, sentence, head, modifier):
+        return abs(head-modifier)
+
+class ExtendedLFT6(LocalFeatureTemplate):
+    '''
+    p.pos, p.pos+1, c.pos-1, c.pos
+    '''
+    def get_key(self, sentence, head, modifier):
+        p_pos_plus_1 = sentence[head+1].pos if head+1 < len(sentence) else None
+        return (sentence[head].pos, p_pos_plus_1, sentence[modifier-1].pos, sentence[modifier].pos)
+
+class ExtendedLFT7(LocalFeatureTemplate):
+    '''
+    p.pos-1, p.pos, c.pos-1, c.pos
+    '''
+    def get_key(self, sentence, head, modifier):
+        return (sentence[head-1].pos, sentence[head].pos, sentence[modifier-1].pos, sentence[modifier].pos)
+
+class ExtendedLFT8(LocalFeatureTemplate):
+    '''
+    p.pos, p.pos+1, c.pos, c.pos+1
+    '''
+    def get_key(self, sentence, head, modifier):
+        p_pos_plus_1 = sentence[head+1].pos if head+1 < len(sentence) else None
+        c_pos_plus_1 = sentence[modifier+1].pos if modifier+1 < len(sentence) else None
+        return (sentence[head].pos, p_pos_plus_1, sentence[modifier].pos, c_pos_plus_1)
+
+class ExtendedLFT9(LocalFeatureTemplate):
+    '''
+    p.pos-1, p.pos, c.pos, c.pos+1
+    '''
+    def get_key(self, sentence, head, modifier):
+        c_pos_plus_1 = sentence[modifier+1].pos if modifier+1 < len(sentence) else None
+        return (sentence[head-1].pos, sentence[head].pos, sentence[modifier].pos, c_pos_plus_1)
+# 
+# class InBetweenLFT1(LocalFeatureTemplate):
+#     '''
+#     p-pos, b-pos, c-pos
+#     '''
+#     def add_local_feature(self, sentence, head, modifier, between):
+#         cnt = self.features.get(self.get_key(sentence, head, modifier), 0)
+#         self.features[self.get_key(sentence, head, modifier)] = cnt + 1
