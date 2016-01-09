@@ -1,0 +1,25 @@
+Beginning parsing...
+Done. Elapsed time: 0.0067708333333333336 secs
+
+Generating features...
+Done. Elapsed time: 2.880729166666667 secs
+
+Number of features: 187715 
+
+Optimizing...
+Done. K: 45215 ; Elapsed time: 101397.484375 
+
+Parameters vector has been saved successfully
+Weight vector: ( learn )
+ [-1. -1. -2. ..., -1.  6. -1.] 
+
+Inferring...
+Done. Elapsed time: 101333.89713541667 secs
+
+
+   **** Statistics ****   
+
+Number of sentences: 1000
+Number of tokens: 24325
+Number of hits: 14835
+Accuracy: 0.6098663926002056

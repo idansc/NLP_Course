@@ -1,0 +1,66 @@
+Beginning parsing...
+Done. Elapsed time: 0.7secs 
+
+Generating features...
+Done. Elapsed time: 9.48secs 
+
+Number of features: 495829 
+
+Optimizing...
+Itreration no. 1 elapsed time: 0.0secs secs
+
+Itreration no. 2 elapsed time: 24206016.567166667mins secs
+
+Itreration no. 3 elapsed time: 24206016.558000002mins secs
+
+Itreration no. 4 elapsed time: 24206016.541666668mins secs
+
+Itreration no. 5 elapsed time: 24206016.581333335mins secs
+
+Itreration no. 6 elapsed time: 24206016.526mins secs
+
+Itreration no. 7 elapsed time: 24206016.587333333mins secs
+
+Itreration no. 8 elapsed time: 24206016.565500002mins secs
+
+Itreration no. 9 elapsed time: 24206016.523333333mins secs
+
+Itreration no. 10 elapsed time: 24206016.5305mins secs
+
+Itreration no. 11 elapsed time: 24206016.569333334mins secs
+
+Itreration no. 12 elapsed time: 24206016.647166666mins secs
+
+Itreration no. 13 elapsed time: 24206016.5705mins secs
+
+Itreration no. 14 elapsed time: 24206016.538999997mins secs
+
+Itreration no. 15 elapsed time: 24206016.525666665mins secs
+
+Itreration no. 16 elapsed time: 24206016.518166665mins secs
+
+Itreration no. 17 elapsed time: 24206016.523833334mins secs
+
+Itreration no. 18 elapsed time: 24206016.509833332mins secs
+
+Itreration no. 19 elapsed time: 24206016.535mins secs
+
+Itreration no. 20 elapsed time: 24206016.528mins secs
+
+Done. K: 83845 ; Elapsed time: 92.06683333333334mins 
+
+Parameters vector has been saved successfully
+Weight vector: ( learn )
+ [  0.00000000e+00   6.00000000e-05  -1.00000000e-04 ...,   0.00000000e+00
+   1.00000000e-05   1.00000000e-05] 
+
+Inferring...
+Done. Elapsed time: 53.24secs 
+
+
+   **** Statistics ****   
+
+Number of sentences: 1000
+Number of tokens: 24325
+Number of hits: 17976
+Accuracy: 0.7389928057553957
