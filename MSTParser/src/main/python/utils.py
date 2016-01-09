@@ -5,4 +5,4 @@ def calc_elpased_time(start_time):
     if secs < 60:
         return str(secs) + "secs"
     else:
-        return str(secs / 60) + "mins"
+        return str(round(secs/60, 2)) + "mins"
