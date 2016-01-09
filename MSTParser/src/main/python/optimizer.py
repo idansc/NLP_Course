@@ -34,7 +34,7 @@ class Optimizer(object):
                     
                     k += 1
             
-        return (w/(num_iter*len(train_sentences)), k)
+        return (w, k)
     
     @staticmethod
     def find_arg_max(sentence, features_manager, w):
