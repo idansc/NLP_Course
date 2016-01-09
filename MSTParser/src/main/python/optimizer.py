@@ -1,6 +1,7 @@
 import numpy as np
 from inferrer import Inferrer
 from edmonds import edmonds
+import time
 
 class Optimizer(object):
     '''
@@ -13,7 +14,10 @@ class Optimizer(object):
         w = np.zeros(features_manager.get_num_features())
         k = 0
         
-        for _ in range(num_iter):
+        start_time = time.process_time()
+        for i in range(num_iter):
+            print("Itreration no.", i+1, "elapsed time:", (time.process_time() - start_time) / 60, "secs\n")
+            start_time = time.process_time()
             for sentence in train_sentences:
                 correct = Optimizer.get_parse_tree(sentence)
                 learned = Optimizer.find_arg_max(sentence, features_manager, w)
@@ -22,7 +26,7 @@ class Optimizer(object):
                     w = w + features_manager.calc_feature_vec_for_tree(sentence, correct) - features_manager.calc_feature_vec_for_tree(sentence, learned)
                     k += 1
             
-        return (w,k)
+        return (w/(num_iter*len(num_iter)), k)
     
     @staticmethod
     def find_arg_max(sentence, features_manager, w):

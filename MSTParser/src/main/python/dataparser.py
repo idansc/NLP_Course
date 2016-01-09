@@ -51,9 +51,21 @@ class Parser(object):
                     pos=splitted_line[3],
                     head=int(splitted_line[6]) if splitted_line[6].isdigit() else None
                 )
+            
             parsed_sentence.append(labeled_token)
+        
+        for labeled_token in parsed_sentence[1:]:
+            labeled_token.in_between = Parser.get_in_between_tags(parsed_sentence,
+                                                                  labeled_token.head,
+                                                                  labeled_token.idx)
             
         return parsed_sentence
+    
+    @staticmethod
+    def get_in_between_tags(sentence, head, modifier):
+        min_idx = min(head, modifier)
+        max_idx = max(head, modifier)
+        return set(sentence[min_idx+1:max_idx])
     
     def get_train_sentences(self):
         return self.train_sentences

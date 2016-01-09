@@ -13,6 +13,7 @@ class FeaturesManager(object):
         self.add_baseline_features()
         if extended_mode:
             self.add_extended_features()
+            self.add_in_between_features()
         for sentence in parser.get_train_sentences():
             for labeled_token in sentence[1:]:
                 head = labeled_token.head
@@ -51,3 +52,8 @@ class FeaturesManager(object):
                                    ExtendedLFT4(), ExtendedLFT5(), ExtendedLFT6(),
                                    ExtendedLFT7(), ExtendedLFT8(), ExtendedLFT9()]
 
+    
+    def add_in_between_features(self):
+        TAGS = {'CD', 'POS', 'UH', 'JJR', 'PRP', 'WDT', 'EX', 'SYM', 'NNPS', 'WP', 'CC', 'JJ', 'VBP', 'WRB', 'RBR', 'MD', 'IN', 'VB', 'DT', 'RBS', 'VBG', 'RP', 'JJS', 'NN', 'PDT', 'RB', 'VBN', 'TO', 'LS', 'NNS', 'VBZ', 'FW', 'NNP', 'VBD'}
+        
+        self.feature_templates += [InBetweenLFT1(tag) for tag in TAGS]

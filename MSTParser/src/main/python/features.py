@@ -183,11 +183,16 @@ class ExtendedLFT9(LocalFeatureTemplate):
     def get_key(self, sentence, head, modifier):
         c_pos_plus_1 = sentence[modifier+1].pos if modifier+1 < len(sentence) else None
         return (sentence[head-1].pos, sentence[head].pos, sentence[modifier].pos, c_pos_plus_1)
-# 
-# class InBetweenLFT1(LocalFeatureTemplate):
-#     '''
-#     p-pos, b-pos, c-pos
-#     '''
-#     def add_local_feature(self, sentence, head, modifier, between):
-#         cnt = self.features.get(self.get_key(sentence, head, modifier), 0)
-#         self.features[self.get_key(sentence, head, modifier)] = cnt + 1
+ 
+class InBetweenLFT1(LocalFeatureTemplate):
+    '''
+    p-pos, b-pos, c-pos
+    '''
+    def __init__(self, pos):
+        self.features = OrderedDict()
+        self.pos_in_between = pos
+    
+    def get_key(self, sentence, head, modifier):
+        in_between = self.pos_in_between in sentence[modifier].in_between
+        return (sentence[head].pos, sentence[modifier].pos, in_between)
+    
