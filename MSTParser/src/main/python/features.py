@@ -116,3 +116,47 @@ class BaseLFT13(LocalFeatureTemplate):
         return (sentence[head].pos, sentence[modifier].pos)
 
 
+    '''
+    class AdvancedLFT1(LocalFeatureTemplate):
+    In between POS feature.
+    '''
+
+class AdvancedLFT2(LocalFeatureTemplate):
+    '''
+    p.pos,p.pos+1,c.pos-1,c.pos
+    '''
+    def get_key(self, sentence, head, modifier):
+        try:
+            return (sentence[head].pos,sentence[head+1].pos,sentence[modifier-1].pos,sentence[modifier].pos)
+        except IndexError:
+            return (sentence[head].pos,sentence[head].pos,sentence[modifier].pos,sentence[modifier].pos)
+
+class AdvancedLFT3(LocalFeatureTemplate):
+    '''
+    p.pos-1,p.pos,c.pos-1,c.pos
+    '''
+    def get_key(self, sentence, head, modifier):
+        try:
+            return (sentence[head-1].pos,sentence[head].pos,sentence[modifier-1].pos,sentence[modifier].pos)
+        except IndexError:
+            return (sentence[head].pos,sentence[head].pos,sentence[modifier].pos,sentence[modifier].pos)
+
+class AdvancedLFT4(LocalFeatureTemplate):
+    '''
+    p.pos,p.pos+1,c.pos,c.pos+1
+    '''
+    def get_key(self, sentence, head, modifier):
+        try:
+            return (sentence[head].pos,sentence[head+1].pos,sentence[modifier].pos,sentence[modifier+1].pos)
+        except IndexError:
+            return (sentence[head].pos,sentence[head].pos,sentence[modifier].pos,sentence[modifier].pos)
+
+class AdvancedLFT5(LocalFeatureTemplate):
+    '''
+    p.pos-1,p.pos,c.pos,c.pos+1
+    '''
+    def get_key(self, sentence, head, modifier):
+        try:
+            return (sentence[head-1].pos,sentence[head].pos,sentence[modifier].pos,sentence[modifier+1].pos)
+        except IndexError:
+            return (sentence[head].pos,sentence[head].pos,sentence[modifier].pos,sentence[modifier].pos)

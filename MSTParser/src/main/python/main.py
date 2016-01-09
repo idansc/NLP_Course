@@ -52,13 +52,14 @@ if __name__ == '__main__':
     config = {
         'training_data': "../resources/train.labeled",
         'feature_threshold': 1,
-        'extended_mode': False,
-        'param_vector_mode': 'load', # Options: 'stub', 'learn' or 'load'
+        'extended_mode': True,
+        'param_vector_mode': 'learn', # Options: 'stub', 'learn' or 'load'
         'learning_config': {'num_iter': 10},
         'param_vector_dump_path': "../resources/weight_vector_dumps/baseline/w01/weights.dump",
         'input_data': "../resources/test.labeled",
 #         'input_data': "../resources/comp.unlabeled",
         'output_path': "results.labeled"
+
     }
     
     print("Beginning parsing...")

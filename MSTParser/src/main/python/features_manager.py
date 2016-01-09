@@ -9,8 +9,8 @@ class FeaturesManager(object):
 
     def __init__(self, parser, feature_threshold, extended_mode=False):
         self.feature_templates = [BaseLFT1(), BaseLFT2(), BaseLFT3(), BaseLFT4(), BaseLFT5(), BaseLFT6(), BaseLFT8(), BaseLFT10(), BaseLFT13()]
-#         if extended_mode:
-#             self.feature_templates += [AdvancedLFT1(), AdvancedLFT1()]
+        if extended_mode:
+             self.addAdvancedFeatures()
         for sentence in parser.get_train_sentences():
             for labeled_token in sentence[1:]:
                 head = labeled_token.head
@@ -38,3 +38,7 @@ class FeaturesManager(object):
     
     def get_num_features(self):
         return self.num_features
+
+    def addAdvancedFeatures(self):
+        self.feature_templates+=[AdvancedLFT2(),AdvancedLFT3(),AdvancedLFT4(),AdvancedLFT5()]
+
