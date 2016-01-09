@@ -70,6 +70,14 @@ class Inferrer(object):
         n = len(sentence)
         G = {}
         for i in range(n):
-            G[i] = {j:-np.dot(features_manager.calc_feature_vec(sentence,i,j),w) for j in range(1, n) if j != i}
+            v = {}
+            for j in range(1, n):
+                if j != i:
+                    indices = features_manager.calc_feature_vec(sentence,i,j)
+                    v[j] = -sum(w[k] for k in indices)
+                    
+            G[i] = v
+                    
+#             G[i] = {j:-np.dot(features_manager.calc_feature_vec(sentence,i,j),w) for j in range(1, n) if j != i}
         return G   
         

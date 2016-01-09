@@ -14,19 +14,28 @@ class Optimizer(object):
         w = np.zeros(features_manager.get_num_features())
         k = 0
         
-        start_time = time.process_time()
+        start_time = time.time()
         for i in range(num_iter):
-            print("Itreration no.", i+1, "elapsed time:", (time.process_time() - start_time) / 60, "secs\n")
+            print("Itreration no.", i+1, "elapsed time:", (time.time() - start_time), "secs\n")
             start_time = time.process_time()
             for sentence in train_sentences:
                 correct = Optimizer.get_parse_tree(sentence)
                 learned = Optimizer.find_arg_max(sentence, features_manager, w)
                 
                 if correct != learned:
-                    w = w + features_manager.calc_feature_vec_for_tree(sentence, correct) - features_manager.calc_feature_vec_for_tree(sentence, learned)
-                    k += 1
+                    correct_indices = features_manager.calc_feature_vec_for_tree(sentence, correct)
+                    for idx, cnt in correct_indices.items():
+                        w[idx] += cnt
+                    
+                    learned_indices = features_manager.calc_feature_vec_for_tree(sentence, learned)
+                    for idx, cnt in learned_indices.items():
+                        w[idx] -= cnt
+                    
+#                     w = w + features_manager.calc_feature_vec_for_tree(sentence, correct) - features_manager.calc_feature_vec_for_tree(sentence, learned)
+#                     k += 1
             
-        return (w/(num_iter*len(num_iter)), k)
+        return (w, k)
+#         return (w/(num_iter*len(train_sentences)), k)
     
     @staticmethod
     def find_arg_max(sentence, features_manager, w):
