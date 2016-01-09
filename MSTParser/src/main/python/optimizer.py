@@ -33,7 +33,7 @@ class Optimizer(object):
                     
                     k += 1
 
-            print("Itreration no.", i+1, "Done. Elapsed time:", calc_elpased_time(start_time))
+            print("Itreration no.", i+1, "done. Elapsed time:", calc_elpased_time(start_time))
             
         return (w, k)
     
