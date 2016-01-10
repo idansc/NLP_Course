@@ -55,7 +55,7 @@ if __name__ == '__main__':
         'feature_threshold': 1,
         'extended_mode': False,
         'param_vector_mode': 'learn', # Options: 'stub', 'learn' or 'load'
-        'learning_config': {'num_iter': 10},
+        'learning_config': {'num_iter': 100},
         'param_vector_dump_path': "../resources/weight_vector_dumps/baseline/w01/weights.dump",
         'input_data': "../resources/test.labeled",
 #         'input_data': "../resources/comp.unlabeled",
