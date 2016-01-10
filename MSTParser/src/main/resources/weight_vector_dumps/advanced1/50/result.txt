@@ -1,0 +1,78 @@
+CUsersidanscAnaconda3python.exe CUsersidanscDropboxNLPSubmissionnlp-course - CopyMSTParsersrcmainpythonmain.py
+Beginning parsing...
+Done. Elapsed time 0.73 [sec] 
+
+Generating features...
+Done. Elapsed time 9.93 [sec] 
+
+Number of features 495829 
+
+Optimizing...
+Itreration no. 1 Done. Elapsed time 4.72 [min]
+Itreration no. 2 Done. Elapsed time 4.73 [min]
+Itreration no. 3 Done. Elapsed time 4.71 [min]
+Itreration no. 4 Done. Elapsed time 4.72 [min]
+Itreration no. 5 Done. Elapsed time 4.73 [min]
+Itreration no. 6 Done. Elapsed time 4.62 [min]
+Itreration no. 7 Done. Elapsed time 4.61 [min]
+Itreration no. 8 Done. Elapsed time 4.62 [min]
+Itreration no. 9 Done. Elapsed time 4.66 [min]
+Itreration no. 10 Done. Elapsed time 4.63 [min]
+Itreration no. 11 Done. Elapsed time 4.63 [min]
+Itreration no. 12 Done. Elapsed time 4.67 [min]
+Itreration no. 13 Done. Elapsed time 4.64 [min]
+Itreration no. 14 Done. Elapsed time 4.65 [min]
+Itreration no. 15 Done. Elapsed time 4.65 [min]
+Itreration no. 16 Done. Elapsed time 4.61 [min]
+Itreration no. 17 Done. Elapsed time 4.64 [min]
+Itreration no. 18 Done. Elapsed time 4.63 [min]
+Itreration no. 19 Done. Elapsed time 4.74 [min]
+Itreration no. 20 Done. Elapsed time 4.67 [min]
+Itreration no. 21 Done. Elapsed time 4.58 [min]
+Itreration no. 22 Done. Elapsed time 4.58 [min]
+Itreration no. 23 Done. Elapsed time 4.59 [min]
+Itreration no. 24 Done. Elapsed time 4.63 [min]
+Itreration no. 25 Done. Elapsed time 4.61 [min]
+Itreration no. 26 Done. Elapsed time 4.61 [min]
+Itreration no. 27 Done. Elapsed time 4.65 [min]
+Itreration no. 28 Done. Elapsed time 4.6 [min]
+Itreration no. 29 Done. Elapsed time 4.65 [min]
+Itreration no. 30 Done. Elapsed time 4.64 [min]
+Itreration no. 31 Done. Elapsed time 4.6 [min]
+Itreration no. 32 Done. Elapsed time 4.65 [min]
+Itreration no. 33 Done. Elapsed time 4.62 [min]
+Itreration no. 34 Done. Elapsed time 4.59 [min]
+Itreration no. 35 Done. Elapsed time 4.57 [min]
+Itreration no. 36 Done. Elapsed time 4.62 [min]
+Itreration no. 37 Done. Elapsed time 4.59 [min]
+Itreration no. 38 Done. Elapsed time 4.62 [min]
+Itreration no. 39 Done. Elapsed time 4.58 [min]
+Itreration no. 40 Done. Elapsed time 4.54 [min]
+Itreration no. 41 Done. Elapsed time 4.52 [min]
+Itreration no. 42 Done. Elapsed time 4.52 [min]
+Itreration no. 43 Done. Elapsed time 4.53 [min]
+Itreration no. 44 Done. Elapsed time 4.54 [min]
+Itreration no. 45 Done. Elapsed time 4.48 [min]
+Itreration no. 46 Done. Elapsed time 4.48 [min]
+Itreration no. 47 Done. Elapsed time 4.45 [min]
+Itreration no. 48 Done. Elapsed time 4.46 [min]
+Itreration no. 49 Done. Elapsed time 4.47 [min]
+Itreration no. 50 Done. Elapsed time 4.47 [min]
+Done. K 176653 ; Elapsed time 230.35 [min] 
+
+Parameters vector has been saved successfully
+Weight vector ( learn )
+ [  1.   7. -17. ...,   0.   1.   1.] 
+
+Inferring...
+Done. Elapsed time 51.32 [sec] 
+
+
+    Statistics    
+
+Number of sentences 1000
+Number of tokens 24325
+Number of hits 18360
+Accuracy 0.7547790339157245
+
+Process finished with exit code 0

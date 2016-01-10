@@ -1,5 +1,5 @@
 import time
-from utils import calc_elpased_time
+from utils import *
 import numpy as np
 from inferrer import Inferrer
 from edmonds import edmonds
@@ -10,7 +10,7 @@ class Optimizer(object):
     '''
 
     @staticmethod
-    def perceptron(parser, features_manager, num_iter):
+    def perceptron(parser, features_manager, num_iter, save_spot):
         train_sentences = parser.get_train_sentences()
         w = np.zeros(features_manager.get_num_features())
         k = 0
@@ -34,7 +34,10 @@ class Optimizer(object):
                     k += 1
 
             print("Itreration no.", i+1, "Done. Elapsed time:", calc_elpased_time(start_time))
-            
+            if i in save_spot:
+                path = "weight%d.dump" % i
+                store_weight_vector(w,path)
+                print("stored",path)
         return (w, k)
     
     @staticmethod
@@ -58,6 +61,5 @@ class Optimizer(object):
         
         return parse_tree
             
-        
         
         

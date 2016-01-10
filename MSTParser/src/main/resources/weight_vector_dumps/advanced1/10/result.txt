@@ -1,0 +1,36 @@
+Beginning parsing...
+Done. Elapsed time: 0.66 [sec] 
+
+Generating features...
+Done. Elapsed time: 9.81 [sec] 
+
+Number of features: 557973 
+
+Optimizing...
+Itreration no. 1 Done. Elapsed time: 4.77 [min]
+Parameters vector has been saved successfully
+Itreration no. 2 Done. Elapsed time: 4.82 [min]
+Itreration no. 3 Done. Elapsed time: 4.76 [min]
+Itreration no. 4 Done. Elapsed time: 4.78 [min]
+Itreration no. 5 Done. Elapsed time: 4.75 [min]
+Itreration no. 6 Done. Elapsed time: 4.7 [min]
+Itreration no. 7 Done. Elapsed time: 4.79 [min]
+Itreration no. 8 Done. Elapsed time: 4.8 [min]
+Itreration no. 9 Done. Elapsed time: 4.76 [min]
+Itreration no. 10 Done. Elapsed time: 4.72 [min]
+Done. K: 43888 ; Elapsed time: 47.64 [min] 
+
+Parameters vector has been saved successfully
+Weight vector: ( learn )
+ [ 3.  1. -8. ...,  5.  0.  0.] 
+
+Inferring...
+Done. Elapsed time: 52.97 [sec] 
+
+
+   **** Statistics ****   
+
+Number of sentences: 1000
+Number of tokens: 24325
+Number of hits: 18347
+Accuracy: 0.7542446043165467

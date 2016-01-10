@@ -7,8 +7,10 @@ class FeaturesManager(object):
     Generates set of features out of a given training data
     '''
 
-    def __init__(self, parser, feature_threshold, extended_mode=False):
-        
+    def __init__(self, parser, feature_threshold, prefix_flag, extended_mode=False):
+
+        self.parser = parser
+        self.prefix_flag = prefix_flag
         self.feature_templates = []
         self.add_baseline_features()
         if extended_mode:
@@ -22,8 +24,12 @@ class FeaturesManager(object):
                     template.add_local_feature(sentence, head, modifier)
         
         idx = 0
-        for t in self.feature_templates:
+        for i, t in enumerate(self.feature_templates):
+            temp = idx
             idx = t.filter(feature_threshold, idx)
+            print("template number",i,":", idx - temp)
+
+
         
         self.num_features = idx       
 
@@ -51,10 +57,17 @@ class FeaturesManager(object):
     def add_extended_features(self):
         self.feature_templates += [ExtendedLFT1(),ExtendedLFT2(),ExtendedLFT3(),
                                    ExtendedLFT4(), ExtendedLFT5(), ExtendedLFT6(),
-                                   ExtendedLFT7(), ExtendedLFT8(), ExtendedLFT9()]
+                                   ExtendedLFT7(), ExtendedLFT8(), ExtendedLFT9()
+                                  ]
+        if self.prefix_flag:
+             self.feature_templates += [ExtendedLFT10(self.parser.get_prefix())]
 
     
     def add_in_between_features(self):
-        TAGS = {'CD', 'POS', 'UH', 'JJR', 'PRP', 'WDT', 'EX', 'SYM', 'NNPS', 'WP', 'CC', 'JJ', 'VBP', 'WRB', 'RBR', 'MD', 'IN', 'VB', 'DT', 'RBS', 'VBG', 'RP', 'JJS', 'NN', 'PDT', 'RB', 'VBN', 'TO', 'LS', 'NNS', 'VBZ', 'FW', 'NNP', 'VBD'}
+        TAGS = {'CD', 'POS', 'UH', 'JJR', 'PRP', 'WDT', 'EX', 'SYM', 'NNPS',
+                'WP', 'CC', 'JJ', 'VBP', 'WRB', 'RBR', 'MD', 'IN', 'VB', 'DT',
+                'RBS', 'VBG', 'RP', 'JJS', 'NN', 'PDT', 'RB', 'VBN', 'TO', 'LS',
+                'NNS', 'VBZ', 'FW', 'NNP', 'VBD'}
         
         self.feature_templates += [InBetweenLFT1(tag) for tag in TAGS]
+        self.feature_templates += [InBetweenLFT2()]

@@ -1,0 +1,40 @@
+weighti.dump
+Beginning parsing...
+Done. Elapsed time: 0.78 [sec] 
+
+Generating features...
+Done. Elapsed time: 10.36 [sec] 
+
+Number of features: 563989 
+
+Optimizing...
+Itreration no. 1 Done. Elapsed time: 4.92 [min]
+Parameters vector has been saved successfully
+stored weight0.dump
+Itreration no. 2 Done. Elapsed time: 4.91 [min]
+Itreration no. 3 Done. Elapsed time: 4.91 [min]
+Itreration no. 4 Done. Elapsed time: 4.87 [min]
+Itreration no. 5 Done. Elapsed time: 4.86 [min]
+Itreration no. 6 Done. Elapsed time: 4.81 [min]
+Parameters vector has been saved successfully
+stored weight5.dump
+Itreration no. 7 Done. Elapsed time: 4.84 [min]
+Itreration no. 8 Done. Elapsed time: 4.86 [min]
+Itreration no. 9 Done. Elapsed time: 4.8 [min]
+Itreration no. 10 Done. Elapsed time: 4.81 [min]
+Done. K: 44037 ; Elapsed time: 48.59 [min] 
+
+Parameters vector has been saved successfully
+Weight vector: ( learn )
+ [ 0.  3. -7. ...,  5.  1.  0.] 
+
+Inferring...
+Done. Elapsed time: 53.28 [sec] 
+
+
+   **** Statistics ****   
+
+Number of sentences: 1000
+Number of tokens: 24325
+Number of hits: 18273
+Accuracy: 0.75120246659815

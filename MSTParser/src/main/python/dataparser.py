@@ -2,17 +2,25 @@ import sys
 
 from labeled_token import LabeledToken
 from constants import ROOT_SYMBOL
+from collections import Counter
+
 
 class Parser(object):
     '''
     Handles data parsing
     '''
 
-    def __init__(self, training_data_path):
+    def __init__(self, training_data_path, prefix_flag, prefix_threshold):
         self.train_sentences = self.parse_foramtted_data(training_data_path)
-        
-    
-    @staticmethod    
+        if prefix_flag:
+            self.prefixes = Counter()
+            self.prefix_threshold = prefix_threshold
+            self.set_prefixes_data(prefix_threshold)
+
+
+
+
+    @staticmethod
     def parse_foramtted_data(filepath):
         result = []
         with open(filepath, 'r') as datafile:
@@ -65,8 +73,20 @@ class Parser(object):
     def get_in_between_tags(sentence, head, modifier):
         min_idx = min(head, modifier)
         max_idx = max(head, modifier)
-        return set(sentence[min_idx+1:max_idx])
+        result = [];
+        for token in sentence[min_idx+1:max_idx]:
+            result.append(token.pos)
+        return result
+
+    def set_prefixes_data(self,prefix_threshold):
+        for sentence in self.get_train_sentences():
+            for labeled_token in sentence[1:]:
+                if len(labeled_token.token) > prefix_threshold:
+                    self.prefixes[labeled_token.token[:prefix_threshold]]+=1
     
     def get_train_sentences(self):
         return self.train_sentences
+
+    def get_prefix(self):
+        return {pair[0] for pair in self.prefixes.items() if pair[1] >= self.prefix_threshold}
         

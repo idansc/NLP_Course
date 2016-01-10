@@ -3,7 +3,8 @@ import sys
 import time
 import numpy as np
 import pickle
-from utils import calc_elpased_time 
+import multiprocessing
+from utils import *
 from dataparser import Parser
 from features_manager import FeaturesManager
 from inferrer import Inferrer
@@ -15,16 +16,11 @@ def load_weight_vector(path):
     with open(path,'rb') as f:
         w = pickle.load(f)
     return w
-
-def store_weight_vector(w, path):
-    with open(path, 'wb') as f:
-        pickle.dump(w, f)
-    print("Parameters vector has been saved successfully")
     
 def learn_weight_vector(parser, feat_manager, config):
     print("Optimizing...")
-    start_time = time.time() 
-    result = Optimizer.perceptron(parser, feat_manager, config['num_iter'])
+    start_time = time.time()
+    result = Optimizer.perceptron(parser, feat_manager, config['num_iter'], config['save_spots'])
     print("Done. K:", result[1], "; Elapsed time:", calc_elpased_time(start_time), "\n")
     store_weight_vector(result[0], 'weights.dump')
     
@@ -55,22 +51,25 @@ if __name__ == '__main__':
         'feature_threshold': 1,
         'extended_mode': True,
         'param_vector_mode': 'learn', # Options: 'stub', 'learn' or 'load'
-        'learning_config': {'num_iter': 20},
+        'learning_config': {'num_iter': 10,
+                            'save_spots': [0,20,50,80,100]},
         'param_vector_dump_path': "../resources/weight_vector_dumps/baseline/w01/weights.dump",
         'input_data': "../resources/test.labeled",
 #         'input_data': "../resources/comp.unlabeled",
-        'output_path': "results.labeled"
-
+        'output_path': "results.labeled",
+        'prefix_flag': False,
+        'prefix_threshold': 5
     }
-    
+
+
     print("Beginning parsing...")
     start_time = time.time()
-    parser = Parser(config['training_data'])
+    parser = Parser(config['training_data'],config['prefix_flag'],config['prefix_threshold'])
     print("Done. Elapsed time:", calc_elpased_time(start_time), "\n")
     
     print("Generating features...")
     start_time = time.time()
-    manager = FeaturesManager(parser, config['feature_threshold'], config['extended_mode'])
+    manager = FeaturesManager(parser, config['feature_threshold'],config['prefix_flag'], config['extended_mode'])
     print("Done. Elapsed time:", calc_elpased_time(start_time), "\n")
     
     num_features = manager.get_num_features()
@@ -78,7 +77,8 @@ if __name__ == '__main__':
         print("No features generated. Program has been terminated.")
         sys.exit()       
     print("Number of features:", num_features, "\n")
-    
+
+
     w = get_weight_vector(parser, manager, config)
     print("Weight vector: (", config['param_vector_mode'], ")\n", w, "\n")
     
