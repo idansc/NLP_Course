@@ -1,0 +1,186 @@
+Beginning parsing...
+Done. Elapsed time: 0.67 [sec] 
+
+Generating features...
+template number 0 : 9993
+template number 1 : 8876
+template number 2 : 37
+template number 3 : 15908
+template number 4 : 14162
+template number 5 : 45
+template number 6 : 31314
+template number 7 : 33936
+template number 8 : 749
+template number 9 : 71232
+template number 10 : 70401
+template number 11 : 70679
+template number 12 : 69819
+template number 13 : 126
+template number 14 : 18158
+template number 15 : 17215
+template number 16 : 18651
+template number 17 : 19113
+template number 18 : 1121
+template number 19 : 786
+template number 20 : 762
+template number 21 : 891
+template number 22 : 985
+template number 23 : 863
+template number 24 : 970
+template number 25 : 1124
+template number 26 : 938
+template number 27 : 751
+template number 28 : 1153
+template number 29 : 856
+template number 30 : 1005
+template number 31 : 894
+template number 32 : 988
+template number 33 : 1165
+template number 34 : 903
+template number 35 : 885
+template number 36 : 901
+template number 37 : 1110
+template number 38 : 802
+template number 39 : 1073
+template number 40 : 864
+template number 41 : 905
+template number 42 : 762
+template number 43 : 810
+template number 44 : 823
+template number 45 : 1135
+template number 46 : 954
+template number 47 : 903
+template number 48 : 1143
+template number 49 : 889
+template number 50 : 1066
+template number 51 : 996
+template number 52 : 28126
+Done. Elapsed time: 10.22 [sec] 
+
+Number of features: 530716 
+
+Optimizing...
+Itreration no. 1 done. Elapsed time: 4.81 [min]
+Parameters vector has been saved successfully
+stored weight0.dump
+Itreration no. 2 done. Elapsed time: 4.81 [min]
+Itreration no. 3 done. Elapsed time: 4.75 [min]
+Itreration no. 4 done. Elapsed time: 4.74 [min]
+Itreration no. 5 done. Elapsed time: 4.75 [min]
+Itreration no. 6 done. Elapsed time: 4.74 [min]
+Itreration no. 7 done. Elapsed time: 4.78 [min]
+Itreration no. 8 done. Elapsed time: 4.78 [min]
+Itreration no. 9 done. Elapsed time: 4.71 [min]
+Itreration no. 10 done. Elapsed time: 4.72 [min]
+Itreration no. 11 done. Elapsed time: 4.71 [min]
+Itreration no. 12 done. Elapsed time: 4.69 [min]
+Itreration no. 13 done. Elapsed time: 4.67 [min]
+Itreration no. 14 done. Elapsed time: 4.66 [min]
+Itreration no. 15 done. Elapsed time: 4.65 [min]
+Itreration no. 16 done. Elapsed time: 4.64 [min]
+Itreration no. 17 done. Elapsed time: 4.66 [min]
+Itreration no. 18 done. Elapsed time: 4.63 [min]
+Itreration no. 19 done. Elapsed time: 4.7 [min]
+Itreration no. 20 done. Elapsed time: 4.68 [min]
+Itreration no. 21 done. Elapsed time: 4.66 [min]
+Parameters vector has been saved successfully
+stored weight20.dump
+Itreration no. 22 done. Elapsed time: 4.65 [min]
+Itreration no. 23 done. Elapsed time: 4.65 [min]
+Itreration no. 24 done. Elapsed time: 4.63 [min]
+Itreration no. 25 done. Elapsed time: 4.62 [min]
+Itreration no. 26 done. Elapsed time: 4.6 [min]
+Itreration no. 27 done. Elapsed time: 4.63 [min]
+Itreration no. 28 done. Elapsed time: 4.65 [min]
+Itreration no. 29 done. Elapsed time: 4.64 [min]
+Itreration no. 30 done. Elapsed time: 4.7 [min]
+Itreration no. 31 done. Elapsed time: 4.61 [min]
+Itreration no. 32 done. Elapsed time: 4.59 [min]
+Itreration no. 33 done. Elapsed time: 4.59 [min]
+Itreration no. 34 done. Elapsed time: 4.62 [min]
+Itreration no. 35 done. Elapsed time: 4.65 [min]
+Itreration no. 36 done. Elapsed time: 4.67 [min]
+Itreration no. 37 done. Elapsed time: 4.64 [min]
+Itreration no. 38 done. Elapsed time: 4.58 [min]
+Itreration no. 39 done. Elapsed time: 4.65 [min]
+Itreration no. 40 done. Elapsed time: 4.62 [min]
+Itreration no. 41 done. Elapsed time: 4.62 [min]
+Itreration no. 42 done. Elapsed time: 4.6 [min]
+Itreration no. 43 done. Elapsed time: 4.59 [min]
+Itreration no. 44 done. Elapsed time: 4.59 [min]
+Itreration no. 45 done. Elapsed time: 4.6 [min]
+Itreration no. 46 done. Elapsed time: 4.63 [min]
+Itreration no. 47 done. Elapsed time: 4.58 [min]
+Itreration no. 48 done. Elapsed time: 4.58 [min]
+Itreration no. 49 done. Elapsed time: 4.58 [min]
+Itreration no. 50 done. Elapsed time: 4.57 [min]
+Itreration no. 51 done. Elapsed time: 4.59 [min]
+Parameters vector has been saved successfully
+stored weight50.dump
+Itreration no. 52 done. Elapsed time: 4.6 [min]
+Itreration no. 53 done. Elapsed time: 4.6 [min]
+Itreration no. 54 done. Elapsed time: 4.6 [min]
+Itreration no. 55 done. Elapsed time: 4.61 [min]
+Itreration no. 56 done. Elapsed time: 4.58 [min]
+Itreration no. 57 done. Elapsed time: 4.59 [min]
+Itreration no. 58 done. Elapsed time: 4.56 [min]
+Itreration no. 59 done. Elapsed time: 4.58 [min]
+Itreration no. 60 done. Elapsed time: 4.55 [min]
+Itreration no. 61 done. Elapsed time: 4.55 [min]
+Itreration no. 62 done. Elapsed time: 4.53 [min]
+Itreration no. 63 done. Elapsed time: 4.61 [min]
+Itreration no. 64 done. Elapsed time: 4.59 [min]
+Itreration no. 65 done. Elapsed time: 4.57 [min]
+Itreration no. 66 done. Elapsed time: 4.52 [min]
+Itreration no. 67 done. Elapsed time: 4.6 [min]
+Itreration no. 68 done. Elapsed time: 4.57 [min]
+Itreration no. 69 done. Elapsed time: 4.55 [min]
+Itreration no. 70 done. Elapsed time: 4.6 [min]
+Itreration no. 71 done. Elapsed time: 4.58 [min]
+Itreration no. 72 done. Elapsed time: 4.55 [min]
+Itreration no. 73 done. Elapsed time: 4.57 [min]
+Itreration no. 74 done. Elapsed time: 4.55 [min]
+Itreration no. 75 done. Elapsed time: 4.54 [min]
+Itreration no. 76 done. Elapsed time: 4.54 [min]
+Itreration no. 77 done. Elapsed time: 4.52 [min]
+Itreration no. 78 done. Elapsed time: 4.56 [min]
+Itreration no. 79 done. Elapsed time: 4.6 [min]
+Itreration no. 80 done. Elapsed time: 4.58 [min]
+Itreration no. 81 done. Elapsed time: 4.58 [min]
+Parameters vector has been saved successfully
+stored weight80.dump
+Itreration no. 82 done. Elapsed time: 4.58 [min]
+Itreration no. 83 done. Elapsed time: 4.57 [min]
+Itreration no. 84 done. Elapsed time: 4.57 [min]
+Itreration no. 85 done. Elapsed time: 4.58 [min]
+Itreration no. 86 done. Elapsed time: 4.56 [min]
+Itreration no. 87 done. Elapsed time: 4.55 [min]
+Itreration no. 88 done. Elapsed time: 4.56 [min]
+Itreration no. 89 done. Elapsed time: 4.54 [min]
+Itreration no. 90 done. Elapsed time: 4.59 [min]
+Itreration no. 91 done. Elapsed time: 4.53 [min]
+Itreration no. 92 done. Elapsed time: 4.51 [min]
+Itreration no. 93 done. Elapsed time: 4.51 [min]
+Itreration no. 94 done. Elapsed time: 4.54 [min]
+Itreration no. 95 done. Elapsed time: 4.53 [min]
+Itreration no. 96 done. Elapsed time: 4.54 [min]
+Itreration no. 97 done. Elapsed time: 4.54 [min]
+Itreration no. 98 done. Elapsed time: 4.57 [min]
+Itreration no. 99 done. Elapsed time: 4.58 [min]
+Itreration no. 100 done. Elapsed time: 4.52 [min]
+Done. K: 182608 ; Elapsed time: 461.06 [min] 
+
+Parameters vector has been saved successfully
+Weight vector: ( learn )
+ [ -2.   2. -14. ...,   0.   4.   0.] 
+
+Inferring...
+Done. Elapsed time: 54.27 [sec] 
+
+
+   **** Statistics ****   
+
+Number of sentences: 1000
+Number of tokens: 24325
+Number of hits: 19826
+Accuracy: 0.8150462487153135
