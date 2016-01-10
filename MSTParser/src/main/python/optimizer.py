@@ -33,7 +33,7 @@ class Optimizer(object):
                     
                     k += 1
 
-            print("Itreration no.", i+1, "Done. Elapsed time:", calc_elpased_time(start_time))
+            print("Itreration no.", i+1, "done. Elapsed time:", calc_elpased_time(start_time))
             if i in save_spot:
                 path = "weight%d.dump" % i
                 store_weight_vector(w,path)
