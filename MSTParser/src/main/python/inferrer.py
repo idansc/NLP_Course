@@ -14,7 +14,7 @@ class Inferrer(object):
         self.infile_ext = os.path.splitext(in_file_path)[-1]
 
         for sentence in self.parsed_data:
-            G = self.build_graph(sentence, features_manager, w)
+            G = self.build_graph(sentence, features_manager, w, True)
             root = 0
             self.dep_trees.append(edmonds.mst(root, G))
 #         print(self.dep_trees)
@@ -66,14 +66,15 @@ class Inferrer(object):
         return res
             
     @staticmethod
-    def build_graph(sentence, features_manager, w):
+    def build_graph(sentence, features_manager, w, calc_in_between_tags):
         n = len(sentence)
         G = {}
         for i in range(n):
             v = {}
             for j in range(1, n):
                 if j != i:
-                    sentence[j].in_between = Parser.get_in_between_tags(sentence, i, j)
+                    if calc_in_between_tags:
+                        sentence[j].in_between = Parser.get_in_between_tags(sentence, i, j)
                     indices = features_manager.calc_feature_vec(sentence,i,j)
                     v[j] = -sum(w[k] for k in indices)
                     

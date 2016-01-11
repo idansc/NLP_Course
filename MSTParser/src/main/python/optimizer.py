@@ -52,7 +52,7 @@ class Optimizer(object):
     
     @staticmethod
     def find_arg_max(sentence, features_manager, w):
-        G = Inferrer.build_graph(sentence, features_manager, w)
+        G = Inferrer.build_graph(sentence, features_manager, w, False)
         root = 0
         mst = edmonds.mst(root, G)
         
