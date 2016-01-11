@@ -4,6 +4,7 @@ import time
 import numpy as np
 import pickle
 import multiprocessing
+import optimizer
 from utils import *
 from dataparser import Parser
 from features_manager import FeaturesManager
@@ -47,15 +48,15 @@ def get_weight_vector(parser, manager, config):
 
 if __name__ == '__main__':
     config = {
-        'training_data': "../resources/train.labeled",
+        'training_data': "../resources/train_sample.labeled",
         'feature_threshold': 1,
         'extended_mode': True,
         'param_vector_mode': 'learn', # Options: 'stub', 'learn' or 'load'
-        'learning_config': {'num_iter': 10,
-                            'save_spots': [0,20,50,80,100]},
+        'learning_config': {'num_iter': 50,
+                            'save_spots': [10, 20, 30, 40]},
         'param_vector_dump_path': "../resources/weight_vector_dumps/baseline/w01/weights.dump",
-        'input_data': "../resources/test.labeled",
-#         'input_data': "../resources/comp.unlabeled",
+        'test_data': "../resources/test.labeled",
+        'unlabeled_data': "../resources/comp.unlabeled",
         'output_path': "results.labeled",
         'prefix_flag': False,
         'prefix_threshold': 5
@@ -82,10 +83,32 @@ if __name__ == '__main__':
     w = get_weight_vector(parser, manager, config)
     print("Weight vector: (", config['param_vector_mode'], ")\n", w, "\n")
     
-    print("Inferring...")
+    print("Inferring test data...")
     start_time = time.time()
-    inferrer = Inferrer(config['input_data'], parser, manager, w)
+    inferrer = Inferrer(config['test_data'], parser, manager, w)
+    inferrer.print_statistics()
+    print("Done. Elapsed time:", calc_elpased_time(start_time), "\n")
+     
+    print("Inferring unlabeled data...")
+    start_time = time.time()
+    inferrer = Inferrer(config['unlabeled_data'], parser, manager, w)
+    inferrer.store(config['output_path'])
     print("Done. Elapsed time:", calc_elpased_time(start_time), "\n")
     
-    inferrer.print_statistics()
-#     inferrer.store(config['output_path'])
+    print(optimizer.average_weight_vector)
+    if optimizer.average_weight_vector is not None:
+        print("**** Results for average vector ****")
+        
+        print("Inferring test data...")
+        start_time = time.time()
+        inferrer = Inferrer(config['test_data'], parser, manager, optimizer.average_weight_vector)
+        inferrer.print_statistics()
+        print("Done. Elapsed time:", calc_elpased_time(start_time), "\n")
+        
+        print("Inferring unlabeled data...")
+        start_time = time.time()
+        inferrer = Inferrer(config['unlabeled_data'], parser, manager, optimizer.average_weight_vector)
+        inferrer.store("results_avg.labeled")
+        print("Done. Elapsed time:", calc_elpased_time(start_time), "\n")
+    
+#     

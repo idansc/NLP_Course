@@ -1,5 +1,5 @@
 import sys
-
+import os
 from labeled_token import LabeledToken
 from constants import ROOT_SYMBOL
 from collections import Counter
@@ -22,6 +22,7 @@ class Parser(object):
 
     @staticmethod
     def parse_foramtted_data(filepath):
+        ext = os.path.splitext(filepath)[-1]
         result = []
         with open(filepath, 'r') as datafile:
             labeled_sentence = []
@@ -29,7 +30,7 @@ class Parser(object):
                 line = line.strip()
                 if not line: # line is empty
                     if labeled_sentence: # labeled_sentence is not empty 
-                        result.append(Parser.parse_foramtted_sentence(labeled_sentence))
+                        result.append(Parser.parse_foramtted_sentence(labeled_sentence, ext))
                     labeled_sentence = []
                     continue
                 
@@ -42,7 +43,7 @@ class Parser(object):
         return result
     
     @staticmethod
-    def parse_foramtted_sentence(labeled_sentence):
+    def parse_foramtted_sentence(labeled_sentence, ext):
         root_token = LabeledToken(
                 idx=0,
                 token=ROOT_SYMBOL,
@@ -62,10 +63,11 @@ class Parser(object):
             
             parsed_sentence.append(labeled_token)
         
-        for labeled_token in parsed_sentence[1:]:
-            labeled_token.in_between = Parser.get_in_between_tags(parsed_sentence,
-                                                                  labeled_token.head,
-                                                                  labeled_token.idx)
+        if (ext == ".labeled"):
+            for labeled_token in parsed_sentence[1:]:
+                labeled_token.in_between = Parser.get_in_between_tags(parsed_sentence,
+                                                                      labeled_token.head,
+                                                                      labeled_token.idx)
             
         return parsed_sentence
     

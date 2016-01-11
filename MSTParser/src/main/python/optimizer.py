@@ -4,6 +4,8 @@ import numpy as np
 from inferrer import Inferrer
 from edmonds import edmonds
 
+average_weight_vector = None
+
 class Optimizer(object):
     '''
     Optimizes the weight vector by using the Perceptron algorithm.
@@ -14,6 +16,7 @@ class Optimizer(object):
         train_sentences = parser.get_train_sentences()
         w = np.zeros(features_manager.get_num_features())
         k = 0
+        weight_vectors = []
         
         start_time = time.time()
         for i in range(num_iter):
@@ -35,9 +38,16 @@ class Optimizer(object):
 
             print("Itreration no.", i+1, "done. Elapsed time:", calc_elpased_time(start_time))
             if i in save_spot:
-                path = "weight%d.dump" % i
-                store_weight_vector(w,path)
-                print("stored",path)
+                weight_vectors.append(np.array(w, copy=True))
+#                 path = "weight%d.dump" % i
+#                 store_weight_vector(w,path)
+#                 print("stored",path)
+        
+        if len(weight_vectors) > 0:
+            global average_weight_vector
+            average_weight_vector = sum(weight_vectors)/len(weight_vectors)
+            print("Average weight vector was calculated:", sum(weight_vectors)/len(weight_vectors))
+            
         return (w, k)
     
     @staticmethod

@@ -1,6 +1,6 @@
 import os
 import numpy as np
-
+from dataparser import Parser
 from edmonds import edmonds
 
 class Inferrer(object):
@@ -73,6 +73,7 @@ class Inferrer(object):
             v = {}
             for j in range(1, n):
                 if j != i:
+                    sentence[j].in_between = Parser.get_in_between_tags(sentence, i, j)
                     indices = features_manager.calc_feature_vec(sentence,i,j)
                     v[j] = -sum(w[k] for k in indices)
                     
