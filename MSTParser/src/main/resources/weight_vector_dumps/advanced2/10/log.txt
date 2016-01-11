@@ -1,0 +1,88 @@
+Beginning parsing...
+Done. Elapsed time: 0.73 [sec] 
+
+Generating features...
+template number 0 : 9993
+template number 1 : 8876
+template number 2 : 37
+template number 3 : 15908
+template number 4 : 14162
+template number 5 : 45
+template number 6 : 31314
+template number 7 : 33936
+template number 8 : 749
+template number 9 : 71232
+template number 10 : 70401
+template number 11 : 70679
+template number 12 : 69819
+template number 13 : 126
+template number 14 : 18158
+template number 15 : 17215
+template number 16 : 18651
+template number 17 : 19113
+template number 18 : 864
+template number 19 : 1073
+template number 20 : 996
+template number 21 : 901
+template number 22 : 810
+template number 23 : 891
+template number 24 : 903
+template number 25 : 751
+template number 26 : 1121
+template number 27 : 762
+template number 28 : 823
+template number 29 : 1165
+template number 30 : 1143
+template number 31 : 885
+template number 32 : 1005
+template number 33 : 988
+template number 34 : 985
+template number 35 : 762
+template number 36 : 1153
+template number 37 : 856
+template number 38 : 1135
+template number 39 : 903
+template number 40 : 894
+template number 41 : 1110
+template number 42 : 970
+template number 43 : 1066
+template number 44 : 889
+template number 45 : 938
+template number 46 : 905
+template number 47 : 954
+template number 48 : 863
+template number 49 : 802
+template number 50 : 786
+template number 51 : 1124
+template number 52 : 28126
+Done. Elapsed time: 12.28 [sec] 
+
+Number of features: 530716 
+
+Optimizing...
+Itreration no. 1 done. Elapsed time: 5.89 [min]
+Itreration no. 2 done. Elapsed time: 7.81 [min]
+Itreration no. 3 done. Elapsed time: 8.46 [min]
+Itreration no. 4 done. Elapsed time: 8.68 [min]
+Itreration no. 5 done. Elapsed time: 8.24 [min]
+Itreration no. 6 done. Elapsed time: 8.04 [min]
+Itreration no. 7 done. Elapsed time: 8.03 [min]
+Itreration no. 8 done. Elapsed time: 7.92 [min]
+Itreration no. 9 done. Elapsed time: 5.85 [min]
+Itreration no. 10 done. Elapsed time: 5.8 [min]
+Done. K: 41696 ; Elapsed time: 74.74 [min] 
+
+Parameters vector has been saved successfully
+Weight vector: ( learn )
+ [ -2.   3. -10. ...,   0.   2.   0.] 
+
+Inferring...
+Done. Elapsed time: 1.09 [min] 
+
+
+   **** Statistics ****   
+
+Number of sentences: 1000
+Number of tokens: 24325
+Number of hits: 19676
+Accuracy: 0.808879753340185

@@ -1,3 +1,5 @@
 __pycache__
+src/main/python/results.labeled
+src/main/python/results_avg.labeled
 src/main/python/weights.dump
 src/main/resources/weight_vector_dumps/extended/stub.txt

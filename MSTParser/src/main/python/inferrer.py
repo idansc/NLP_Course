@@ -35,7 +35,7 @@ class Inferrer(object):
             
 #             print("Sentence No.", i, " ; Current Accuracy:", hits / tokens)
         
-        print("\n   **** Statistics ****   \n")
+        print("\nStatistics:")
         print("Number of sentences:", len(self.parsed_data))
         print("Number of tokens:", tokens)
         print("Number of hits:", hits)
