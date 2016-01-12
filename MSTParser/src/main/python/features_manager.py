@@ -15,7 +15,7 @@ class FeaturesManager(object):
         self.add_baseline_features()
         if extended_mode:
             self.add_extended_features()
-            self.add_in_between_features()
+#             self.add_in_between_features()
         for sentence in parser.get_train_sentences():
             for labeled_token in sentence[1:]:
                 head = labeled_token.head

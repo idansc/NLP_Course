@@ -1,0 +1,104 @@
+Beginning parsing...
+Done. Elapsed time: 0.78 [sec] 
+
+Generating features...
+template number 0 : 9993
+template number 1 : 8876
+template number 2 : 37
+template number 3 : 15908
+template number 4 : 14162
+template number 5 : 45
+template number 6 : 31314
+template number 7 : 33936
+template number 8 : 749
+template number 9 : 71232
+template number 10 : 70401
+template number 11 : 70679
+template number 12 : 69819
+template number 13 : 126
+template number 14 : 18158
+template number 15 : 17215
+template number 16 : 18651
+template number 17 : 19113
+Done. Elapsed time: 4.17 [sec] 
+
+Number of features: 470414 
+
+Optimizing...
+Itreration no. 1 done. Elapsed time: 1.66 [min]
+Itreration no. 2 done. Elapsed time: 1.66 [min]
+Itreration no. 3 done. Elapsed time: 1.66 [min]
+Itreration no. 4 done. Elapsed time: 1.65 [min]
+Itreration no. 5 done. Elapsed time: 1.65 [min]
+Itreration no. 6 done. Elapsed time: 1.64 [min]
+Itreration no. 7 done. Elapsed time: 1.64 [min]
+Itreration no. 8 done. Elapsed time: 1.63 [min]
+Itreration no. 9 done. Elapsed time: 1.63 [min]
+Itreration no. 10 done. Elapsed time: 1.63 [min]
+Itreration no. 11 done. Elapsed time: 1.62 [min]
+Itreration no. 12 done. Elapsed time: 1.62 [min]
+Itreration no. 13 done. Elapsed time: 1.62 [min]
+Itreration no. 14 done. Elapsed time: 1.61 [min]
+Itreration no. 15 done. Elapsed time: 1.61 [min]
+Itreration no. 16 done. Elapsed time: 1.61 [min]
+Itreration no. 17 done. Elapsed time: 1.61 [min]
+Itreration no. 18 done. Elapsed time: 1.63 [min]
+Itreration no. 19 done. Elapsed time: 1.61 [min]
+Itreration no. 20 done. Elapsed time: 1.6 [min]
+Itreration no. 21 done. Elapsed time: 1.61 [min]
+Itreration no. 22 done. Elapsed time: 1.6 [min]
+Itreration no. 23 done. Elapsed time: 1.6 [min]
+Itreration no. 24 done. Elapsed time: 1.6 [min]
+Itreration no. 25 done. Elapsed time: 1.61 [min]
+Itreration no. 26 done. Elapsed time: 1.6 [min]
+Itreration no. 27 done. Elapsed time: 1.59 [min]
+Itreration no. 28 done. Elapsed time: 1.59 [min]
+Itreration no. 29 done. Elapsed time: 1.59 [min]
+Itreration no. 30 done. Elapsed time: 1.59 [min]
+Itreration no. 31 done. Elapsed time: 1.59 [min]
+Itreration no. 32 done. Elapsed time: 1.59 [min]
+Itreration no. 33 done. Elapsed time: 1.59 [min]
+Itreration no. 34 done. Elapsed time: 1.59 [min]
+Itreration no. 35 done. Elapsed time: 1.59 [min]
+Itreration no. 36 done. Elapsed time: 1.59 [min]
+Itreration no. 37 done. Elapsed time: 1.59 [min]
+Itreration no. 38 done. Elapsed time: 1.58 [min]
+Itreration no. 39 done. Elapsed time: 1.58 [min]
+Itreration no. 40 done. Elapsed time: 1.61 [min]
+Itreration no. 41 done. Elapsed time: 1.59 [min]
+Itreration no. 42 done. Elapsed time: 1.58 [min]
+Itreration no. 43 done. Elapsed time: 1.6 [min]
+Itreration no. 44 done. Elapsed time: 1.58 [min]
+Average weight vector was calculated: [-3.25 -0.25 -4.75 ..., -1.    2.5   0.  ]
+Done. K: 117945 ; Elapsed time: 70.82 [min] 
+
+Parameters vector has been saved successfully
+Weight vector: ( learn )
+ [-2. -1. -6. ..., -1.  3.  0.] 
+
+Inferring test data...
+
+Statistics:
+Number of sentences: 1000
+Number of tokens: 24325
+Number of hits: 18432
+Accuracy: 0.7577389516957862
+Done. Elapsed time: 20.78 [sec] 
+
+Inferring unlabeled data...
+Done. Elapsed time: 19.7 [sec] 
+
+[-3.25 -0.25 -4.75 ..., -1.    2.5   0.  ]
+**** Results for average vector ****
+Inferring test data...
+
+Statistics:
+Number of sentences: 1000
+Number of tokens: 24325
+Number of hits: 18872
+Accuracy: 0.7758273381294964
+Done. Elapsed time: 20.83 [sec] 
+
+Inferring unlabeled data...
+Done. Elapsed time: 19.64 [sec] 
+
