@@ -1,5 +1,7 @@
+import re
 from similarity import Similarity
 from matrix import TermContextMatrix
+from constants import *
 
 class Parser(object):
     '''
@@ -17,17 +19,19 @@ class Parser(object):
         print(self.freqL2Mat.contexts)
         print(self.freqL2Mat.words)
     
-    def calculate_freq_matrices(self, curpos):
-        BOUNDARY_SYMBOL = '*'
-        with open(curpos, 'r') as file:
+    def calculate_freq_matrices(self, corpus):
+        with open(corpus, errors='ignore') as file:
             for line in file:
-                splitted_line = [BOUNDARY_SYMBOL, BOUNDARY_SYMBOL] + line.strip().split() + [BOUNDARY_SYMBOL, BOUNDARY_SYMBOL]
+                line = re.sub(r'([^\sA-Za-z0-9]|_)', '', line.strip())
+                line = re.sub(r'\b\d\d\d\d\b', YEAR_SYMBOL, line.strip())
+                line = re.sub(r'\d+', NUMBER_SYMBOL, line)
+                splitted_line = [BOUNDARY_SYMBOL, BOUNDARY_SYMBOL] + line.split() + [BOUNDARY_SYMBOL, BOUNDARY_SYMBOL]
                 for i, word in enumerate(splitted_line[2:-2]):
                     if word in self.words:
                         i += 2
                         self.freqL1Mat.add_word_with_context(word, [splitted_line[i-1], splitted_line[i+1]])
                         self.freqL2Mat.add_word_with_context(word, [splitted_line[i-2], splitted_line[i-1], splitted_line[i+1], splitted_line[i+2]])
-    
+        
     def parse_sim_db(self, db_path):
         result = {}
         with open(db_path, 'r') as file:
