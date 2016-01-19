@@ -2,6 +2,7 @@ import re
 from similarity import Similarity
 from matrix import TermContextMatrix
 from constants import *
+from utils import *
 
 class Parser(object):
     '''
@@ -16,12 +17,15 @@ class Parser(object):
         self.wordsim_db = self.parse_sim_db(wordsim_path)
         self.calculate_freq_matrices(corpus)
         
-        print(self.freqL2Mat.contexts)
-        print(self.freqL2Mat.words)
-    
+
     def calculate_freq_matrices(self, corpus):
+        prep_time = time.time()
+        prep_partial_time = prep_time
         with open(corpus, errors='ignore') as file:
-            for line in file:
+            for j,line in enumerate(file):
+                if j % 10000 == 0:
+                    print("Current line:", j, "; Elapsed time:", calc_elpased_time(prep_partial_time))
+                    prep_partial_time = time.time()
                 line = re.sub(r'([^\sA-Za-z0-9]|_)', '', line.strip())
                 line = re.sub(r'\b\d\d\d\d\b', YEAR_SYMBOL, line.strip())
                 line = re.sub(r'\d+', NUMBER_SYMBOL, line)
@@ -32,6 +36,14 @@ class Parser(object):
                         self.freqL1Mat.add_word_with_context(word, [splitted_line[i-1], splitted_line[i+1]])
                         self.freqL2Mat.add_word_with_context(word, [splitted_line[i-2], splitted_line[i-1], splitted_line[i+1], splitted_line[i+2]])
         
+        print("Done preprocessing. Elapsed time:", calc_elpased_time(prep_time))
+        
+        filter_time = time.time()
+        self.freqL1Mat.filter()
+        self.freqL2Mat.filter()
+        print("Done filtering. Elapsed time:", calc_elpased_time(filter_time))
+        
+    
     def parse_sim_db(self, db_path):
         result = {}
         with open(db_path, 'r') as file:

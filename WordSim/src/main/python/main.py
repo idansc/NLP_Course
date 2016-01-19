@@ -1,5 +1,4 @@
 import os
-import time
 from utils import *
 from dataparser import Parser
 
@@ -9,14 +8,10 @@ if __name__ == '__main__':
     config = {
         'simlex_path': '../resources/SimLex-999.csv',
         'wordsim_path': '../resources/wordsim353.csv',
-#         'corpus': '../resources/full.csv.txt',
+#         'corpus': '../resources/full.txt'
         'corpus': '../resources/light_corpus.txt'
+#         'corpus': '../resources/ultra_light_corpus.txt'
     }
-    
-    # Preprocessing
-        # parse SimLex and WordSim
-        # parse trainging data
-        #  
     
     print("Beginning parsing...")
     start_time = time.time()
