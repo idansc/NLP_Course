@@ -1,6 +1,7 @@
 import os
 from utils import *
 from dataparser import Parser
+from evaluator import Evaluator
 
 os.chdir(os.path.dirname(__file__))
 
@@ -16,6 +17,12 @@ if __name__ == '__main__':
     print("Beginning parsing...")
     start_time = time.time()
     parser = Parser(config['simlex_path'], config['wordsim_path'], config['corpus'])
+    print("Done. Elapsed time:", calc_elpased_time(start_time), "\n")
+    
+    print("Beginning evaluation...")
+    start_time = time.time()
+    evaluator = Evaluator(parser)
+    evaluator.evaluate()
     print("Done. Elapsed time:", calc_elpased_time(start_time), "\n")
     
 #     

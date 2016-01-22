@@ -53,7 +53,8 @@ class DataParserTests(unittest.TestCase):
     def test_db_parsing(self):
 #         self.assertEqual(len(parser.wordsim_db), 351)
 #         self.assertEqual(len(parser.simlex_db), 999)
-        self.assertEqual(self.parser.wordsim_db[frozenset({'tiger', 'cat'})].score, 7.35)
+#         self.assertEqual(self.parser.wordsim_db[frozenset({'tiger', 'cat'})].score, 7.35)
+        self.assertEqual(self.parser.wordsim_db[('tiger', 'cat')].score, 7.35)
     
 
 if __name__ == "__main__":

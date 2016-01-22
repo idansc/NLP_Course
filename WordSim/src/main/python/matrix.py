@@ -24,13 +24,16 @@ class TermContextMatrix(object):
         
     def filter(self):
         self.contexts = dict(self.contexts.most_common(5000))
-        for _, row in self.words.items(): 
+        for word, row in self.words.items(): 
             to_delete = []
             for ctx in row:
                 if ctx not in self.contexts:
                     to_delete.append(ctx)
             for ctx in to_delete:
                 del row[ctx]
+            
+            row = dict(row)
+            self.words[word] = row
             self.N += sum(row.values())
             self.non_zeros_entries += len(row.values())
 

@@ -94,7 +94,8 @@ class Parser(object):
             next(file)
             for line in file:
                 splitted_line = line.strip().split(',')
-                k = frozenset({splitted_line[0], splitted_line[1]})
+#                 k = frozenset({splitted_line[0], splitted_line[1]})
+                k = (splitted_line[0], splitted_line[1])
                 v = Similarity(float(splitted_line[2]), splitted_line[3]) if len(splitted_line) == 4 else Similarity(float(splitted_line[2]))
                 result[k] = v
                 self.words.add(splitted_line[0])
