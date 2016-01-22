@@ -10,7 +10,7 @@ class Evaluator(object):
                 (parser.ppmiL1Mat, 'ppmi1'), 
                 (parser.ppmiL2Mat, 'ppmi2')
             ]
-        self.results = {}
+        self.results = {'wordsim353': {}, 'simlex999': {}}
         
     def evaluate(self):
         for mat, name in self.matrices:
@@ -25,7 +25,7 @@ class Evaluator(object):
                 continue
             similarities[(word1, word2)] = self.cosine(word1, word2, mat)
         
-        self.results[name] = similarities
+        self.results['wordsim353'][name] = similarities
     
     def calc_similarity_simlex999(self, mat, name):
         pass
