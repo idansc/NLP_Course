@@ -1,4 +1,5 @@
 import re
+from math import log
 from similarity import Similarity
 from matrix import TermContextMatrix
 from constants import *
@@ -16,8 +17,39 @@ class Parser(object):
         self.simlex_db = self.parse_sim_db(simlex_path)
         self.wordsim_db = self.parse_sim_db(wordsim_path)
         self.calculate_freq_matrices(corpus)
+        self.ppmiL1Mat = Parser.to_ppmi(self.freqL1Mat)
+        self.ppmiL2Mat = Parser.to_ppmi(self.freqL2Mat)
+#         print("N:", self.freqL1Mat.N, self.ppmiL1Mat.N, self.freqL2Mat.N, self.ppmiL2Mat.N)
+#         print("len(contexts):", len(self.freqL1Mat.contexts), len(self.ppmiL1Mat.contexts), len(self.freqL2Mat.contexts), len(self.ppmiL2Mat.contexts))
+#         print("len(words):", len(self.freqL1Mat.words), len(self.ppmiL1Mat.words), len(self.freqL2Mat.words), len(self.ppmiL2Mat.words))
+#         print(self.freqL1Mat.words)
+#         print(self.ppmiL1Mat.words)
+    
+    @staticmethod
+    def to_ppmi(freq_mat):
+        ppmi_mat = TermContextMatrix()
+        ppmi_mat.contexts = freq_mat.contexts
+        ppmi_mat.lmtzr = freq_mat.lmtzr
         
-
+        contexts_size = len(freq_mat.contexts)
+        words_size = len(freq_mat.words)
+        ppmi_mat.N = freq_mat.N + (contexts_size*words_size*2)
+        ppmi_mat.words = {}
+        for word, row in freq_mat.words.items(): 
+            p_i = (sum(row.values()) + 2*contexts_size) / ppmi_mat.N
+            
+            ctx_prob_pairs = []
+            for ctx_word, cnt in row.items():
+                p_j = (freq_mat.contexts[ctx_word] + 2*words_size) / ppmi_mat.N
+                p_ij = (cnt + 2) / ppmi_mat.N
+                pmi = log(p_ij / (p_i * p_j), 2)
+                ppmi = pmi if pmi > 0 else 0.0
+                ctx_prob_pairs.append((ctx_word, ppmi))
+                
+            ppmi_mat.words[word] = dict(ctx_prob_pairs)
+        
+        return ppmi_mat
+            
     def calculate_freq_matrices(self, corpus):
         prep_time = time.time()
         prep_partial_time = prep_time
