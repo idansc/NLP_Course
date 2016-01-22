@@ -9,6 +9,7 @@ class TermContextMatrix(object):
         self.words = {}
         self.lmtzr = WordNetLemmatizer()
         self.N = 0
+        self.non_zeros_entries = 0
     
     def add_word_with_context(self, word, contexts):
         word = self.lmtzr.lemmatize(word.lower())
@@ -31,4 +32,7 @@ class TermContextMatrix(object):
             for ctx in to_delete:
                 del row[ctx]
             self.N += sum(row.values())
-    
+            self.non_zeros_entries += len(row.values())
+
+    def clac_sparsity(self):
+        return self.non_zeros_entries / (len(self.contexts)*len(self.words))

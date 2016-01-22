@@ -19,6 +19,14 @@ class Parser(object):
         self.calculate_freq_matrices(corpus)
         self.ppmiL1Mat = Parser.to_ppmi(self.freqL1Mat)
         self.ppmiL2Mat = Parser.to_ppmi(self.freqL2Mat)
+        
+        print()
+        print('Sparsity')
+        print('freq1:', self.freqL1Mat.clac_sparsity())
+        print('freq2:', self.freqL2Mat.clac_sparsity())
+        print('ppmi1:', self.ppmiL1Mat.clac_sparsity())
+        print('ppmi2:', self.ppmiL2Mat.clac_sparsity())
+        print()
 #         print("N:", self.freqL1Mat.N, self.ppmiL1Mat.N, self.freqL2Mat.N, self.ppmiL2Mat.N)
 #         print("len(contexts):", len(self.freqL1Mat.contexts), len(self.ppmiL1Mat.contexts), len(self.freqL2Mat.contexts), len(self.ppmiL2Mat.contexts))
 #         print("len(words):", len(self.freqL1Mat.words), len(self.ppmiL1Mat.words), len(self.freqL2Mat.words), len(self.ppmiL2Mat.words))
@@ -35,6 +43,8 @@ class Parser(object):
         words_size = len(freq_mat.words)
         ppmi_mat.N = freq_mat.N + (contexts_size*words_size*2)
         ppmi_mat.words = {}
+        ppmi_mat.non_zeros_entries = 0
+        
         for word, row in freq_mat.words.items(): 
             p_i = (sum(row.values()) + 2*contexts_size) / ppmi_mat.N
             
@@ -45,6 +55,8 @@ class Parser(object):
                 pmi = log(p_ij / (p_i * p_j), 2)
                 ppmi = pmi if pmi > 0 else 0.0
                 ctx_prob_pairs.append((ctx_word, ppmi))
+                if ppmi != 0.0:
+                    ppmi_mat.non_zeros_entries += 1
                 
             ppmi_mat.words[word] = dict(ctx_prob_pairs)
         

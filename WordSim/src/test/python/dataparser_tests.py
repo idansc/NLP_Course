@@ -3,10 +3,10 @@ from collections import Counter
 from dataparser import Parser
 
 class DataParserTests(unittest.TestCase):
-#     
-#     def __init__(self, *args, **kwargs):
-#         super().__init__(*args, **kwargs)
-#         self.parser = Parser('../resources/SimLex-999.csv', '../resources/wordsim353.csv', '../resources/ultra_light_corpus.txt')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.parser = Parser('../resources/SimLex-999.csv', '../resources/wordsim353.csv', '../resources/ultra_light_corpus.txt')
         
     def test_matrices(self):
         parser = Parser('../resources/test/SimLex-999.csv', '../resources/test/wordsim353.csv', '../resources/test/test_corpus.txt')
@@ -44,10 +44,16 @@ class DataParserTests(unittest.TestCase):
         self.assertEqual(parser.ppmiL1Mat.contexts['result'], 5)
         self.assertEqual(parser.ppmiL1Mat.contexts['sugar'], 2)
         
-#     def test_db_parsing(self):
-# #         self.assertEqual(len(parser.wordsim_db), 351)
-# #         self.assertEqual(len(parser.simlex_db), 999)
-#         self.assertEqual(self.parser.wordsim_db[frozenset({'tiger', 'cat'})].score, 7.35)
+        self.assertEqual(parser.freqL1Mat.non_zeros_entries, 10)
+        self.assertEqual(parser.ppmiL1Mat.non_zeros_entries, 7)
+        
+        self.assertEqual(parser.freqL1Mat.clac_sparsity(), 0.5)
+        self.assertEqual(parser.ppmiL1Mat.clac_sparsity(), 0.35)
+        
+    def test_db_parsing(self):
+#         self.assertEqual(len(parser.wordsim_db), 351)
+#         self.assertEqual(len(parser.simlex_db), 999)
+        self.assertEqual(self.parser.wordsim_db[frozenset({'tiger', 'cat'})].score, 7.35)
     
 
 if __name__ == "__main__":
