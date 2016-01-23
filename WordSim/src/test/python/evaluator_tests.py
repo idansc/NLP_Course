@@ -10,6 +10,7 @@ class EvaluatorTests(unittest.TestCase):
         
     def test_matrices(self):
         parser = Parser('../resources/test/SimLex-999.csv', '../resources/test/wordsim353.csv', '../resources/test/test_corpus.txt')
+#         parser = Parser('../resources/SimLex-999.csv', '../resources/wordsim353.csv', '../resources/light_corpus.txt')
         evaluator = Evaluator(parser)
         evaluator.evaluate()
         
