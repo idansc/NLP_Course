@@ -25,7 +25,18 @@ class Evaluator(object):
             print(name+": ", end='')
             self.calc_correlation_simlex999(name)
         print()
+        
+        if output_comp:
+            self.output_comp()
 
+    
+    def output_comp(self):
+        for _, name in self.matrices:
+            filename = "comp_"+name+"_300997442.csv"
+            with open(filename, "w") as out:
+                for (w1,w2),(my_score,_) in self.results['wordsim353'][name].items():
+                    out.write(",".join([w1, w2, str(round(my_score,2))])+"\n")
+    
     
     def calc_correlation_simlex999(self, name):
         overall = {**self.results['simlex999'][name]['A'], **self.results['simlex999'][name]['N'], **self.results['simlex999'][name]['V']}

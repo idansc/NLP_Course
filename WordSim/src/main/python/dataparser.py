@@ -27,11 +27,6 @@ class Parser(object):
         print('ppmi1:', self.ppmiL1Mat.clac_sparsity())
         print('ppmi2:', self.ppmiL2Mat.clac_sparsity())
         print()
-#         print("N:", self.freqL1Mat.N, self.ppmiL1Mat.N, self.freqL2Mat.N, self.ppmiL2Mat.N)
-#         print("len(contexts):", len(self.freqL1Mat.contexts), len(self.ppmiL1Mat.contexts), len(self.freqL2Mat.contexts), len(self.ppmiL2Mat.contexts))
-#         print("len(words):", len(self.freqL1Mat.words), len(self.ppmiL1Mat.words), len(self.freqL2Mat.words), len(self.ppmiL2Mat.words))
-#         print(self.freqL1Mat.words)
-#         print(self.ppmiL1Mat.words)
     
     @staticmethod
     def to_ppmi(freq_mat):
