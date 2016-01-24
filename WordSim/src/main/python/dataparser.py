@@ -21,7 +21,7 @@ class Parser(object):
         self.ppmiL2Mat = Parser.to_ppmi(self.freqL2Mat)
         
         print()
-        print('Sparsity')
+        print('Sparsity:')
         print('freq1:', self.freqL1Mat.clac_sparsity())
         print('freq2:', self.freqL2Mat.clac_sparsity())
         print('ppmi1:', self.ppmiL1Mat.clac_sparsity())
@@ -53,9 +53,8 @@ class Parser(object):
                 p_j = (freq_mat.contexts[ctx_word] + 2*words_size) / ppmi_mat.N
                 p_ij = (cnt + 2) / ppmi_mat.N
                 pmi = log(p_ij / (p_i * p_j), 2)
-                ppmi = pmi if pmi > 0 else 0.0
-                ctx_prob_pairs.append((ctx_word, ppmi))
-                if ppmi != 0.0:
+                if pmi > 0:
+                    ctx_prob_pairs.append((ctx_word, pmi))
                     ppmi_mat.non_zeros_entries += 1
                 
             ppmi_mat.words[word] = dict(ctx_prob_pairs)
@@ -70,7 +69,7 @@ class Parser(object):
                 if j % 10000 == 0:
                     print("Current line:", j, "; Elapsed time:", calc_elpased_time(prep_partial_time))
                     prep_partial_time = time.time()
-                line = re.sub(r'([^\sA-Za-z0-9]|_)', '', line.strip())
+                line = re.sub(r'([^\sa-z0-9]|_)', '', line.strip().lower())
                 line = re.sub(r'\b\d\d\d\d\b', YEAR_SYMBOL, line.strip())
                 line = re.sub(r'\d+', NUMBER_SYMBOL, line)
                 splitted_line = [BOUNDARY_SYMBOL, BOUNDARY_SYMBOL] + line.split() + [BOUNDARY_SYMBOL, BOUNDARY_SYMBOL]
