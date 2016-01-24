@@ -12,18 +12,32 @@ class Evaluator(object):
             ]
         self.results = {'wordsim353': {}, 'simlex999': {}}
         
-    def evaluate(self):
+    def evaluate(self, output_comp=True):
         print()
-        print("Spearman Correlation:")
+        print("Spearman Correlation for wordsim353:")
         for mat, name in self.matrices:
             self.calc_similarity_wordsim353(mat, name)
-            self.calc_similarity_simlex999(mat, name)
-            self.calc_correlation(name)
+            print(name+":", self.calc_correlation(name, self.results['wordsim353'][name].items()))
         print()
-#         print(self.results)
+        print("Spearman Correlation for SimLex-999:")
+        for mat, name in self.matrices:
+            self.calc_similarity_simlex999(mat, name)
+            print(name+": ", end='')
+            self.calc_correlation_simlex999(name)
+        print()
+
     
-    def calc_correlation(self, name):
-        results_list = [(w1,w2,my_score,gt_score) for (w1,w2),(my_score,gt_score) in self.results['wordsim353'][name].items()]
+    def calc_correlation_simlex999(self, name):
+        overall = {**self.results['simlex999'][name]['A'], **self.results['simlex999'][name]['N'], **self.results['simlex999'][name]['V']}
+        rho = self.calc_correlation(name, overall.items())
+        print("Overall:", str(rho), end=' \t')
+        for pos, similarities in self.results['simlex999'][name].items():
+            rho = self.calc_correlation(name, similarities.items())
+            print(pos+":", str(rho), end=' \t')
+        print()    
+    
+    def calc_correlation(self, name, items):
+        results_list = [(w1,w2,my_score,gt_score) for (w1,w2),(my_score,gt_score) in items]
         list_by_x = [(w1,w2) for w1,w2,_,_ in sorted(results_list, key=lambda e : e[2])]
         list_by_y = [(w1,w2) for w1,w2,_,_ in sorted(results_list, key=lambda e : e[3])]
         
@@ -35,8 +49,7 @@ class Evaluator(object):
         
         s = sum([pow(r_x-r_y,2) for (r_x, r_y) in rank_table])
         n = len(rank_table)
-        rho = 1 - ((6*s)/(n*(pow(n,2)-1)))
-        print(name+":", rho)
+        return round(1 - ((6*s)/(n*(pow(n,2)-1))),5)
         
         
     def calc_similarity_wordsim353(self, mat, name):
