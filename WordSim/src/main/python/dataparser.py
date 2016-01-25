@@ -4,13 +4,15 @@ from similarity import Similarity
 from matrix import TermContextMatrix
 from constants import *
 from utils import *
+from nltk.corpus import stopwords
 
 class Parser(object):
     '''
     Handles data parsing
     '''
 
-    def __init__(self, simlex_path, wordsim_path, corpus):
+    def __init__(self, simlex_path, wordsim_path, corpus, extended_mode=False):
+        self.extended_mode = extended_mode
         self.words = set()
         self.freqL1Mat = TermContextMatrix()
         self.freqL2Mat = TermContextMatrix()
@@ -59,6 +61,8 @@ class Parser(object):
     def calculate_freq_matrices(self, corpus):
         prep_time = time.time()
         prep_partial_time = prep_time
+        if self.extended_mode:
+            ignore_tokens = stopwords.words("english") + [',', '\'', '"', '.', ',', '(', ')', '-', ';', '?', '!', '/']
         with open(corpus, errors='ignore') as file:
             for j,line in enumerate(file):
                 if j % 8000000 == 0:
@@ -67,6 +71,8 @@ class Parser(object):
                 line = re.sub(r'([^\sa-z0-9]|_)', '', line.strip().lower())
                 line = re.sub(r'\b\d\d\d\d\b', YEAR_SYMBOL, line.strip())
                 line = re.sub(r'\d+', NUMBER_SYMBOL, line)
+                if self.extended_mode:
+                    line = ' '.join([word for word in line.split() if word not in ignore_tokens])
                 splitted_line = [BOUNDARY_SYMBOL, BOUNDARY_SYMBOL] + line.split() + [BOUNDARY_SYMBOL, BOUNDARY_SYMBOL]
                 for i, word in enumerate(splitted_line[2:-2]):
                     if word in self.words:
