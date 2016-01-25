@@ -1,0 +1,46 @@
+
+C:\Workbench\Projects\EclipseWorkspace\nlp-course\WordSim\src\main\python>python -c "import main; ma
+in.build_comp_files()"
+C:\Workbench\Programs\Anaconda3\lib\site-packages\sklearn\utils\fixes.py:64: DeprecationWarning: ins
+pect.getargspec() is deprecated, use inspect.signature() instead
+  if 'order' in inspect.getargspec(np.copy)[0]:
+Beginning parsing...
+Current line: 0 ; Elapsed time: 0.0 [sec]
+Current line: 8000000 ; Elapsed time: 20.78 [min]
+Current line: 16000000 ; Elapsed time: 17.38 [min]
+Current line: 24000000 ; Elapsed time: 15.58 [min]
+Current line: 32000000 ; Elapsed time: 14.86 [min]
+Current line: 40000000 ; Elapsed time: 14.56 [min]
+Current line: 48000000 ; Elapsed time: 13.99 [min]
+Current line: 56000000 ; Elapsed time: 12.72 [min]
+Current line: 64000000 ; Elapsed time: 12.74 [min]
+Current line: 72000000 ; Elapsed time: 12.81 [min]
+Current line: 80000000 ; Elapsed time: 12.86 [min]
+Current line: 88000000 ; Elapsed time: 11.94 [min]
+Done preprocessing. Elapsed time: 160.35 [min]
+Done filtering. Elapsed time: 36.63 [sec]
+
+Sparsity:
+freq1: 0.4312246782740348
+freq2: 0.6392566237698714
+ppmi1: 0.16104950794852385
+ppmi2: 0.2337557910673732
+
+Done parsing. Elapsed time: 161.11 [min]
+
+Beginning evaluation...
+
+Spearman Correlation for wordsim353:
+freq1: 0.31335
+freq2: 0.33083
+ppmi1: 0.55843
+ppmi2: 0.56519
+
+Spearman Correlation for SimLex-999:
+freq1: Overall: 0.10464         N: 0.12951      A: -0.00577     V: 0.13326
+freq2: Overall: 0.10226         N: 0.09874      A: 0.02138      V: 0.15719
+ppmi1: Overall: 0.351   N: 0.41795      A: 0.49842      V: 0.10801
+ppmi2: Overall: 0.342   N: 0.38756      A: 0.44166      V: 0.21542
+
+Done evaluating. Elapsed time: 19.82 [sec]
+

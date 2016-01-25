@@ -61,7 +61,7 @@ class Parser(object):
         prep_partial_time = prep_time
         with open(corpus, errors='ignore') as file:
             for j,line in enumerate(file):
-                if j % 10000 == 0:
+                if j % 8000000 == 0:
                     print("Current line:", j, "; Elapsed time:", calc_elpased_time(prep_partial_time))
                     prep_partial_time = time.time()
                 line = re.sub(r'([^\sa-z0-9]|_)', '', line.strip().lower())
