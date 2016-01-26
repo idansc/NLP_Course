@@ -2,13 +2,20 @@ from math import sqrt
 
 class Evaluator(object):
 
-    def __init__(self, parser):
+    def __init__(self, parser, sim='cosine'):
         self.parser = parser
+        self.sim = sim
         self.matrices = [
                 (parser.freqL1Mat, 'freq1'), 
-                (parser.freqL2Mat, 'freq2'), 
                 (parser.ppmiL1Mat, 'ppmi1'), 
-                (parser.ppmiL2Mat, 'ppmi2')
+                (parser.freqL2Mat, 'freq2'), 
+                (parser.ppmiL2Mat, 'ppmi2'),
+                (parser.freqL3Mat, 'freq3'), 
+                (parser.ppmiL3Mat, 'ppmi3'), 
+                (parser.freqL4Mat, 'freq4'), 
+                (parser.ppmiL4Mat, 'ppmi4'), 
+                (parser.freqL5Mat, 'freq5'), 
+                (parser.ppmiL5Mat, 'ppmi5')
             ]
         self.results = {'wordsim353': {}, 'simlex999': {}}
         
@@ -68,7 +75,12 @@ class Evaluator(object):
         for (word1, word2), sim in self.parser.wordsim_db.items():
             if word1 not in mat.words or word2 not in mat.words or not mat.words[word1] or not mat.words[word2]:
                 continue
-            similarities[(word1, word2)] = (self.cosine(word1, word2, mat), sim.score)
+            if self.sim == "jaccard":
+                similarities[(word1, word2)] = (self.jaccard(word1, word2, mat), sim.score)
+            elif self.sim == "dice":
+                similarities[(word1, word2)] = (self.dice(word1, word2, mat), sim.score)
+            else:
+                similarities[(word1, word2)] = (self.cosine(word1, word2, mat), sim.score)
         
         self.results['wordsim353'][name] = similarities
     
@@ -77,10 +89,37 @@ class Evaluator(object):
         for (word1, word2), sim in self.parser.simlex_db.items():
             if word1 not in mat.words or word2 not in mat.words or not mat.words[word1] or not mat.words[word2]:
                 continue
-            similarities[sim.pos][(word1, word2)] = (self.cosine(word1, word2, mat), sim.score)
+            if self.sim == "jaccard":
+                similarities[sim.pos][(word1, word2)] = (self.jaccard(word1, word2, mat), sim.score)
+            elif self.sim == "dice":
+                similarities[sim.pos][(word1, word2)] = (self.dice(word1, word2, mat), sim.score)
+            else:
+                similarities[sim.pos][(word1, word2)] = (self.cosine(word1, word2, mat), sim.score)
 
         self.results['simlex999'][name] = similarities
     
+    def jaccard(self, word1, word2, mat):
+        v1 = mat.words[word1]
+        v2 = mat.words[word2]
+        num = 0.0
+        denum = 0.0
+        words = v1.keys() | v2.keys()
+        for word in words:
+            num += min(v1.get(word, 0.0), v2.get(word, 0.0))
+            denum += max(v1.get(word, 0.0), v2.get(word, 0.0))
+        return num/denum if denum != 0 else 0.0
+    
+    def dice(self, word1, word2, mat):
+        v1 = mat.words[word1]
+        v2 = mat.words[word2]
+        num = 0.0
+        denum = 0.0
+        words = v1.keys() | v2.keys()
+        for word in words:
+            num += min(v1.get(word, 0.0), v2.get(word, 0.0))
+            denum += v1.get(word, 0.0) + v2.get(word, 0.0)
+        return (2*num)/denum if denum != 0 else 0.0 
+       
     def cosine(self, word1, word2, mat):
         v1 = mat.words[word1]
         v2 = mat.words[word2]

@@ -12,9 +12,20 @@ def run(config):
     print("Done parsing. Elapsed time:", calc_elpased_time(start_time), "\n")
     
     print("Beginning evaluation...")
+    print("Similarity measure: cosine")
     start_time = time.time()
-    evaluator = Evaluator(parser)
-    evaluator.evaluate()
+    evaluator_cosine = Evaluator(parser)
+    evaluator_cosine.evaluate()
+    
+    print()
+    print("Similarity measure: Jaccard")
+    evaluator_jaccard = Evaluator(parser, sim="jaccard")
+    evaluator_jaccard.evaluate()
+    
+    print()
+    print("Similarity measure: Dice")
+    evaluator_jaccard = Evaluator(parser, sim="dice")
+    evaluator_jaccard.evaluate()
     print("Done evaluating. Elapsed time:", calc_elpased_time(start_time), "\n")
 
 def build_comp_files():
@@ -31,8 +42,8 @@ if __name__ == '__main__':
         'simlex_path': '../resources/SimLex-999.csv',
         'wordsim_path': '../resources/wordsim353.csv',
         'extended_mode': True,
-        'corpus': '../resources/full.txt'
-#         'corpus': '../resources/light_corpus.txt'
+#         'corpus': '../resources/full.txt'
+        'corpus': '../resources/light_corpus.txt'
 #         'corpus': '../resources/ultra_light_corpus.txt'
     }
     run(config)   
