@@ -9,13 +9,7 @@ class Evaluator(object):
                 (parser.freqL1Mat, 'freq1'), 
                 (parser.ppmiL1Mat, 'ppmi1'), 
                 (parser.freqL2Mat, 'freq2'), 
-                (parser.ppmiL2Mat, 'ppmi2'),
-                (parser.freqL3Mat, 'freq3'), 
-                (parser.ppmiL3Mat, 'ppmi3'), 
-                (parser.freqL4Mat, 'freq4'), 
-                (parser.ppmiL4Mat, 'ppmi4'), 
-                (parser.freqL5Mat, 'freq5'), 
-                (parser.ppmiL5Mat, 'ppmi5')
+                (parser.ppmiL2Mat, 'ppmi2')
             ]
         self.results = {'wordsim353': {}, 'simlex999': {}}
         

@@ -4,29 +4,21 @@ from similarity import Similarity
 from matrix import TermContextMatrix
 from constants import *
 from utils import *
-from nltk.corpus import stopwords
 
 class Parser(object):
     '''
     Handles data parsing
     '''
 
-    def __init__(self, simlex_path, wordsim_path, corpus, extended_mode=False):
-        self.extended_mode = extended_mode
+    def __init__(self, simlex_path, wordsim_path, corpus):
         self.words = set()
         self.freqL1Mat = TermContextMatrix()
         self.freqL2Mat = TermContextMatrix()
-        self.freqL3Mat = TermContextMatrix()
-        self.freqL4Mat = TermContextMatrix()
-        self.freqL5Mat = TermContextMatrix()
         self.simlex_db = self.parse_sim_db(simlex_path)
         self.wordsim_db = self.parse_sim_db(wordsim_path)
         self.calculate_freq_matrices(corpus)
         self.ppmiL1Mat = Parser.to_ppmi(self.freqL1Mat)
         self.ppmiL2Mat = Parser.to_ppmi(self.freqL2Mat)
-        self.ppmiL3Mat = Parser.to_ppmi(self.freqL3Mat)
-        self.ppmiL4Mat = Parser.to_ppmi(self.freqL4Mat)
-        self.ppmiL5Mat = Parser.to_ppmi(self.freqL5Mat)
         
         print()
         print('Sparsity:')
@@ -67,8 +59,6 @@ class Parser(object):
     def calculate_freq_matrices(self, corpus):
         prep_time = time.time()
         prep_partial_time = prep_time
-#         if self.extended_mode:
-#             ignore_tokens = stopwords.words("english") + ['\'', '"', '.', ',', '(', ')', '-', ';', '?', '!', '/']
         with open(corpus, errors='ignore') as file:
             for j,line in enumerate(file):
                 if j % 8000000 == 0:
@@ -77,26 +67,18 @@ class Parser(object):
                 line = re.sub(r'([^\sa-z0-9]|_)', '', line.strip().lower())
                 line = re.sub(r'\b\d\d\d\d\b', YEAR_SYMBOL, line.strip())
                 line = re.sub(r'\d+', NUMBER_SYMBOL, line)
-#                 if self.extended_mode:
-#                     line = ' '.join([word for word in line.split() if word not in ignore_tokens])
                 splitted_line = [BOUNDARY_SYMBOL, BOUNDARY_SYMBOL, BOUNDARY_SYMBOL, BOUNDARY_SYMBOL, BOUNDARY_SYMBOL] + line.split() + [BOUNDARY_SYMBOL, BOUNDARY_SYMBOL, BOUNDARY_SYMBOL, BOUNDARY_SYMBOL, BOUNDARY_SYMBOL]
                 for i, word in enumerate(splitted_line[5:-5]):
                     if word in self.words:
                         i += 5
                         self.freqL1Mat.add_word_with_context(word, [splitted_line[i-1], splitted_line[i+1]])
                         self.freqL2Mat.add_word_with_context(word, [splitted_line[i-2], splitted_line[i-1], splitted_line[i+1], splitted_line[i+2]])
-                        self.freqL3Mat.add_word_with_context(word, [splitted_line[i-3], splitted_line[i-2], splitted_line[i-1], splitted_line[i+1], splitted_line[i+2], splitted_line[i+3], splitted_line[i+4]])
-                        self.freqL4Mat.add_word_with_context(word, [splitted_line[i-4], splitted_line[i-3], splitted_line[i-2], splitted_line[i-1], splitted_line[i+1], splitted_line[i+2], splitted_line[i+3]])
-                        self.freqL5Mat.add_word_with_context(word, [splitted_line[i-5], splitted_line[i-4], splitted_line[i-3], splitted_line[i-2], splitted_line[i-1], splitted_line[i+1], splitted_line[i+2], splitted_line[i+3], splitted_line[i+4], splitted_line[i+5]])
         
         print("Done preprocessing. Elapsed time:", calc_elpased_time(prep_time))
         
         filter_time = time.time()
         self.freqL1Mat.filter()
         self.freqL2Mat.filter()
-        self.freqL3Mat.filter()
-        self.freqL4Mat.filter()
-        self.freqL5Mat.filter()
         print("Done filtering. Elapsed time:", calc_elpased_time(filter_time))
         
     
@@ -106,7 +88,6 @@ class Parser(object):
             next(file)
             for line in file:
                 splitted_line = line.strip().split(',')
-#                 k = frozenset({splitted_line[0], splitted_line[1]})
                 k = (splitted_line[0], splitted_line[1])
                 v = Similarity(float(splitted_line[2]), splitted_line[3]) if len(splitted_line) == 4 else Similarity(float(splitted_line[2]))
                 result[k] = v
