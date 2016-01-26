@@ -31,8 +31,8 @@ if __name__ == '__main__':
         'simlex_path': '../resources/SimLex-999.csv',
         'wordsim_path': '../resources/wordsim353.csv',
         'extended_mode': True,
-#         'corpus': '../resources/full.txt'
-        'corpus': '../resources/light_corpus.txt'
+        'corpus': '../resources/full.txt'
+#         'corpus': '../resources/light_corpus.txt'
 #         'corpus': '../resources/ultra_light_corpus.txt'
     }
     run(config)   

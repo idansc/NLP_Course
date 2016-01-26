@@ -1,0 +1,42 @@
+C:\Workbench\Programs\Anaconda3\lib\site-packages\sklearn\utils\fixes.py:64: DeprecationWarning: inspect.getargspec() is deprecated, use inspect.signature() instead
+  if 'order' in inspect.getargspec(np.copy)[0]:
+Beginning parsing...
+Current line: 0 ; Elapsed time: 0.05 [sec]
+Current line: 8000000 ; Elapsed time: 22.44 [min]
+Current line: 16000000 ; Elapsed time: 21.75 [min]
+Current line: 24000000 ; Elapsed time: 20.8 [min]
+Current line: 32000000 ; Elapsed time: 21.47 [min]
+Current line: 40000000 ; Elapsed time: 19.34 [min]
+Current line: 48000000 ; Elapsed time: 18.73 [min]
+Current line: 56000000 ; Elapsed time: 17.02 [min]
+Current line: 64000000 ; Elapsed time: 17.61 [min]
+Current line: 72000000 ; Elapsed time: 17.69 [min]
+Current line: 80000000 ; Elapsed time: 18.74 [min]
+Current line: 88000000 ; Elapsed time: 27.22 [min]
+Done preprocessing. Elapsed time: 223.17 [min]
+Done filtering. Elapsed time: 13.63 [min]
+
+Sparsity:
+freq1: 0.6398260606060606
+freq2: 0.7765331818181819
+ppmi1: 0.23153636363636362
+ppmi2: 0.2805410606060606
+
+Done parsing. Elapsed time: 237.0 [min] 
+
+Beginning evaluation...
+
+Spearman Correlation for wordsim353:
+freq1: 0.3483
+freq2: 0.38769
+ppmi1: 0.55207
+ppmi2: 0.58354
+
+Spearman Correlation for SimLex-999:
+freq1: Overall: 0.20268 	N: 0.22765 	A: 0.32239 	V: 0.1272 	
+freq2: Overall: 0.16609 	N: 0.19518 	A: 0.23253 	V: 0.06864 	
+ppmi1: Overall: 0.34805 	N: 0.38328 	A: 0.4524 	V: 0.21445 	
+ppmi2: Overall: 0.32866 	N: 0.36224 	A: 0.41514 	V: 0.19401 	
+
+Done evaluating. Elapsed time: 26.4 [sec] 
+
