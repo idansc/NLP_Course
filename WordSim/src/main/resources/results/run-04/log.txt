@@ -1,0 +1,54 @@
+Microsoft Windows [Version 6.3.9600]
+(c) 2013 Microsoft Corporation. All rights reserved.
+
+C:\Workbench\Projects\EclipseWorkspace\nlp-course\WordSim\src\main\python>python -c "import main; ma
+in.build_comp_files()"
+C:\Workbench\Programs\Anaconda3\lib\site-packages\sklearn\utils\fixes.py:64: DeprecationWarning: ins
+pect.getargspec() is deprecated, use inspect.signature() instead
+  if 'order' in inspect.getargspec(np.copy)[0]:
+Beginning parsing...
+Current line: 0 ; Elapsed time: 0.05 [sec]
+Current line: 8000000 ; Elapsed time: 22.32 [min]
+Current line: 16000000 ; Elapsed time: 22.15 [min]
+Current line: 24000000 ; Elapsed time: 21.26 [min]
+Current line: 32000000 ; Elapsed time: 20.2 [min]
+Current line: 40000000 ; Elapsed time: 19.44 [min]
+Current line: 48000000 ; Elapsed time: 18.8 [min]
+Current line: 56000000 ; Elapsed time: 17.07 [min]
+Current line: 64000000 ; Elapsed time: 17.08 [min]
+Current line: 72000000 ; Elapsed time: 17.63 [min]
+Current line: 80000000 ; Elapsed time: 17.8 [min]
+Current line: 88000000 ; Elapsed time: 16.1 [min]
+Done preprocessing. Elapsed time: 210.03 [min]
+Done filtering. Elapsed time: 1.02 [min]
+
+Sparsity:
+freq1: 0.4312319454958365
+freq2: 0.6392566237698714
+ppmi1: 0.43558228614685846
+ppmi2: 0.3956585919757759
+
+Done parsing. Elapsed time: 211.51 [min]
+
+Beginning evaluation...
+
+Spearman Correlation for wordsim353:
+freq1: 0.29158
+ppmi1: 0.41192
+freq2: 0.30354
+ppmi2: 0.48998
+
+Spearman Correlation for SimLex-999:
+freq1: Overall: 0.10351         A: -0.00326     V: 0.12353      N: 0.12947
+ppmi1: Overall: 0.27068         A: 0.2549       V: 0.10656      N: 0.34063
+freq2: Overall: 0.10032         A: 0.02382      V: 0.14826      N: 0.09868
+ppmi2: Overall: 0.30346         A: 0.30336      V: 0.20626      N: 0.36664
+
+Creating comp files...
+Average of freq1: 0.6367164955226664
+Average of ppmi1: 0.27614696432678915
+Average of freq2: 0.787403974830717
+Average of ppmi2: 0.2973651479127007
+Done.
+
+C:\Workbench\Projects\EclipseWorkspace\nlp-course\WordSim\src\main\python>^A
