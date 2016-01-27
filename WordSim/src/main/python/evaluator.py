@@ -1,3 +1,4 @@
+import os
 from math import sqrt
 
 class Evaluator(object):
@@ -18,7 +19,7 @@ class Evaluator(object):
         print("Spearman Correlation for wordsim353:")
         for mat, name in self.matrices:
             self.calc_similarity_wordsim353(mat, name)
-            print(name+":", self.calc_correlation(name, self.results['wordsim353'][name].items()))
+            print(name+":", self.calc_correlation(self.results['wordsim353'][name], self.parser.wordsim_db))
         print()
         print("Spearman Correlation for SimLex-999:")
         for mat, name in self.matrices:
@@ -32,24 +33,35 @@ class Evaluator(object):
 
     
     def output_comp(self):
+        print("Creating comp files...")
         for _, name in self.matrices:
-            filename = "comp_"+name+"_300997442.csv"
-            with open(filename, "w") as out:
-                for (w1,w2),(my_score,_) in self.results['wordsim353'][name].items():
-                    out.write(",".join([w1, w2, str(round(my_score,2))])+"\n")
-    
-    
+            sims = self.results['wordsim353'][name]
+            average = sum([p[0] for p in sims.values()]) / len(sims)
+            print("Average of "+name+':', average)
+            in_path = os.path.join("..", "resources", "comp.csv")
+            out_path = "comp_"+name+"_300997442.csv"
+            with open(in_path, "r") as in_file, open(out_path, "w") as out_file:
+                out_file.write(in_file.readline())
+                for line in in_file:
+                    sline = line.split(',')
+                    score = self.results['wordsim353'][name].get((sline[0], sline[1]), (average,))[0]
+                    out_file.write(",".join([sline[0], sline[1], str(score)])+"\n")
+        print("Done.")
+        
+        
     def calc_correlation_simlex999(self, name):
         overall = {**self.results['simlex999'][name]['A'], **self.results['simlex999'][name]['N'], **self.results['simlex999'][name]['V']}
-        rho = self.calc_correlation(name, overall.items())
+        rho = self.calc_correlation(overall, self.parser.simlex_db)
         print("Overall:", str(rho), end=' \t')
         for pos, similarities in self.results['simlex999'][name].items():
-            rho = self.calc_correlation(name, similarities.items())
+            rho = self.calc_correlation(similarities, dict([(p,sim) for p,sim in self.parser.simlex_db.items() if sim.pos == pos]))
             print(pos+":", str(rho), end=' \t')
         print()    
     
-    def calc_correlation(self, name, items):
-        results_list = [(w1,w2,my_score,gt_score) for (w1,w2),(my_score,gt_score) in items]
+    def calc_correlation(self, sims, db):
+        average = sum([p[0] for p in sims.values()]) / len(sims)
+        excluded_pairs = [(p[0], p[1], average, sim.score) for p,sim in db.items() if p not in sims]
+        results_list = [(w1,w2,my_score,gt_score) for (w1,w2), (my_score,gt_score) in sims.items()] + excluded_pairs
         list_by_x = [(w1,w2) for w1,w2,_,_ in sorted(results_list, key=lambda e : e[2])]
         list_by_y = [(w1,w2) for w1,w2,_,_ in sorted(results_list, key=lambda e : e[3])]
         

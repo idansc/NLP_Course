@@ -44,13 +44,21 @@ class Parser(object):
             p_i = (sum(row.values()) + 2*contexts_size) / ppmi_mat.N
             
             ctx_prob_pairs = []
-            for ctx_word, cnt in row.items():
-                p_j = (freq_mat.contexts[ctx_word] + 2*words_size) / ppmi_mat.N
-                p_ij = (cnt + 2) / ppmi_mat.N
+            for ctx_word, cnt in freq_mat.contexts.items():
+                p_j = (cnt + 2*words_size) / ppmi_mat.N
+                p_ij = (row.get(ctx_word, 0) + 2) / ppmi_mat.N
                 pmi = log(p_ij / (p_i * p_j), 2)
                 if pmi > 0:
                     ctx_prob_pairs.append((ctx_word, pmi))
                     ppmi_mat.non_zeros_entries += 1
+
+#             for ctx_word, cnt in row.items():
+#                 p_j = (freq_mat.contexts[ctx_word] + 2*words_size) / ppmi_mat.N
+#                 p_ij = (cnt + 2) / ppmi_mat.N
+#                 pmi = log(p_ij / (p_i * p_j), 2)
+#                 if pmi > 0:
+#                     ctx_prob_pairs.append((ctx_word, pmi))
+#                     ppmi_mat.non_zeros_entries += 1
                 
             ppmi_mat.words[word] = dict(ctx_prob_pairs)
         

@@ -26,11 +26,10 @@ def build_comp_files():
 
 if __name__ == '__main__':
     config = {
-        'simlex_path': '../resources/SimLex-999.csv',
-        'wordsim_path': '../resources/wordsim353.csv',
-        'corpus': '../resources/full.txt'
-#         'corpus': '../resources/light_corpus.txt'
-#         'corpus': '../resources/ultra_light_corpus.txt'
+        'simlex_path': os.path.join("..", "resources", "SimLex-999.csv"),
+        'wordsim_path': os.path.join("..", "resources", "wordsim353.csv"),
+        'corpus': os.path.join("..", "resources", "light_corpus.txt")
+#         'corpus': os.path.join("..", "resources", "ultra_light_corpus.txt")
     }
     run(config)   
 
