@@ -51,6 +51,56 @@ Average of freq2: 0.787403974830717
 Average of ppmi2: 0.2973651479127007
 Done.
 
+C:\Workbench\Projects\EclipseWorkspace\nlp-course\WordSim\src\main\python>python -c "import main; ma
+in.build_comp_files()"
+C:\Workbench\Programs\Anaconda3\lib\site-packages\sklearn\utils\fixes.py:64: DeprecationWarning: ins
+pect.getargspec() is deprecated, use inspect.signature() instead
+  if 'order' in inspect.getargspec(np.copy)[0]:
+Beginning parsing...
+Current line: 0 ; Elapsed time: 0.01 [sec]
+Current line: 8000000 ; Elapsed time: 22.56 [min]
+Current line: 16000000 ; Elapsed time: 21.86 [min]
+Current line: 24000000 ; Elapsed time: 21.51 [min]
+Current line: 32000000 ; Elapsed time: 20.11 [min]
+Current line: 40000000 ; Elapsed time: 19.42 [min]
+Current line: 48000000 ; Elapsed time: 19.05 [min]
+Current line: 56000000 ; Elapsed time: 17.15 [min]
+Current line: 64000000 ; Elapsed time: 17.15 [min]
+Current line: 72000000 ; Elapsed time: 17.34 [min]
+Current line: 80000000 ; Elapsed time: 17.19 [min]
+Current line: 88000000 ; Elapsed time: 16.02 [min]
+Done preprocessing. Elapsed time: 209.54 [min]
+Done filtering. Elapsed time: 1.01 [min]
+
+Sparsity:
+freq1: 0.4312246782740348
+freq2: 0.6392566237698714
+ppmi1: 0.43558228614685846
+ppmi2: 0.3956585919757759
+
+Done parsing. Elapsed time: 211.02 [min]
+
+Beginning evaluation...
+
+Spearman Correlation for wordsim353:
+freq1: 0.27208
+ppmi1: 0.40617
+freq2: 0.2589
+ppmi2: 0.47517
+
+Spearman Correlation for SimLex-999:
+freq1: Overall: 0.1     N: 0.12897      V: 0.1096       A: -0.00262
+ppmi1: Overall: 0.27224         N: 0.34089      V: 0.11081      A: 0.25415
+freq2: Overall: 0.09603         N: 0.0983       V: 0.12995      A: 0.02382
+ppmi2: Overall: 0.30579         N: 0.36657      V: 0.2138       A: 0.30264
+
+Creating comp files...
+Average of freq1: 0.6367164409153205
+Average of ppmi1: 0.27612423173987083
+Average of freq2: 0.7874039748307167
+Average of ppmi2: 0.2973651479127006
+Done.
+
 C:\Workbench\Projects\EclipseWorkspace\nlp-course\WordSim\src\main\python>
 
-Desc: Default value: average
+Desc: Default value: 0.5

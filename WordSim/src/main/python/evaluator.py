@@ -44,7 +44,7 @@ class Evaluator(object):
                 out_file.write(in_file.readline())
                 for line in in_file:
                     sline = line.split(',')
-                    score = self.results['wordsim353'][name].get((sline[0], sline[1]), (average,))[0]
+                    score = self.results['wordsim353'][name].get((sline[0], sline[1]), (0.0,))[0]
                     out_file.write(",".join([sline[0], sline[1], str(score)])+"\n")
         print("Done.")
         
@@ -60,7 +60,7 @@ class Evaluator(object):
     
     def calc_correlation(self, sims, db):
         average = sum([p[0] for p in sims.values()]) / len(sims)
-        excluded_pairs = [(p[0], p[1], average, sim.score) for p,sim in db.items() if p not in sims]
+        excluded_pairs = [(p[0], p[1], 0.0, sim.score) for p,sim in db.items() if p not in sims]
         results_list = [(w1,w2,my_score,gt_score) for (w1,w2), (my_score,gt_score) in sims.items()] + excluded_pairs
         list_by_x = [(w1,w2) for w1,w2,_,_ in sorted(results_list, key=lambda e : e[2])]
         list_by_y = [(w1,w2) for w1,w2,_,_ in sorted(results_list, key=lambda e : e[3])]
