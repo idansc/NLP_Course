@@ -17,15 +17,10 @@ def run(config):
     evaluator_cosine.evaluate()
 
 def build_comp_files():
-#     config = {
-#         'simlex_path': 'SimLex-999.csv',
-#         'wordsim_path': 'wordsim353.csv',
-#         'corpus': 'full.txt'
-#     }
     config = {
-        'simlex_path': os.path.join("..", "resources", "SimLex-999.csv"),
-        'wordsim_path': os.path.join("..", "resources", "wordsim353.csv"),
-        'corpus': os.path.join("..", "resources", "full.txt")
+        'simlex_path': 'SimLex-999.csv',
+        'wordsim_path': 'wordsim353.csv',
+        'corpus': 'full.txt'
     }
     run(config)
 
